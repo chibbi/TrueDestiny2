@@ -1,0 +1,27 @@
+main: org.ranin.TrueDestiny.App
+name: "TrueDestiny"
+version: 0.0.1
+api-version: 1.16
+authors: ["chibbi", "raninninn"]
+description: "An exhaustive plugin to make roleplay servers even more enjoyable and challengin."
+website: "www.spigotmc.org"
+commands:
+   warn:
+      description: "warns a player"
+      permission: rolePlay.warn
+   job:
+      description: "lets you choose your job"
+      permission: rolePlay.job
+   money:
+      description: "lets you manage your finances"
+      permission: rolePlay.money
+permissions:
+   rolePlay.warn:
+      description: Permission for the /warn command
+      default: op
+   rolePlay.job:
+      description: Permission for the /job command
+      default: true
+   rolePlay.money:
+      description: Permission for the /money command
+      default: true
