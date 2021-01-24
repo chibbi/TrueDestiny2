@@ -1,17 +1,15 @@
 package org.ranin.TrueDestiny.job.classes;
 
-import javax.swing.text.html.HTMLDocument.BlockElement;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.ranin.TrueDestiny.job.Sql;
 
@@ -34,8 +32,10 @@ public class Miner implements Job {
         if (!items(event)) {
             return false;
         }
-        if (!mobDrops(event)) {
-            return false;
+        if (event.getEventName() == "EntityDeathEvent") {
+            if (!mobDrops((EntityDeathEvent) event)) {
+                return false;
+            }
         }
 
         return true;
@@ -50,6 +50,9 @@ public class Miner implements Job {
                 return false;
             case "PlayerFishEvent":
                 PlayerFishEvent fish = (PlayerFishEvent) evnt;
+                // TODO: add query to subclasses (hobbies), so if a hobby says its okay to fish
+                // (probably just "if(subclass == "fisher")")
+                // => allow fishing
                 fish.setCancelled(true);
                 return false;
             case "EnchantItemEvent":
@@ -90,15 +93,23 @@ public class Miner implements Job {
     }
 
     @Override
-    public boolean mobDrops(Event event) {
+    public boolean mobDrops(EntityDeathEvent event) {
         // TODO Auto-generated method stub
-
+        return true;
     }
 
     @Override
-    public void effects(Event event) {
-        // TODO Auto-generated method stub
-
+    public void effects() {
+        // TODO: add effects, according to the amount of Xp someone has =>
+        // ex. miner:
+        // 3000xp => FAST_DIGGING 1 ,
+        // 10000xp => FAST_DIGGING 1, LUCK 1
+        // 23000xp => FAST_DIGGING 2, LUCK 1
+        // 37000xp => FAST_DIGGING 2, LUCK 2
+        // 50000xp => FAST_DIGGING 3, LUCK 2
+        // 70000xp => FAST_DIGGING 4, LUCK 2
+        // 90000xp => FAST_DIGGING 4, LUCK 3
+        // 100000xp => FAST_DIGGING 4, LUCK 3 , and a cake
     }
 
 }

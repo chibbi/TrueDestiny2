@@ -1,6 +1,7 @@
 package org.ranin.TrueDestiny.job.classes;
 
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 /*
 author: "chibbi"
@@ -16,7 +17,7 @@ public interface Job {
 
     public boolean items(Event event);
 
-    public boolean mobDrops(Event event);
+    public boolean mobDrops(EntityDeathEvent event);
 
-    public void effects(Event event);
+    public void effects();
 }
