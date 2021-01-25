@@ -3,6 +3,10 @@ package org.ranin.TrueDestiny;
 author: "chibbi"
 */
 
+import java.io.File;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,7 +18,9 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (App.config.getBoolean("imperatormode")) {
+        File customConfigFile = new File("plugins/TrueDestiny/config.yml");
+        FileConfiguration cusconf = YamlConfiguration.loadConfiguration(customConfigFile);
+        if (cusconf.getBoolean("imperatormode")) {
             event.getPlayer().sendTitle("all HAIL imperator CHIBBI!", "brought to you by Illuminati", 20, 45, 20);
         } else {
             event.getPlayer().sendTitle("You are awesome!", "", 20, 45, 20);

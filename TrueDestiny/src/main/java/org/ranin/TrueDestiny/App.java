@@ -5,36 +5,36 @@ author: "chibbi"
 */
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.ranin.TrueDestiny.finance.FinanceTabCompletion;
+import org.ranin.TrueDestiny.job.JobListeners;
 
 public class App extends JavaPlugin {
     public static FileConfiguration config;
 
     @Override
     public void onEnable() {
-        File dir = new File("plugins/rolePlay/");
+        File dir = new File("plugins/geobasedWeather/");
         if (!dir.exists()) {
             dir.mkdirs();
         }
 
-        config = getConfig();
-        config.addDefault("imperatormode", true);
-        config.addDefault("pvpmode", false);
-        config.options().copyDefaults(true);
-        saveConfig();
+        this.getConf();
         // Initiating other Classes
         // TODO: job Command, job TabCompletion
         this.getCommand("money").setTabCompleter(new FinanceTabCompletion());
         this.getCommand("warn").setExecutor(new WarnCommand(getLogger()));
         this.getCommand("warn").setTabCompleter(new WarnTabCompletion());
-        getServer().getPluginManager().registerEvents(new Listeners(), this);
-        startScheduler();
-        getLogger().info("Hello, SpigotMC!");
-        getLogger().info(Bukkit.getWorlds().toString());
+        this.getServer().getPluginManager().registerEvents(new Listeners(), this);
+        this.getServer().getPluginManager().registerEvents(new JobListeners(), this);
+        this.startScheduler();
+        this.getLogger().info("Hello, SpigotMC!");
+        this.getLogger().info(Bukkit.getWorlds().toString());
 
     }
 
@@ -53,6 +53,22 @@ public class App extends JavaPlugin {
                 // TODO: check for xp amount (give effect)
             }
         }, 12000L, 10L); // 24000L => 20minutes (one mc day)
+    }
+
+    public FileConfiguration getConf() {
+        File customConfigFile = new File("plugins/TrueDestiny/config.yml");
+        FileConfiguration cusconf = YamlConfiguration.loadConfiguration(customConfigFile);
+        if (!customConfigFile.exists()) {
+            cusconf.set("pvpmode", "false");
+            cusconf.set("imperatormode", "true");
+            try {
+                cusconf.save(customConfigFile);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return cusconf;
     }
 
     @Override

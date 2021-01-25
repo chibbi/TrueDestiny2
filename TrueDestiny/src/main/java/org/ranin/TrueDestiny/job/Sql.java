@@ -1,15 +1,5 @@
 package org.ranin.TrueDestiny.job;
 
-/*
-author: "chibbi"
-description: "Initiator of the whole Plugin"
-TODO: ["interfaces for other classes", "create,load and unload DB", "create,select,read,save stuff in DB"]
-sources:
-    mysqlCommands: "http://g2pc1.bu.edu/~qzpeng/manual/MySQL%20Commands.htm"
-    mysql: "https://www.vogella.com/tutorials/MySQLJava/article.html"
-    sqlite: "https://www.sqlitetutorial.net/sqlite-java/"
-*/
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,9 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Logger;
-
 import org.bukkit.Bukkit;
+
+/*
+author: "chibbi"
+*/
 
 public class Sql {
 
