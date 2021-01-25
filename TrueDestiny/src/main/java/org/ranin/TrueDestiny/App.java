@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.ranin.TrueDestiny.finance.FinanceTabCompletion;
 import org.ranin.TrueDestiny.job.JobListeners;
 
 public class App extends JavaPlugin {
@@ -27,14 +26,12 @@ public class App extends JavaPlugin {
         this.getConf();
         // Initiating other Classes
         // TODO: job Command, job TabCompletion
-        this.getCommand("money").setTabCompleter(new FinanceTabCompletion());
         this.getCommand("warn").setExecutor(new WarnCommand(getLogger()));
         this.getCommand("warn").setTabCompleter(new WarnTabCompletion());
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
         this.getServer().getPluginManager().registerEvents(new JobListeners(), this);
         this.startScheduler();
         this.getLogger().info("Hello, SpigotMC!");
-        this.getLogger().info(Bukkit.getWorlds().toString());
 
     }
 
@@ -50,7 +47,8 @@ public class App extends JavaPlugin {
         Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
-                // TODO: check for xp amount (give effect)
+                // TODO: write messages like:
+                // "Ey don't change your name, you will loose your job and xp"
             }
         }, 12000L, 10L); // 24000L => 20minutes (one mc day)
     }
