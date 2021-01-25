@@ -13,6 +13,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -64,25 +65,21 @@ abstract class Job implements Class {
 
     protected EnumSet<Material> allowedTools;
     protected EnumSet<Material> allowedCraftingItems;
-    protected EnumSet<Material> doubleDropBlocks;
-    protected EnumSet<Material> normalDropBlocks;
-    protected EnumSet<Material> noDropBlocks;
+    protected EnumSet<Material> doubleDropBlocks; // buff for your class
+    protected EnumSet<Material> noDropBlocks; // disallowed for your class => only rare drops
     protected String[] doubleDropMobs;
     protected String[] normalDropMobs;
     protected String[] noDropMobs;
 
     public Job() {
-        // FARMING BLOCKS
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROTS, Material.BEETROOT, Material.PUMPKIN,
                 Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.NETHER_WART, Material.FARMLAND };
         farmingBlocks = createEnum(temporary);
-        // ORE BLOCKS
         // TODO: COPPER_ORE => for 1.17
         temporary = new Material[] { Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.GOLD_ORE,
                 Material.NETHER_GOLD_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
                 Material.EMERALD_ORE };
         oreBlocks = createEnum(temporary);
-        // TOOLS
         temporary = new Material[] { Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.WOODEN_PICKAXE,
                 Material.WOODEN_SWORD, Material.WOODEN_HOE };
         woodTools = createEnum(temporary);
@@ -103,7 +100,6 @@ abstract class Job implements Class {
         allTools.addAll(ironTools);
         allTools.addAll(diamondTools);
         allTools.addAll(netheriteTools);
-        // ARMOR
         temporary = new Material[] { Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS,
                 Material.LEATHER_BOOTS };
         leatherArmor = createEnum(temporary);
@@ -124,21 +120,18 @@ abstract class Job implements Class {
         allArmor.addAll(ironArmor);
         allArmor.addAll(diamondArmor);
         allArmor.addAll(netheriteArmor);
-        // VARIABLES
-        // They can be null without issue
-        /*
-         * if (doubleDropBlocks == null) { throw new
-         * IllegalArgumentException("doubleDropBlocks can't be Null"); } if
-         * (normalDropBlocks == null) { throw new
-         * IllegalArgumentException("normalDropBlocks can't be Null"); } if
-         * (noDropBlocks == null) { throw new
-         * IllegalArgumentException("noDropBlocks can't be Null"); } if (doubleDropMobs
-         * == null) { throw new
-         * IllegalArgumentException("doubleDropMobs can't be Null"); } if
-         * (normalDropMobs == null) { throw new
-         * IllegalArgumentException("normalDropMobs can't be Null"); } if (noDropMobs ==
-         * null) { throw new IllegalArgumentException("noDropMobs can't be Null"); }
-         */
+    }
+
+    protected final <T> T[] concatenate(T[] a, T[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+
+        @SuppressWarnings("unchecked")
+        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen + bLen);
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+
+        return c;
     }
 
     protected final EnumSet<Material> createEnum(Material[] materials) {
@@ -247,16 +240,8 @@ abstract class Job implements Class {
         onPlayerKill(event);
     }
 
-    public final <T> T[] concatenate(T[] a, T[] b) {
-        int aLen = a.length;
-        int bLen = b.length;
-
-        @SuppressWarnings("unchecked")
-        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen + bLen);
-        System.arraycopy(a, 0, c, 0, aLen);
-        System.arraycopy(b, 0, c, aLen, bLen);
-
-        return c;
+    public final void onFurnaceExtractEvent(FurnaceExtractEvent event) {
+        onXpFurnaceExtract(event);
     }
 
     protected abstract boolean onCraft(CraftItemEvent event);
@@ -306,6 +291,8 @@ abstract class Job implements Class {
     protected abstract void onXpMobKills(EntityDeathEvent event);
 
     protected abstract void onXpPlayerKill(PlayerDeathEvent event);
+
+    protected abstract void onXpFurnaceExtract(FurnaceExtractEvent event);
 
     protected abstract void effects(String playerName);
 

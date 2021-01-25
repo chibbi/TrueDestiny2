@@ -20,12 +20,11 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 author: "chibbi"
 */
 
-public class Miner extends Job {
+public class Farmer extends Job {
 
-    public Miner() {
+    public Farmer() {
         super();
-        Material[] temporary = { Material.STONE_SHOVEL, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
-                Material.NETHERITE_PICKAXE };
+        Material[] temporary = { Material.WOODEN_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.NETHERITE_HOE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
@@ -35,197 +34,197 @@ public class Miner extends Job {
 
     @Override
     public boolean onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
-        return true;
+        return false;
     }
 
     @Override
     public boolean onVehicleEnterEvent(VehicleEnterEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onCraft(CraftItemEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onBreaking(PlayerInteractEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onInteracting(PlayerInteractEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onFishing(PlayerFishEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onEnchanting(EnchantItemEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onHarvest(BlockDropItemEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onBreakBlock(BlockBreakEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onPlaceBlock(BlockPlaceEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected void onMobKills(EntityDeathEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onPlayerKill(PlayerDeathEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpCraft(CraftItemEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpBreaking(PlayerInteractEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpInteracting(PlayerInteractEvent event) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpShear(PlayerShearEntityEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpFishing(PlayerFishEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpEnchanting(EnchantItemEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpHarvest(BlockDropItemEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpBreakBlock(BlockBreakEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpPlaceBlock(BlockPlaceEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpMobKills(EntityDeathEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpPlayerKill(PlayerDeathEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void onXpFurnaceExtract(FurnaceExtractEvent event) {
-        // IMPORTANT
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
 
     @Override
     protected void effects(String playerName) {
-
+        // TODO Auto-generated method stub
         // TODO: Add Hobby Abfrage
 
     }
-
 }

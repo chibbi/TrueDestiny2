@@ -2,6 +2,7 @@ package org.ranin.TrueDestiny.job;
 
 import java.io.File;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -22,6 +24,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 import org.ranin.TrueDestiny.job.classes.Farmer;
 import org.ranin.TrueDestiny.job.classes.Miner;
 
@@ -93,10 +96,14 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getDamager().getName());
             switch (info[0]) {
                 case "miner":
-                    new Miner().onEntityDamageByEntityEvent(event);
+                    if (!new Miner().onEntityDamageByEntityEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
                 case "farmer":
-                    new Farmer().onEntityDamageByEntityEvent(event);
+                    if (!new Farmer().onEntityDamageByEntityEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
             }
         }
@@ -108,10 +115,14 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getWhoClicked().getName());
             switch (info[0]) {
                 case "miner":
-                    new Miner().onCraftItemEvent(event);
+                    if (!new Miner().onCraftItemEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
                 case "farmer":
-                    new Farmer().onCraftItemEvent(event);
+                    if (!new Farmer().onCraftItemEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
             }
         } else {
@@ -124,10 +135,14 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                new Miner().onPlayerInteractEvent(event);
+                if (new Miner().onPlayerInteractEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
             case "farmer":
-                new Farmer().onPlayerInteractEvent(event);
+                if (new Farmer().onPlayerInteractEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
         }
     }
@@ -137,10 +152,14 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                new Miner().onPlayerFishEvent(event);
+                if (new Miner().onPlayerFishEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
             case "farmer":
-                new Farmer().onPlayerFishEvent(event);
+                if (new Farmer().onPlayerFishEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
         }
     }
@@ -150,10 +169,14 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                new Miner().onPlayerShearEntityEvent(event);
+                if (new Miner().onPlayerShearEntityEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
             case "farmer":
-                new Farmer().onPlayerShearEntityEvent(event);
+                if (new Farmer().onPlayerShearEntityEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
         }
     }
@@ -163,10 +186,14 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getViewers().get(0).getName());
         switch (info[0]) {
             case "miner":
-                new Miner().onEnchantItemEvent(event);
+                if (new Miner().onEnchantItemEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
             case "farmer":
-                new Farmer().onEnchantItemEvent(event);
+                if (new Farmer().onEnchantItemEvent(event)) {
+                    event.setCancelled(true);
+                }
                 break;
         }
     }
@@ -176,10 +203,16 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getViewers().get(0).getName());
         switch (info[0]) {
             case "miner":
-                new Miner().onPrepareSmithingEvent(event);
+                if (new Miner().onPrepareSmithingEvent(event)) {
+                    event.getViewers().get(0).sendMessage("AWW you lost your resources, ask a blacksmith next time");
+                    event.setResult(new ItemStack(Material.AIR));
+                }
                 break;
             case "farmer":
-                new Farmer().onPrepareSmithingEvent(event);
+                if (new Farmer().onPrepareSmithingEvent(event)) {
+                    event.getViewers().get(0).sendMessage("AWW you lost your resources, ask a blacksmith next time");
+                    event.setResult(new ItemStack(Material.AIR));
+                }
                 break;
         }
     }
@@ -190,10 +223,14 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    new Miner().onBlockDropItemEvent(event);
+                    if (new Miner().onBlockDropItemEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
                 case "farmer":
-                    new Farmer().onBlockDropItemEvent(event);
+                    if (new Farmer().onBlockDropItemEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
             }
         } else {
@@ -207,10 +244,14 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    new Miner().onBlockBreakEvent(event);
+                    if (new Miner().onBlockBreakEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
                 case "farmer":
-                    new Farmer().onBlockBreakEvent(event);
+                    if (new Farmer().onBlockBreakEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
             }
         }
@@ -222,23 +263,57 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    new Miner().onBlockPlaceEvent(event);
+                    if (new Miner().onBlockPlaceEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
                 case "farmer":
-                    new Farmer().onBlockPlaceEvent(event);
+                    if (new Farmer().onBlockPlaceEvent(event)) {
+                        event.setCancelled(true);
+                    }
                     break;
             }
         } else {
             // who should place blocks thats not a player????
+            // maybe lava and water call this?
+            // and commands?
         }
+    }
+
+    @EventHandler
+    public void onFurnaceExtract(FurnaceExtractEvent event) {
+        if (event.getPlayer() instanceof Player) {
+            String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
+            // no cancel part here, because of Hoppers
+            switch (info[0]) {
+                case "miner":
+                    new Miner().onFurnaceExtractEvent(event);
+                    break;
+                case "farmer":
+                    new Farmer().onFurnaceExtractEvent(event);
+                    break;
+            }
+        }
+
     }
 
     @EventHandler
     public void onVehicleEnter(VehicleEnterEvent event) {
         if (event.getEntered() instanceof Player) {
-            // TODO: probably stay here? (should be destroyed and put into the players inv,
-            // chance to completle destroy)
-            // if player not fisher or messenger or smth like that
+            String[] info = new Sql("job").readfromJobTable(event.getEntered().getName());
+            // no cancel part here, because of Hoppers
+            switch (info[0]) {
+                case "miner":
+                    if (new Miner().onVehicleEnterEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "farmer":
+                    if (new Farmer().onVehicleEnterEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+            }
         }
     }
 }
