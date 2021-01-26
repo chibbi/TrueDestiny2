@@ -19,19 +19,15 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 author: "chibbi"
 */
 
-public class Miner extends Job {
+public class Fisher extends Job {
 
-    public Miner() {
+    public Fisher() {
         super();
-        Material[] temporary = { Material.STONE_SHOVEL, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
-                Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE };
+        Material[] temporary = { Material.WOODEN_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.NETHERITE_HOE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL, Material.DIAMOND_PICKAXE,
-                Material.NETHERITE_PICKAXE };
-        allowedCraftingItems.addAll(super.createEnum(temporary));
-        doubleDropBlocks = super.oreBlocks;
+        doubleDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
     }
 
@@ -173,5 +169,4 @@ public class Miner extends Job {
     @Override
     public void effects(String playerName, int xp) {
     }
-
 }

@@ -20,7 +20,7 @@ public class RaceCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            String[] info = new Sql("race").readfromJobTable(player.getName());
+            String[] info = new Sql("race").readfromTable(player.getName());
             if (args.length == 1) {
                 switch (args[0]) {
                     case "help":
@@ -48,7 +48,7 @@ public class RaceCommand implements CommandExecutor {
                             List<Player> allplayers = player.getWorld().getPlayers();
                             // order it so you have lists of races
                             for (Player singplayer : allplayers) {
-                                info = new Sql("race").readfromJobTable(singplayer.getName());
+                                info = new Sql("race").readfromTable(singplayer.getName());
                                 player.sendMessage("§6" + singplayer.getName() + "'s race:\n" + "§6job §7" + info[0]);
                             }
                         }

@@ -87,7 +87,7 @@ public class Sql {
         return false;
     }
 
-    public String[] readfromJobTable(String player) {
+    public String[] readfromTable(String player) {
         String[] res = new String[8];
         String sql = "SELECT * FROM " + table + " WHERE player=?;";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

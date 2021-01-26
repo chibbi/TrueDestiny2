@@ -23,7 +23,7 @@ public class JobCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            String[] info = new Sql("job").readfromJobTable(player.getName());
+            String[] info = new Sql("job").readfromTable(player.getName());
             if (args.length == 1) {
                 switch (args[0]) {
                     case "help":
@@ -50,7 +50,7 @@ public class JobCommand implements CommandExecutor {
                         if (player.isOp()) {
                             List<Player> allplayers = player.getWorld().getPlayers();
                             for (Player singplayer : allplayers) {
-                                info = new Sql("job").readfromJobTable(singplayer.getName());
+                                info = new Sql("job").readfromTable(singplayer.getName());
                                 player.sendMessage("§6" + singplayer.getName() + "'s job:\n" + "§6job §7" + info[0]
                                         + " §6xp §7" + info[1]);
                             }

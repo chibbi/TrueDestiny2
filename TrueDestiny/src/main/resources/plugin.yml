@@ -13,6 +13,9 @@ commands:
       description: "lets you choose your job"
       aliases: ["jb"]
       permission: rolePlay.job
+   race:
+      description: "warns a player"
+      permission: rolePlay.race
    money:
       description: "lets you manage your finances"
       permission: rolePlay.money
@@ -22,6 +25,9 @@ permissions:
       default: op
    job:
       description: Permission for the /job command
+      default: true
+   race:
+      description: Permission for the /v command
       default: true
    money:
       description: Permission for the /money command

@@ -12,12 +12,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.ranin.TrueDestiny.job.JobCommand;
 import org.ranin.TrueDestiny.job.JobListeners;
 import org.ranin.TrueDestiny.job.JobTabCompleter;
+import org.ranin.TrueDestiny.job.RaceCommand;
+import org.ranin.TrueDestiny.job.RaceTabCompleter;
 import org.ranin.TrueDestiny.job.Sql;
+import org.ranin.TrueDestiny.repetual.JobTasks;
 
 public class App extends JavaPlugin {
+
+    public static BukkitTask effects;
+    public static BukkitTask messages;
 
     @Override
     public void onEnable() {
@@ -48,6 +55,8 @@ public class App extends JavaPlugin {
         new Sql("race").createJobTable();
         // Initiating other Classes
         // TODO: job Command, job TabCompletion
+        this.getCommand("race").setExecutor(new RaceCommand());
+        this.getCommand("race").setTabCompleter(new RaceTabCompleter());
         this.getCommand("job").setExecutor(new JobCommand());
         this.getCommand("job").setTabCompleter(new JobTabCompleter());
         this.getCommand("warn").setExecutor(new WarnCommand(getLogger()));
@@ -61,21 +70,22 @@ public class App extends JavaPlugin {
 
     // should deactivate onDisable , but not nesseccary so hups? xD
     public void startScheduler() {
-        Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
+        effects = Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
-                // TODO: check for xp amount (give effect) (look into folder/ package
-                // "repetual")
-                // TODO: check for knight nähe => give regenation
+                new JobTasks().giveEveryoneJobEffect(Bukkit.getWorld("world"));
+                new JobTasks().giveEveryoneJobEffect(Bukkit.getWorld("world_nether"));
+                new JobTasks().giveEveryoneJobEffect(Bukkit.getWorld("world_the_end"));
+                new JobTasks().giveNearbyReg(Bukkit.getWorld("world"));
             }
-        }, 10L, 10L);
-        Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
+        }, 20L, 20L);
+        messages = Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
                 // TODO: write messages like:
                 // "Ey don't change your name, you will loose your job and xp"
             }
-        }, 12000L, 10L); // 24000L => 20minutes (one mc day)
+        }, 12000L, 20L); // 24000L => 20minutes (one mc day)
     }
 
     public FileConfiguration getConf() {
@@ -96,6 +106,8 @@ public class App extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        effects.cancel();
+        messages.cancel();
         getLogger().info("See you again, SpigotMC!");
     }
 }
