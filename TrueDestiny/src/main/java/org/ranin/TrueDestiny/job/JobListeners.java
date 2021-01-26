@@ -45,10 +45,10 @@ public class JobListeners implements Listener {
             } else {
                 switch (info[0]) {
                     case "miner":
-                        new Miner().effects(player.getName());
+                        new Miner().effects(player.getName(), Integer.valueOf(info[1]));
                         break;
                     case "farmer":
-                        new Farmer().effects(player.getName());
+                        new Farmer().effects(player.getName(), Integer.valueOf(info[1]));
                         break;
                 }
             }

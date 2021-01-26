@@ -167,6 +167,6 @@ public class Farmer extends Job {
     }
 
     @Override
-    public void effects(String playerName) {
+    public void effects(String playerName, int xp) {
     }
 }

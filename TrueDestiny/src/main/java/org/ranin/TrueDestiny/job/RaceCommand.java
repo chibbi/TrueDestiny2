@@ -65,7 +65,7 @@ public class RaceCommand implements CommandExecutor {
                             if (args[1].equals(race)) {
                                 new Sql("race").addtoJobTable(player.getName(), args[1]);
                                 player.sendMessage("§6Set Race to §7" + args[1]);
-                                new RaceTasks().giveRaceEffects(player, info[0]);
+                                new RaceTasks().giveRaceEffects(player, args[1]);
                                 return true;
                             }
                         }
@@ -88,7 +88,7 @@ public class RaceCommand implements CommandExecutor {
                                     new Sql("race").UpdateJobinJobTable(args[1], args[2]);
                                     player.sendMessage("§6Set Race of §7" + args[1] + "§6 to §7" + args[2]);
                                 }
-                                new RaceTasks().giveRaceEffects(player, info[0]);
+                                new RaceTasks().giveRaceEffects(player, args[2]);
                                 return true;
                             }
                         }

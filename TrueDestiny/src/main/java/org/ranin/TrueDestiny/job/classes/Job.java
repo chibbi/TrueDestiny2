@@ -308,6 +308,6 @@ abstract class Job implements Class {
 
     protected abstract void onXpFurnaceExtract(FurnaceExtractEvent event);
 
-    protected abstract void effects(String playerName);
+    protected abstract void effects(String playerName, int xp);
 
 }
