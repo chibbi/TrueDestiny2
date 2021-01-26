@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 1.11
     - name: Build with Maven
-      run: mvn install -f "rolePlay/pom.xml"
+      run: mvn install -f "TrueDestiny/pom.xml"
     - name: Creating Pre-Release
       run: |
           echo "done!"
@@ -31,4 +31,4 @@ jobs:
         title: "Development Build"
         files: |
           LICENSE.txt
-          rolePlay/target/*.jar
+          TrueDestiny/target/*.jar
