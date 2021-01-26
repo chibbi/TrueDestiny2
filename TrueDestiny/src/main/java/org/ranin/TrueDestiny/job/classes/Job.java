@@ -28,9 +28,7 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 abstract class Job implements Class {
     // #region FARMING
     protected final EnumSet<Material> farmingBlocks;
-    // #endregion
-
-    // #region ORES
+    protected final EnumSet<Material> woodBlocks;
     protected final EnumSet<Material> oreBlocks;
     // #endregion
 
@@ -51,6 +49,8 @@ abstract class Job implements Class {
     protected final EnumSet<Material> netheriteArmor;
     protected final EnumSet<Material> allArmor;
     // #endregion
+
+    protected final EnumSet<Material> allMaterials = EnumSet.allOf(Material.class);
 
     // #region MOBS
     protected final String[] fishMobs = { "COD", "DOLPHIN", "PUFFERFISH", "SALMON", "SQUID", "TROPICAL_FISH",
@@ -77,6 +77,21 @@ abstract class Job implements Class {
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROTS, Material.BEETROOT, Material.PUMPKIN,
                 Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.NETHER_WART, Material.FARMLAND };
         farmingBlocks = createEnum(temporary);
+        temporary = new Material[] { Material.OAK_WOOD, Material.SPRUCE_WOOD, Material.BIRCH_WOOD, Material.JUNGLE_WOOD,
+                Material.ACACIA_WOOD, Material.DARK_OAK_WOOD, Material.CRIMSON_STEM, Material.WARPED_STEM,
+                Material.OAK_LOG, Material.SPRUCE_LOG, Material.BIRCH_LOG, Material.JUNGLE_LOG, Material.ACACIA_LOG,
+                Material.DARK_OAK_LOG, Material.OAK_PLANKS, Material.SPRUCE_PLANKS, Material.BIRCH_PLANKS,
+                Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
+                Material.WARPED_PLANKS, Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB,
+                Material.JUNGLE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB,
+                Material.WARPED_SLAB, Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS,
+                Material.ACACIA_STAIRS, Material.DARK_OAK_STAIRS, Material.CRIMSON_STAIRS, Material.WARPED_STAIRS,
+                Material.OAK_FENCE, Material.SPRUCE_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE,
+                Material.ACACIA_FENCE, Material.DARK_OAK_FENCE, Material.CRIMSON_FENCE, Material.WARPED_FENCE,
+                Material.OAK_FENCE_GATE, Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE,
+                Material.JUNGLE_FENCE_GATE, Material.ACACIA_FENCE_GATE, Material.DARK_OAK_FENCE_GATE,
+                Material.CRIMSON_FENCE_GATE, Material.WARPED_FENCE_GATE };
+        woodBlocks = createEnum(temporary);
         // TODO: COPPER_ORE => for 1.17
         temporary = new Material[] { Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.GOLD_ORE,
                 Material.NETHER_GOLD_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
@@ -154,7 +169,6 @@ abstract class Job implements Class {
 
     public final boolean onPlayerInteractEvent(PlayerInteractEvent event) {
         if (event.getPlayer() instanceof Player) {
-            System.out.println(allowedTools.toString());
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 // TODO: either just completly move this into the single Classes, or do a
                 // blacklist for this here (like previously)
@@ -164,11 +178,9 @@ abstract class Job implements Class {
             } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (event.getMaterial() == Material.AIR) {
                     onXpBreaking(event);
-                    System.out.println("IS AIR, TRUE");
                     return true;
                 } else if (allowedTools.contains(event.getMaterial())) {
                     onXpBreaking(event);
-                    System.out.println("IS SOME ALLOWED TOOL, TRUE");
                     return true;
                 }
                 System.out.println("IS SOME DISALLOWED TOOL, ...");
@@ -200,24 +212,34 @@ abstract class Job implements Class {
         return onSmithing(event);
     }
 
+    @Deprecated
     public final boolean onBlockDropItemEvent(BlockDropItemEvent event) {
-        if (event.getBlockState().getBlock().getType().name() == "POTATO"
-                || event.getBlockState().getBlock().getType().name() == "WHEAT"
-                || event.getBlockState().getBlock().getType().name() == "CARROTS"
-                || event.getBlockState().getBlock().getType().name() == "BEETROOT"
-                || event.getBlockState().getBlock().getType().name() == "PUMPKIN"
-                || event.getBlockState().getBlock().getType().name() == "COCOA"
-                || event.getBlockState().getBlock().getType().name() == "MELON"
-                || event.getBlockState().getBlock().getType().name() == "SUGAR_CANE"
-                || event.getBlockState().getBlock().getType().name() == "NETHER_WART"
-                || event.getBlockState().getBlock().getType().name() == "FARMLAND") {
-            onXpHarvest(event);
-            return onHarvest(event);
+        if (event.getBlockState().getType().name() == "POTATO" || event.getBlockState().getType().name() == "WHEAT"
+                || event.getBlockState().getType().name() == "CARROTS"
+                || event.getBlockState().getType().name() == "BEETROOT"
+                || event.getBlockState().getType().name() == "PUMPKIN"
+                || event.getBlockState().getType().name() == "COCOA"
+                || event.getBlockState().getType().name() == "MELON"
+                || event.getBlockState().getType().name() == "SUGAR_CANE"
+                || event.getBlockState().getType().name() == "CACTUS"
+                || event.getBlockState().getType().name() == "POTTED_CACTUS"
+                || event.getBlockState().getType().name() == "NETHER_WART"
+                || event.getBlockState().getType().name() == "FARMLAND") {
         }
         return true;
     }
 
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
+        if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
+                || event.getBlock().getType().name() == "CARROTS" || event.getBlock().getType().name() == "BEETROOT"
+                || event.getBlock().getType().name() == "PUMPKIN" || event.getBlock().getType().name() == "COCOA"
+                || event.getBlock().getType().name() == "MELON" || event.getBlock().getType().name() == "SUGAR_CANE"
+                || event.getBlock().getType().name() == "CACTUS" || event.getBlock().getType().name() == "POTTED_CACTUS"
+                || event.getBlock().getType().name() == "NETHER_WART"
+                || event.getBlock().getType().name() == "FARMLAND") {
+            onXpHarvestBreak(event);
+            return onHarvestBreak(event);
+        }
         onXpBreakBlock(event);
         return onBreakBlock(event);
     }
@@ -268,7 +290,7 @@ abstract class Job implements Class {
 
     protected abstract boolean onSmithing(PrepareSmithingEvent event);
 
-    protected abstract boolean onHarvest(BlockDropItemEvent event);
+    protected abstract boolean onHarvestBreak(BlockBreakEvent event);
 
     protected abstract boolean onBreakBlock(BlockBreakEvent event);
 
@@ -294,7 +316,7 @@ abstract class Job implements Class {
 
     protected abstract void onXpSmithing(PrepareSmithingEvent event);
 
-    protected abstract void onXpHarvest(BlockDropItemEvent event);
+    protected abstract void onXpHarvestBreak(BlockBreakEvent event);
 
     protected abstract void onXpBreakBlock(BlockBreakEvent event);
 

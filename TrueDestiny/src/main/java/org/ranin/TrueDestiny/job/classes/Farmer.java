@@ -2,7 +2,6 @@ package org.ranin.TrueDestiny.job.classes;
 
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -14,6 +13,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 /*
 author: "chibbi"
@@ -71,9 +71,12 @@ public class Farmer extends Job {
     }
 
     @Override
-    protected boolean onHarvest(BlockDropItemEvent event) {
-        // harvest by default false => Farmer
-        return false;
+    protected boolean onHarvestBreak(BlockBreakEvent event) {
+        System.out.println("HERE HARVEST: " + event.getBlock().getDrops());
+        for (ItemStack item : event.getBlock().getDrops()) {
+            event.getPlayer().getInventory().addItem(item);
+        }
+        return true;
     }
 
     @Override
@@ -139,7 +142,7 @@ public class Farmer extends Job {
     }
 
     @Override
-    protected void onXpHarvest(BlockDropItemEvent event) {
+    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

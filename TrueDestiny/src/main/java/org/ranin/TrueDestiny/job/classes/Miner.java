@@ -2,7 +2,6 @@ package org.ranin.TrueDestiny.job.classes;
 
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -75,9 +74,9 @@ public class Miner extends Job {
     }
 
     @Override
-    protected boolean onHarvest(BlockDropItemEvent event) {
-        // harvest by default false => Farmer
-        return false;
+    protected boolean onHarvestBreak(BlockBreakEvent event) {
+        event.setDropItems(false);
+        return true;
     }
 
     @Override
@@ -143,7 +142,7 @@ public class Miner extends Job {
     }
 
     @Override
-    protected void onXpHarvest(BlockDropItemEvent event) {
+    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

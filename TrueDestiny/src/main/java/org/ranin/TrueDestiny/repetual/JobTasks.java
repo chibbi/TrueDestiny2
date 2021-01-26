@@ -20,6 +20,9 @@ import org.ranin.TrueDestiny.job.classes.Miner;
 public class JobTasks {
 
     public void giveJobEffects(Player player, String[] info) {
+        if (info[0] == null) {
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 new Miner().effects(player.getName(), Integer.valueOf(info[1]));
