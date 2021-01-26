@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -18,6 +19,7 @@ import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 /*
 @author "chibbi"
@@ -143,44 +145,39 @@ abstract class Job implements Class {
     }
 
     public final boolean onCraftItemEvent(CraftItemEvent event) {
-        for (Material material : allowedCraftingItems) {
-            if (material == event.getRecipe().getResult().getType()) {
-                onXpCraft(event);
-                return true;
-            }
+        if (allowedCraftingItems.contains(event.getRecipe().getResult().getType())) {
+            onXpCraft(event);
+            return true;
         }
         return onCraft(event);
     }
 
     public final boolean onPlayerInteractEvent(PlayerInteractEvent event) {
         if (event.getPlayer() instanceof Player) {
+            System.out.println(allowedTools.toString());
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                // TODO: either just completly move this into the single Classes, or do a
+                // blacklist for this here (like previously)
+                onXpBreaking(event);
+                return true;
+                // return onInteracting(event);
+            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (event.getMaterial() == Material.AIR) {
-                    onXpInteracting(event);
+                    onXpBreaking(event);
+                    System.out.println("IS AIR, TRUE");
+                    return true;
+                } else if (allowedTools.contains(event.getMaterial())) {
+                    onXpBreaking(event);
+                    System.out.println("IS SOME ALLOWED TOOL, TRUE");
                     return true;
                 }
-                for (Material material : allowedTools) {
-                    if (material == event.getMaterial()) {
-                        onXpInteracting(event);
-                        return true;
-                    }
-                }
-                return onInteracting(event);
-            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                for (Material material : allowedTools) {
-                    if (event.getMaterial() == Material.AIR) {
-                        onXpBreaking(event);
-                        return true;
-                    }
-                    if (material == event.getMaterial()) {
-                        onXpBreaking(event);
-                        return true;
-                    }
-                }
+                System.out.println("IS SOME DISALLOWED TOOL, ...");
                 return onBreaking(event);
             }
+
         }
         return true;
+
     }
 
     public final boolean onPlayerFishEvent(PlayerFishEvent event) {
@@ -244,6 +241,19 @@ abstract class Job implements Class {
         onXpFurnaceExtract(event);
     }
 
+    public final boolean onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        // TODO: test if breaking whitelsit applies on here to, if so this event is not
+        // needed
+        // if not, put limit on damage of non fighters (by calling their functions which
+        // aren't implemented yet)
+        return true;
+    }
+
+    public final boolean onVehicleEnterEvent(VehicleEnterEvent event) {
+        onXpVehicleEnter(event);
+        return onVehicleEnter(event);
+    }
+
     protected abstract boolean onCraft(CraftItemEvent event);
 
     protected abstract boolean onBreaking(PlayerInteractEvent event);
@@ -263,6 +273,8 @@ abstract class Job implements Class {
     protected abstract boolean onBreakBlock(BlockBreakEvent event);
 
     protected abstract boolean onPlaceBlock(BlockPlaceEvent event);
+
+    protected abstract boolean onVehicleEnter(VehicleEnterEvent event);
 
     protected abstract void onMobKills(EntityDeathEvent event);
 
@@ -291,6 +303,8 @@ abstract class Job implements Class {
     protected abstract void onXpMobKills(EntityDeathEvent event);
 
     protected abstract void onXpPlayerKill(PlayerDeathEvent event);
+
+    protected abstract void onXpVehicleEnter(VehicleEnterEvent event);
 
     protected abstract void onXpFurnaceExtract(FurnaceExtractEvent event);
 

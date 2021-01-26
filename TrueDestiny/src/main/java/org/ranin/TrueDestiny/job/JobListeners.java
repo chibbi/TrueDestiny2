@@ -27,6 +27,7 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
 import org.ranin.TrueDestiny.job.classes.Farmer;
 import org.ranin.TrueDestiny.job.classes.Miner;
+import org.ranin.TrueDestiny.repetual.RaceTasks;
 
 /*
 author: "chibbi"
@@ -37,9 +38,25 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (event.getPlayer() instanceof Player) {
-            String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
+            Player player = (Player) event.getPlayer();
+            String[] info = new Sql("job").readfromJobTable(player.getName());
             if (info[0] == null) {
-                event.getPlayer().sendMessage("§6EY JOOOOO \nPlease choose a job (§7/job help§6)");
+                player.sendMessage("§6EY JOOOOO \nPlease choose a job (§7/job help§6)");
+            } else {
+                switch (info[0]) {
+                    case "miner":
+                        new Miner().effects(player.getName());
+                        break;
+                    case "farmer":
+                        new Farmer().effects(player.getName());
+                        break;
+                }
+            }
+            info = new Sql("race").readfromJobTable(player.getName());
+            if (info[0] == null) {
+                player.sendMessage("§6EY JOOOOO \nPlease choose a RACE (§7/race help§6)");
+            } else {
+                new RaceTasks().giveRaceEffects(player, info[0]);
             }
         }
     }
@@ -135,12 +152,13 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                if (new Miner().onPlayerInteractEvent(event)) {
+                if (!new Miner().onPlayerInteractEvent(event)) {
+                    System.out.println("I AM CANCELING");
                     event.setCancelled(true);
                 }
                 break;
             case "farmer":
-                if (new Farmer().onPlayerInteractEvent(event)) {
+                if (!new Farmer().onPlayerInteractEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
@@ -152,12 +170,12 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                if (new Miner().onPlayerFishEvent(event)) {
+                if (!new Miner().onPlayerFishEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
             case "farmer":
-                if (new Farmer().onPlayerFishEvent(event)) {
+                if (!new Farmer().onPlayerFishEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
@@ -169,12 +187,12 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
         switch (info[0]) {
             case "miner":
-                if (new Miner().onPlayerShearEntityEvent(event)) {
+                if (!new Miner().onPlayerShearEntityEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
             case "farmer":
-                if (new Farmer().onPlayerShearEntityEvent(event)) {
+                if (!new Farmer().onPlayerShearEntityEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
@@ -186,12 +204,12 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getViewers().get(0).getName());
         switch (info[0]) {
             case "miner":
-                if (new Miner().onEnchantItemEvent(event)) {
+                if (!new Miner().onEnchantItemEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
             case "farmer":
-                if (new Farmer().onEnchantItemEvent(event)) {
+                if (!new Farmer().onEnchantItemEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
@@ -203,13 +221,13 @@ public class JobListeners implements Listener {
         String[] info = new Sql("job").readfromJobTable(event.getViewers().get(0).getName());
         switch (info[0]) {
             case "miner":
-                if (new Miner().onPrepareSmithingEvent(event)) {
+                if (!new Miner().onPrepareSmithingEvent(event)) {
                     event.getViewers().get(0).sendMessage("AWW you lost your resources, ask a blacksmith next time");
                     event.setResult(new ItemStack(Material.AIR));
                 }
                 break;
             case "farmer":
-                if (new Farmer().onPrepareSmithingEvent(event)) {
+                if (!new Farmer().onPrepareSmithingEvent(event)) {
                     event.getViewers().get(0).sendMessage("AWW you lost your resources, ask a blacksmith next time");
                     event.setResult(new ItemStack(Material.AIR));
                 }
@@ -223,12 +241,12 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    if (new Miner().onBlockDropItemEvent(event)) {
+                    if (!new Miner().onBlockDropItemEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
                 case "farmer":
-                    if (new Farmer().onBlockDropItemEvent(event)) {
+                    if (!new Farmer().onBlockDropItemEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
@@ -244,12 +262,12 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    if (new Miner().onBlockBreakEvent(event)) {
+                    if (!new Miner().onBlockBreakEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
                 case "farmer":
-                    if (new Farmer().onBlockBreakEvent(event)) {
+                    if (!new Farmer().onBlockBreakEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
@@ -263,12 +281,12 @@ public class JobListeners implements Listener {
             String[] info = new Sql("job").readfromJobTable(event.getPlayer().getName());
             switch (info[0]) {
                 case "miner":
-                    if (new Miner().onBlockPlaceEvent(event)) {
+                    if (!new Miner().onBlockPlaceEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
                 case "farmer":
-                    if (new Farmer().onBlockPlaceEvent(event)) {
+                    if (!new Farmer().onBlockPlaceEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
@@ -304,12 +322,12 @@ public class JobListeners implements Listener {
             // no cancel part here, because of Hoppers
             switch (info[0]) {
                 case "miner":
-                    if (new Miner().onVehicleEnterEvent(event)) {
+                    if (!new Miner().onVehicleEnterEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;
                 case "farmer":
-                    if (new Farmer().onVehicleEnterEvent(event)) {
+                    if (!new Farmer().onVehicleEnterEvent(event)) {
                         event.setCancelled(true);
                     }
                     break;

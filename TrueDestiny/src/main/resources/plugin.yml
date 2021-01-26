@@ -11,17 +11,18 @@ commands:
       permission: rolePlay.warn
    job:
       description: "lets you choose your job"
+      aliases: ["jb"]
       permission: rolePlay.job
    money:
       description: "lets you manage your finances"
       permission: rolePlay.money
 permissions:
-   rolePlay.warn:
+   warn:
       description: Permission for the /warn command
       default: op
-   rolePlay.job:
+   job:
       description: Permission for the /job command
       default: true
-   rolePlay.money:
+   money:
       description: Permission for the /money command
       default: true

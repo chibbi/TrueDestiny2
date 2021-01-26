@@ -1,12 +1,12 @@
 package org.ranin.TrueDestiny.job;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.bukkit.Bukkit;
 
 /*
@@ -19,22 +19,17 @@ public class Sql {
 
     private String uuidUlr = "https://api.mojang.com/users/profiles/minecraft/";
 
-    private String playerLoc = "jdbc:sqlite:plugins/rolePlay/db/Player.db";
+    private String playerLoc = "jdbc:sqlite:plugins/TrueDestiny/db/Player.db"; // TODO: Make Configurable
     private String table = "playerjobs";
 
     public Sql(String name) {
         table = name;
         if (!connect()) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "shutdown");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "say HUUGE SERVER ERROORRR");
         }
     }
 
     private boolean connect() {
-        File dir = new File("plugins/rolePlay/db/");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
         try {
             conn = DriverManager.getConnection(playerLoc);
 
@@ -140,7 +135,7 @@ public class Sql {
         disconnect();
     }
 
-    public void AddXp(String player, int i) {
+    public void SetXp(String player, int i) {
         player = getUuid(player);
         UpdateXpinJobTable(player, i);
     }

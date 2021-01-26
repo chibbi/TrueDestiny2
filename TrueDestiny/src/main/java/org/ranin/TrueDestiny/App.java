@@ -6,26 +6,50 @@ author: "chibbi"
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.ranin.TrueDestiny.job.JobCommand;
 import org.ranin.TrueDestiny.job.JobListeners;
+import org.ranin.TrueDestiny.job.JobTabCompleter;
+import org.ranin.TrueDestiny.job.Sql;
 
 public class App extends JavaPlugin {
-    public static FileConfiguration config;
 
     @Override
     public void onEnable() {
-        File dir = new File("plugins/geobasedWeather/");
-        if (!dir.exists()) {
-            dir.mkdirs();
+        String comPath = "";
+        try {
+            // complete path to jar
+            String[] completePath = App.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
+                    .split("/");
+            for (int i = 0; i < completePath.length - 1; i++) {
+                comPath += completePath[i] + "/";
+            }
+        } catch (URISyntaxException e) {
+            System.out.println("Getting Complete Path of Jar didn't work");
         }
-
-        this.getConf();
+        System.out.println("YOUR PATH: \033[31m" + comPath + "\033[39m");
+        File dir = new File(comPath + "TrueDestiny/");
+        if (!dir.exists()) {
+            System.out.println("Created Config Folder");
+            dir.mkdir();
+        }
+        dir = new File(comPath + "TrueDestiny/db/");
+        if (!dir.exists()) {
+            System.out.println("Created Database");
+            dir.mkdir();
+        }
+        // this.getConf();
+        new Sql("job").createJobTable();
+        new Sql("race").createJobTable();
         // Initiating other Classes
         // TODO: job Command, job TabCompletion
+        this.getCommand("job").setExecutor(new JobCommand());
+        this.getCommand("job").setTabCompleter(new JobTabCompleter());
         this.getCommand("warn").setExecutor(new WarnCommand(getLogger()));
         this.getCommand("warn").setTabCompleter(new WarnTabCompletion());
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
@@ -40,7 +64,8 @@ public class App extends JavaPlugin {
         Bukkit.getServer().getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
-                // TODO: check for xp amount (give effect)
+                // TODO: check for xp amount (give effect) (look into folder/ package
+                // "repetual")
                 // TODO: check for knight nähe => give regenation
             }
         }, 10L, 10L);
@@ -71,7 +96,6 @@ public class App extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        config = null;
         getLogger().info("See you again, SpigotMC!");
     }
 }

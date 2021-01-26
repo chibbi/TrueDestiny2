@@ -5,7 +5,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -25,207 +24,151 @@ public class Miner extends Job {
     public Miner() {
         super();
         Material[] temporary = { Material.STONE_SHOVEL, Material.STONE_PICKAXE, Material.IRON_PICKAXE,
-                Material.NETHERITE_PICKAXE };
+                Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        doubleDropBlocks = super.farmingBlocks;
+        doubleDropBlocks = super.oreBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
     }
 
     @Override
-    public boolean onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        // TODO: Add Hobby Abfrage
-        return true;
-    }
-
-    @Override
-    public boolean onVehicleEnterEvent(VehicleEnterEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-        return false;
-    }
-
-    @Override
     protected boolean onCraft(CraftItemEvent event) {
-
-        // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onBreaking(PlayerInteractEvent event) {
-
-        // TODO: Add Hobby Abfrage
         return false;
     }
 
     @Override
     protected boolean onInteracting(PlayerInteractEvent event) {
-
-        // TODO: Add Hobby Abfrage
-        return false;
+        return true;
     }
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
+        // Shearing by default false => Hirte
         return false;
     }
 
     @Override
     protected boolean onFishing(PlayerFishEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
+        // fishing by default false => Fisher
         return false;
     }
 
     @Override
     protected boolean onEnchanting(EnchantItemEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
+        // enchanting by default false => Mage
         return false;
     }
 
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-        return false;
+        // smithing by default false => Blacksmith
+        return true;
     }
 
     @Override
     protected boolean onHarvest(BlockDropItemEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
+        // harvest by default false => Farmer
         return false;
     }
 
     @Override
     protected boolean onBreakBlock(BlockBreakEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-        return false;
+        // break by default true => Breaking already configured in InteractEvent
+        return true;
     }
 
     @Override
     protected boolean onPlaceBlock(BlockPlaceEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-        return false;
+        // place by default true => Placing already configured in InteractEvent
+        // aka. everything can be palced, by everyone
+        return true;
+    }
+
+    @Override
+    protected boolean onVehicleEnter(VehicleEnterEvent event) {
+        // vehicles by default true => TODO: Configure vehicles for everyone
+        // aka. everyone can use boats, minecarts
+        return true;
     }
 
     @Override
     protected void onMobKills(EntityDeathEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onPlayerKill(PlayerDeathEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
+
+    /*
+     * XP FUNCTIONS --------- --------- --------- --------- --------- ---------
+     * ------------ --------- --------- --------- --------- --------- ---------
+     * ------------ --------- --------- --------- --------- --------- ---------
+     */
 
     @Override
     protected void onXpCraft(CraftItemEvent event) {
-
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpBreaking(PlayerInteractEvent event) {
-
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpInteracting(PlayerInteractEvent event) {
-
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpShear(PlayerShearEntityEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpFishing(PlayerFishEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpEnchanting(EnchantItemEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpHarvest(BlockDropItemEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpBreakBlock(BlockBreakEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpPlaceBlock(BlockPlaceEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpMobKills(EntityDeathEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
     protected void onXpPlayerKill(PlayerDeathEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
+    }
 
+    @Override
+    protected void onXpVehicleEnter(VehicleEnterEvent event) {
     }
 
     @Override
     protected void onXpFurnaceExtract(FurnaceExtractEvent event) {
-        // IMPORTANT
-        // TODO: Add Hobby Abfrage
-
     }
 
     @Override
-    protected void effects(String playerName) {
-
-        // TODO: Add Hobby Abfrage
-
+    public void effects(String playerName) {
     }
 
 }
