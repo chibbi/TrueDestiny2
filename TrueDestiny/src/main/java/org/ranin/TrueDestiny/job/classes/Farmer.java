@@ -83,36 +83,10 @@ public class Farmer extends Job {
     }
 
     @Override
-    protected boolean onBreakBlock(BlockBreakEvent event) {
-        // break by default true => Breaking already configured in InteractEvent
-        if (doubleDropBlocks.contains(event.getBlock().getType())) {
-            for (ItemStack item : event.getBlock().getDrops()) {
-                event.getPlayer().getInventory().addItem(item);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    protected boolean onPlaceBlock(BlockPlaceEvent event) {
-        // place by default true => Placing already configured in InteractEvent
-        // aka. everything can be palced, by everyone
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
         return true;
-    }
-
-    @Override
-    protected void onMobKills(EntityDeathEvent event) {
-    }
-
-    @Override
-    protected void onPlayerKill(PlayerDeathEvent event) {
     }
 
     /*

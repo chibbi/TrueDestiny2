@@ -1,4 +1,4 @@
-package org.ranin.TrueDestiny.job;
+package org.ranin.TrueDestiny.race;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class RaceTabCompleter implements TabCompleter {
             if (sender.isOp()) {
                 switch (args[0]) {
                     case "put":
-                        for (String job : new JobCommand().alljobs) {
+                        for (String job : new RaceCommand().allraces) {
                             l.add(job); // TODO: Make Configurable
                         }
                         break;

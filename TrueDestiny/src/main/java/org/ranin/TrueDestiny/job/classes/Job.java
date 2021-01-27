@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
@@ -27,7 +28,7 @@ import org.ranin.TrueDestiny.job.Sql;
 @author "chibbi"
 */
 
-abstract class Job implements Class {
+abstract class Job {
     // #region FARMING
     protected final EnumSet<Material> farmingBlocks;
     protected final EnumSet<Material> woodBlocks;
@@ -283,6 +284,14 @@ abstract class Job implements Class {
 
     }
 
+    public boolean onEntityShootBowEvent(EntityShootBowEvent event) {
+        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0] == "hunter"
+                || new Sql("job").readfromTable(event.getEntity().getName())[0] == "hunter") {
+            return true;
+        }
+        return false;
+    }
+
     public final boolean onPlayerFishEvent(PlayerFishEvent event) {
         onXpFishing(event);
         if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "fisher") {
@@ -349,15 +358,19 @@ abstract class Job implements Class {
             return onHarvestBreak(event);
         }
         onXpBreakBlock(event);
-        return onBreakBlock(event);
+        return true;
     }
 
     public final boolean onBlockPlaceEvent(BlockPlaceEvent event) {
         onXpPlaceBlock(event);
-        return onPlaceBlock(event);
+        // may do some logic for only builder when he gets implemented
+        return true;
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
+        if (doubleDropMobs == null) {
+            return;
+        }
         for (String mob : doubleDropMobs) {
             if (event.getEntityType().name().equals(mob)) {
                 for (ItemStack item : event.getDrops()) {
@@ -371,7 +384,6 @@ abstract class Job implements Class {
             }
         }
         onXpMobKills(event);
-        onMobKills(event);
     }
 
     public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
@@ -425,7 +437,6 @@ abstract class Job implements Class {
 
     public final void onPlayerDeathEvent(PlayerDeathEvent event) {
         onXpPlayerKill(event);
-        onPlayerKill(event);
     }
 
     public final void onFurnaceExtractEvent(FurnaceExtractEvent event) {
@@ -461,15 +472,7 @@ abstract class Job implements Class {
 
     protected abstract boolean onHarvestBreak(BlockBreakEvent event);
 
-    protected abstract boolean onBreakBlock(BlockBreakEvent event);
-
-    protected abstract boolean onPlaceBlock(BlockPlaceEvent event);
-
     protected abstract boolean onVehicleEnter(VehicleEnterEvent event);
-
-    protected abstract void onMobKills(EntityDeathEvent event);
-
-    protected abstract void onPlayerKill(PlayerDeathEvent event);
 
     protected abstract void onXpCraft(CraftItemEvent event);
 

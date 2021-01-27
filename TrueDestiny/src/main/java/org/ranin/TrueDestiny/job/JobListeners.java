@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
@@ -35,7 +37,6 @@ import org.ranin.TrueDestiny.job.classes.Lumberjack;
 import org.ranin.TrueDestiny.job.classes.Mage;
 import org.ranin.TrueDestiny.job.classes.Miner;
 import org.ranin.TrueDestiny.repetual.JobTasks;
-import org.ranin.TrueDestiny.repetual.RaceTasks;
 
 /*
 author: "chibbi"
@@ -52,12 +53,6 @@ public class JobListeners implements Listener {
                 player.sendMessage("§6EY JOOOOO \nPlease choose a job (§7/job help§6)");
             } else {
                 new JobTasks().giveJobEffects(player, info);
-            }
-            info = new Sql("race").readfromTable(player.getName());
-            if (info[0] == null) {
-                player.sendMessage("§6EY JOOOOO \nPlease choose a RACE (§7/race help§6)");
-            } else {
-                new RaceTasks().giveRaceEffects(player, info[0]);
             }
         }
     }
@@ -147,6 +142,62 @@ public class JobListeners implements Listener {
         } else {
             event.setDroppedExp(0);
             event.getDrops().clear();
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onEntityShootBow(EntityShootBowEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            String[] info = new Sql("job").readfromTable(player.getName());
+            switch (info[0]) {
+                case "miner":
+                    if (!new Miner().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "farmer":
+                    if (!new Farmer().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "mage":
+                    if (!new Mage().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "knight":
+                    if (!new Knight().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "hunter":
+                    if (!new Hunter().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "lumberjack":
+                    if (!new Lumberjack().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "fisher":
+                    if (!new Fisher().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "blacksmith":
+                    if (!new Blacksmith().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "assassin":
+                    if (!new Assassin().onEntityShootBowEvent(event)) {
+                        event.setCancelled(true);
+                    }
+                    break;
+
+            }
         }
     }
 

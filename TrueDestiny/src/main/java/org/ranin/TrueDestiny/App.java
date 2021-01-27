@@ -16,9 +16,10 @@ import org.bukkit.scheduler.BukkitTask;
 import org.ranin.TrueDestiny.job.JobCommand;
 import org.ranin.TrueDestiny.job.JobListeners;
 import org.ranin.TrueDestiny.job.JobTabCompleter;
-import org.ranin.TrueDestiny.job.RaceCommand;
-import org.ranin.TrueDestiny.job.RaceTabCompleter;
 import org.ranin.TrueDestiny.job.Sql;
+import org.ranin.TrueDestiny.race.RaceCommand;
+import org.ranin.TrueDestiny.race.RaceListener;
+import org.ranin.TrueDestiny.race.RaceTabCompleter;
 import org.ranin.TrueDestiny.repetual.JobTasks;
 
 public class App extends JavaPlugin {
@@ -64,6 +65,7 @@ public class App extends JavaPlugin {
         this.getCommand("warn").setTabCompleter(new WarnTabCompletion());
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
         this.getServer().getPluginManager().registerEvents(new JobListeners(), this);
+        this.getServer().getPluginManager().registerEvents(new RaceListener(), this);
         this.startScheduler();
         this.getLogger().info("Hello, SpigotMC!");
 

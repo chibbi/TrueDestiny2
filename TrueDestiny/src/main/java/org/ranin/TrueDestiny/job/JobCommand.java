@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class JobCommand implements CommandExecutor {
 
-    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack" }; // TODO:
+    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack", "hunter" }; // TODO:
     // Make
     // Configurable
     final String[] allhobbies = { "mage", "farmer", "fisher", "shepard", "assassin", "knight" }; // TODO: Make
@@ -44,7 +44,7 @@ public class JobCommand implements CommandExecutor {
                         return true;
                     case "all":
                         // TODO: Add new Classes
-                        player.sendMessage("§6All Jobs:\n§7" + alljobs.toString());
+                        player.sendMessage("§6All Jobs:\n§7" + alljobs);
                         return true;
                     case "mine":
                         player.sendMessage("§6Your job§7(if job is null, you didn't choose one yet)§6:\n" + "§6job §7"
