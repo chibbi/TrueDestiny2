@@ -75,11 +75,12 @@ abstract class Job {
 
     protected EnumSet<Material> allowedTools;
     protected EnumSet<Material> allowedCraftingItems;
+    protected EnumSet<Material> doubleCraftingItems;// buff for your class
     protected EnumSet<Material> doubleDropBlocks; // buff for your class
     protected EnumSet<Material> noDropBlocks; // disallowed for your class => only rare drops
     protected String[] doubleDropMobs;
     protected String[] normalDropMobs;
-    protected String[] noDropMobs;
+    protected String[] noDropMobs = { "HI" };
 
     public Job() {
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROT, Material.BEETROOT, Material.PUMPKIN,
@@ -212,6 +213,11 @@ abstract class Job {
     }
 
     public final boolean onCraftItemEvent(CraftItemEvent event) {
+        if (doubleCraftingItems.contains(event.getRecipe().getResult().getType())) {
+            onXpCraft(event);
+            event.getWhoClicked().getInventory().addItem(new ItemStack(event.getRecipe().getResult().getType()));
+            return true;
+        }
         if (allowedCraftingItems.contains(event.getRecipe().getResult().getType())) {
             onXpCraft(event);
             return true;
@@ -224,45 +230,46 @@ abstract class Job {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             switch (event.getMaterial()) {
                 case TRIDENT:
-                    if (new Sql("race").readfromTable(player.getName())[0] == "aquaman") {
+                    if (new Sql("race").readfromTable(player.getName())[0].equals("aquaman")) {
                         return true;
                     }
                     return false;
                 case WOODEN_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    System.out.println("ITsaacoola  showww " + new Sql("job").readfromTable(player.getName())[0]);
+                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case STONE_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case IRON_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case DIAMOND_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case NETHERITE_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                         return true;
                     }
                     return false;
 
             }
             if (farmingBlocks.contains(event.getMaterial())) {
-                if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
-                        || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
                     return true;
                 }
             }
@@ -276,7 +283,7 @@ abstract class Job {
                 onXpBreaking(event);
                 return true;
             }
-            System.out.println("IS SOME DISALLOWED TOOL, ...");
+            System.out.println("IS SOME DISALLOWED TOOL, " + event.getMaterial());
             return onBreaking(event);
         }
 
@@ -285,8 +292,8 @@ abstract class Job {
     }
 
     public boolean onEntityShootBowEvent(EntityShootBowEvent event) {
-        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0] == "hunter"
-                || new Sql("job").readfromTable(event.getEntity().getName())[0] == "hunter") {
+        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0].equals("hunter")
+                || new Sql("job").readfromTable(event.getEntity().getName())[0].equals("hunter")) {
             return true;
         }
         return false;
@@ -294,7 +301,7 @@ abstract class Job {
 
     public final boolean onPlayerFishEvent(PlayerFishEvent event) {
         onXpFishing(event);
-        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "fisher") {
+        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0].equals("fisher")) {
             return true;
         }
         return onFishing(event);
@@ -302,7 +309,7 @@ abstract class Job {
 
     public final boolean onPlayerShearEntityEvent(PlayerShearEntityEvent event) {
         onXpShear(event);
-        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "shepard") {
+        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0].equals("shepard")) {
             return true;
         }
         return onShear(event);
@@ -310,7 +317,7 @@ abstract class Job {
 
     public final boolean onEnchantItemEvent(EnchantItemEvent event) {
         onXpEnchanting(event);
-        if (new Sql("hobby").readfromTable(event.getEnchanter().getName())[0] == "mage") {
+        if (new Sql("hobby").readfromTable(event.getEnchanter().getName())[0].equals("mage")) {
             return true;
         }
         return onEnchanting(event);
@@ -339,9 +346,11 @@ abstract class Job {
     }
 
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
-        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+        String[] info = new Sql("hobby").readfromTable(event.getPlayer().getName());
+        if (doubleDropBlocks != null && doubleDropBlocks.contains(event.getBlock().getType())) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
+                System.out.println("Doubling: " + item);
             }
         }
         if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
@@ -352,7 +361,7 @@ abstract class Job {
                 || event.getBlock().getType().name() == "NETHER_WART"
                 || event.getBlock().getType().name() == "FARMLAND") {
             onXpHarvestBreak(event);
-            if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+            if (info[0] == null && info[0].equals("farmer")) {
                 return true;
             }
             return onHarvestBreak(event);
@@ -368,6 +377,7 @@ abstract class Job {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
+        System.out.print(noDropMobs);
         if (doubleDropMobs == null) {
             return;
         }
@@ -379,6 +389,7 @@ abstract class Job {
             }
         }
         for (String mob : noDropMobs) {
+            System.out.println(event.getEntityType().name() + " == " + mob);
             if (event.getEntityType().name().equals(mob)) {
                 event.getDrops().clear();
             }
@@ -390,43 +401,43 @@ abstract class Job {
         Player player = (Player) event.getDamager();
         switch (player.getItemInHand().getType()) {
             case STONE_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case IRON_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case DIAMOND_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case NETHERITE_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
-                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
-                        || new Sql("job").readfromTable(player.getName())[0] == "knight") {
+                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
+                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")) {
                     return true;
                 }
                 return false;
             case BOW:
-                if (new Sql("job").readfromTable(player.getName())[0] == "hunter"
-                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                if (new Sql("job").readfromTable(player.getName())[0].equals("hunter")
+                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
                     return true;
                 }
                 return false;

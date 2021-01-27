@@ -22,7 +22,8 @@ public class Lumberjack extends Job {
 
     public Lumberjack() {
         super();
-        Material[] temporary = { Material.WOODEN_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.NETHERITE_HOE };
+        Material[] temporary = { Material.WOODEN_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.DIAMOND_AXE,
+                Material.NETHERITE_AXE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
@@ -30,7 +31,12 @@ public class Lumberjack extends Job {
         allowedCraftingItems.add(Material.ARMOR_STAND);
         allowedCraftingItems.addAll(super.woodBlocks);
         allowedCraftingItems.addAll(super.allBeds);
+        temporary = new Material[] { Material.OAK_PLANKS, Material.SPRUCE_PLANKS, Material.BIRCH_PLANKS,
+                Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
+                Material.WARPED_PLANKS };
+        doubleCraftingItems = super.createEnum(temporary);
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
+        System.out.print(noDropMobs);
     }
 
     @Override

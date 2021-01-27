@@ -8,17 +8,17 @@ website: "www.spigotmc.org"
 commands:
    warn:
       description: "warns a player"
-      permission: rolePlay.warn
+      permission: warn
    job:
       description: "lets you choose your job"
       aliases: ["jb"]
-      permission: rolePlay.job
+      permission: job
    race:
       description: "warns a player"
-      permission: rolePlay.race
+      permission: race
    money:
       description: "lets you manage your finances"
-      permission: rolePlay.money
+      permission: money
 permissions:
    warn:
       description: Permission for the /warn command
@@ -27,7 +27,7 @@ permissions:
       description: Permission for the /job command
       default: true
    race:
-      description: Permission for the /v command
+      description: Permission for the /race command
       default: true
    money:
       description: Permission for the /money command

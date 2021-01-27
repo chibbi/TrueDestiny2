@@ -29,6 +29,7 @@ public class RaceTasks {
         }
     }
 
+    // One time gifts
     public void choseRace(Player player, String race) {
         switch (race) {
             case "aquaman":

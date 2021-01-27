@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.ranin.TrueDestiny.job.Sql;
 import org.ranin.TrueDestiny.repetual.RaceTasks;
 
@@ -31,6 +32,19 @@ public class RaceListener implements Listener {
             String[] info = new Sql("race").readfromTable(player.getName());
             if (info[0] == "elve") {
                 event.setConsumeItem(false);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        if (event.getPlayer() instanceof Player) {
+            Player player = (Player) event.getPlayer();
+            String[] info = new Sql("race").readfromTable(player.getName());
+            if (info[0] == null) {
+                player.sendMessage("§6EY JOOOOO \nPlease choose a RACE (§7/race help§6)");
+            } else {
+                new RaceTasks().giveRaceEffects(player, info[0]);
             }
         }
     }
