@@ -63,7 +63,7 @@ public class RaceCommand implements CommandExecutor {
                         }
                         for (String race : allraces) { // TODO: Make Configurable
                             if (args[1].equals(race)) {
-                                new Sql("race").addtoJobTable(player.getName(), args[1]);
+                                new Sql("race").addtoTable(player.getName(), args[1]);
                                 player.sendMessage("§6Set Race to §7" + args[1]);
                                 new RaceTasks().giveRaceEffects(player, args[1]);
                                 return true;
@@ -82,7 +82,7 @@ public class RaceCommand implements CommandExecutor {
                         for (String race : allraces) { // TODO: Make Configurable
                             if (args[1].equals(race)) {
                                 if (info[0] == null) {
-                                    new Sql("race").addtoJobTable(args[1], args[2]);
+                                    new Sql("race").addtoTable(args[1], args[2]);
                                     player.sendMessage("§6Set Race of §7" + args[1] + "§6 to §7" + args[2]);
                                 } else {
                                     new Sql("race").UpdateJobinJobTable(args[1], args[2]);

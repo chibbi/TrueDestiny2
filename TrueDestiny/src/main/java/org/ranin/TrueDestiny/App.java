@@ -51,8 +51,9 @@ public class App extends JavaPlugin {
             dir.mkdir();
         }
         // this.getConf();
-        new Sql("job").createJobTable();
-        new Sql("race").createJobTable();
+        new Sql("hobby").createTable();
+        new Sql("job").createTable();
+        new Sql("race").createTable();
         // Initiating other Classes
         // TODO: job Command, job TabCompletion
         this.getCommand("race").setExecutor(new RaceCommand());

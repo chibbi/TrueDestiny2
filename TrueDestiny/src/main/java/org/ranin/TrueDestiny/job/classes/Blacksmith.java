@@ -27,15 +27,22 @@ public class Blacksmith extends Job {
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(super.allMaterials);
+        allowedCraftingItems.addAll(common);
+        allowedCraftingItems.add(Material.ANVIL);
+        // don't forget "complement of" it is basically a negative of the set you give
+        // so it takes all of the items of the parent set, the given set doesn't list
+        allowedCraftingItems.removeAll(farmingBlocks);
+        allowedCraftingItems.removeAll(allBeds);
         allowedCraftingItems.removeAll(woodBlocks);
+        // all of this should be cached in a always on class
         allowedCraftingItems.removeIf(m -> m.name().contains("LEGACY"));
-        System.out.println("HEEREE:" + allowedCraftingItems);
         doubleDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
     }
 
     @Override
     protected boolean onCraft(CraftItemEvent event) {
+        // TODO: add Hobby stuff
         return false;
     }
 
@@ -51,7 +58,6 @@ public class Blacksmith extends Job {
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // Shearing by default false => Hirte
         return false;
     }
 
@@ -76,6 +82,9 @@ public class Blacksmith extends Job {
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
         event.setDropItems(false);
+        if (event.getBlock().getType().equals(Material.FARMLAND)) {
+            return false;
+        }
         return true;
     }
 
@@ -172,4 +181,5 @@ public class Blacksmith extends Job {
     @Override
     public void effects(String playerName, int xp) {
     }
+
 }

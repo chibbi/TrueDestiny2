@@ -27,8 +27,8 @@ public class Miner extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL, Material.DIAMOND_PICKAXE,
-                Material.NETHERITE_PICKAXE };
+        allowedCraftingItems.addAll(common);
+        temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL };
         allowedCraftingItems.addAll(super.createEnum(temporary));
         doubleDropBlocks = super.oreBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
@@ -36,6 +36,7 @@ public class Miner extends Job {
 
     @Override
     protected boolean onCraft(CraftItemEvent event) {
+        // TODO: add Hobby stuff
         return false;
     }
 
@@ -51,7 +52,6 @@ public class Miner extends Job {
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // Shearing by default false => Hirte
         return false;
     }
 
@@ -70,12 +70,15 @@ public class Miner extends Job {
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         // smithing by default false => Blacksmith
-        return true;
+        return false;
     }
 
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
         event.setDropItems(false);
+        if (event.getBlock().getType().equals(Material.FARMLAND)) {
+            return false;
+        }
         return true;
     }
 

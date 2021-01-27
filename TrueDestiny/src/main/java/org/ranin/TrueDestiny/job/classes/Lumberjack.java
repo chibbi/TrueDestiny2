@@ -26,18 +26,17 @@ public class Lumberjack extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        temporary = new Material[] { Material.CRAFTING_TABLE, Material.WHITE_BED, Material.YELLOW_BED, Material.RED_BED,
-                Material.PURPLE_BED, Material.PINK_BED, Material.ORANGE_BED, Material.MAGENTA_BED, Material.LIME_BED,
-                Material.LIGHT_GRAY_BED, Material.LIGHT_BLUE_BED, Material.GREEN_BED, Material.GRAY_BED,
-                Material.CYAN_BED, Material.BROWN_BED, Material.BLUE_BED, Material.BLACK_BED };
-        allowedCraftingItems.addAll(super.createEnum(temporary));
+        allowedCraftingItems.addAll(common);
+        allowedCraftingItems.add(Material.ARMOR_STAND);
         allowedCraftingItems.addAll(super.woodBlocks);
+        allowedCraftingItems.addAll(super.allBeds);
         doubleDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
     }
 
     @Override
     protected boolean onCraft(CraftItemEvent event) {
+        // TODO: add Hobby stuff
         return false;
     }
 
@@ -53,7 +52,6 @@ public class Lumberjack extends Job {
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // Shearing by default false => Hirte
         return false;
     }
 
@@ -72,12 +70,15 @@ public class Lumberjack extends Job {
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         // smithing by default false => Blacksmith
-        return true;
+        return false;
     }
 
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
         event.setDropItems(false);
+        if (event.getBlock().getType().equals(Material.FARMLAND)) {
+            return false;
+        }
         return true;
     }
 
@@ -174,4 +175,5 @@ public class Lumberjack extends Job {
     @Override
     public void effects(String playerName, int xp) {
     }
+
 }

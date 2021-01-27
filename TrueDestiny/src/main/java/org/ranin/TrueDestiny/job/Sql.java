@@ -54,7 +54,7 @@ public class Sql {
         }
     }
 
-    public boolean createJobTable() {
+    public boolean createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + table + " (\n" + "  player_id integer PRIMARY KEY,\n"
                 + " player text NOT NULL UNIQUE,\n" + "    job text NOT NULL,\n" + "    job_xp integer\n" + ");";
         try {
@@ -70,7 +70,7 @@ public class Sql {
         return false;
     }
 
-    public boolean addtoJobTable(String player, String job) {
+    public boolean addtoTable(String player, String job) {
         String sql = "INSERT INTO " + table + "(player,job) VALUES(?,?);";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, getUuid(player));

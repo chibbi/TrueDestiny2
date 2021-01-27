@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 public class JobCommand implements CommandExecutor {
 
     final String[] alljobs = { "miner", "farmer", "blacksmith" }; // TODO: Make Configurable
+    final String[] allhobbies = { "mage", "farmer", "fisher", "shepard" }; // TODO: Make Configurable
 
     public JobCommand() {
 
@@ -66,7 +67,7 @@ public class JobCommand implements CommandExecutor {
                         }
                         for (String job : alljobs) { // TODO: Make Configurable
                             if (args[1].equals(job)) {
-                                new Sql("job").addtoJobTable(player.getName(), args[1]);
+                                new Sql("job").addtoTable(player.getName(), args[1]);
                                 player.sendMessage("§6Set Job to §7" + args[1]);
                                 return true;
                             }
@@ -84,7 +85,7 @@ public class JobCommand implements CommandExecutor {
                         for (String job : alljobs) { // TODO: Make Configurable
                             if (args[1].equals(job)) {
                                 if (info[0] == null) {
-                                    new Sql("job").addtoJobTable(args[1], args[2]);
+                                    new Sql("job").addtoTable(args[1], args[2]);
                                     player.sendMessage("§6Set Job of §7" + args[1] + "§6 to §7" + args[2]);
                                 } else {
                                     new Sql("job").UpdateJobinJobTable(args[1], args[2]);

@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.ranin.TrueDestiny.job.Sql;
 
 /*
 @author "chibbi"
@@ -51,6 +52,11 @@ abstract class Job implements Class {
     // #endregion
 
     protected final EnumSet<Material> allMaterials = EnumSet.allOf(Material.class);
+    protected final EnumSet<Material> redstone;
+    protected final EnumSet<Material> stoneBlocks;
+    protected final EnumSet<Material> flowers;
+    protected final EnumSet<Material> common;
+    protected final EnumSet<Material> allBeds;
 
     // #region MOBS
     protected final String[] fishMobs = { "COD", "DOLPHIN", "PUFFERFISH", "SALMON", "SQUID", "TROPICAL_FISH",
@@ -74,28 +80,28 @@ abstract class Job implements Class {
     protected String[] noDropMobs;
 
     public Job() {
-        Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROTS, Material.BEETROOT, Material.PUMPKIN,
-                Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.NETHER_WART, Material.FARMLAND };
+        Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROT, Material.BEETROOT, Material.PUMPKIN,
+                Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.BAMBOO, Material.NETHER_WART,
+                Material.FARMLAND, Material.WHEAT_SEEDS, Material.CARROTS, Material.BEETROOTS, Material.BAMBOO_SAPLING,
+                Material.BEETROOT_SEEDS, Material.PUMPKIN_SEEDS, Material.PUMPKIN_PIE, Material.COCOA_BEANS,
+                Material.MELON_SEEDS, Material.SUGAR_CANE, Material.NETHER_WART_BLOCK, Material.PUMPKIN_STEM,
+                Material.MELON_STEM, Material.MELON_SLICE, Material.MUSHROOM_STEM, Material.BEETROOT_SOUP,
+                Material.MUSHROOM_STEW, Material.RABBIT_STEW, Material.SUSPICIOUS_STEW };
         farmingBlocks = createEnum(temporary);
-        temporary = new Material[] { Material.OAK_WOOD, Material.SPRUCE_WOOD, Material.BIRCH_WOOD, Material.JUNGLE_WOOD,
-                Material.ACACIA_WOOD, Material.DARK_OAK_WOOD, Material.CRIMSON_STEM, Material.WARPED_STEM,
-                Material.OAK_LOG, Material.SPRUCE_LOG, Material.BIRCH_LOG, Material.JUNGLE_LOG, Material.ACACIA_LOG,
+        temporary = new Material[] { Material.OAK_SAPLING, Material.SPRUCE_SAPLING, Material.BIRCH_SAPLING,
+                Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING, Material.OAK_WOOD,
+                Material.SPRUCE_WOOD, Material.BIRCH_WOOD, Material.JUNGLE_WOOD, Material.ACACIA_WOOD,
+                Material.DARK_OAK_WOOD, Material.CRIMSON_STEM, Material.WARPED_STEM, Material.OAK_LOG,
+                Material.SPRUCE_LOG, Material.BIRCH_LOG, Material.JUNGLE_LOG, Material.ACACIA_LOG,
                 Material.DARK_OAK_LOG, Material.OAK_PLANKS, Material.SPRUCE_PLANKS, Material.BIRCH_PLANKS,
                 Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
-                Material.WARPED_PLANKS, Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB,
-                Material.JUNGLE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB,
-                Material.WARPED_SLAB, Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS,
-                Material.ACACIA_STAIRS, Material.DARK_OAK_STAIRS, Material.CRIMSON_STAIRS, Material.WARPED_STAIRS,
-                Material.OAK_FENCE, Material.SPRUCE_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE,
-                Material.ACACIA_FENCE, Material.DARK_OAK_FENCE, Material.CRIMSON_FENCE, Material.WARPED_FENCE,
-                Material.OAK_FENCE_GATE, Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE,
-                Material.JUNGLE_FENCE_GATE, Material.ACACIA_FENCE_GATE, Material.DARK_OAK_FENCE_GATE,
-                Material.CRIMSON_FENCE_GATE, Material.WARPED_FENCE_GATE };
+                Material.WARPED_PLANKS, Material.OAK_BOAT, Material.SPRUCE_BOAT, Material.BIRCH_BOAT,
+                Material.JUNGLE_BOAT, Material.ACACIA_BOAT, Material.DARK_OAK_BOAT, };
         woodBlocks = createEnum(temporary);
         // TODO: COPPER_ORE => for 1.17
         temporary = new Material[] { Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.GOLD_ORE,
                 Material.NETHER_GOLD_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
-                Material.EMERALD_ORE };
+                Material.EMERALD_ORE, Material.ANCIENT_DEBRIS };
         oreBlocks = createEnum(temporary);
         temporary = new Material[] { Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.WOODEN_PICKAXE,
                 Material.WOODEN_SWORD, Material.WOODEN_HOE };
@@ -137,6 +143,50 @@ abstract class Job implements Class {
         allArmor.addAll(ironArmor);
         allArmor.addAll(diamondArmor);
         allArmor.addAll(netheriteArmor);
+        temporary = new Material[] { Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB, Material.JUNGLE_SLAB,
+                Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB, Material.WARPED_SLAB,
+                Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS, Material.ACACIA_STAIRS,
+                Material.DARK_OAK_STAIRS, Material.CRIMSON_STAIRS, Material.WARPED_STAIRS, Material.OAK_FENCE,
+                Material.SPRUCE_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE, Material.ACACIA_FENCE,
+                Material.DARK_OAK_FENCE, Material.CRIMSON_FENCE, Material.WARPED_FENCE, Material.OAK_FENCE_GATE,
+                Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.JUNGLE_FENCE_GATE,
+                Material.ACACIA_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.CRIMSON_FENCE_GATE,
+                Material.WARPED_FENCE_GATE, Material.OAK_BUTTON, Material.SPRUCE_BUTTON, Material.BIRCH_BUTTON,
+                Material.JUNGLE_BUTTON, Material.ACACIA_BUTTON, Material.DARK_OAK_BUTTON, Material.CRIMSON_BUTTON,
+                Material.WARPED_BUTTON, Material.OAK_SIGN, Material.SPRUCE_SIGN, Material.BIRCH_SIGN,
+                Material.JUNGLE_SIGN, Material.ACACIA_SIGN, Material.DARK_OAK_SIGN, Material.CRIMSON_SIGN,
+                Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
+                Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE,
+                Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE,
+                Material.OAK_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.JUNGLE_TRAPDOOR,
+                Material.ACACIA_TRAPDOOR, Material.DARK_OAK_TRAPDOOR, Material.CRIMSON_TRAPDOOR,
+                Material.WARPED_TRAPDOOR, Material.OAK_WALL_SIGN, Material.SPRUCE_WALL_SIGN, Material.BIRCH_WALL_SIGN,
+                Material.JUNGLE_WALL_SIGN, Material.ACACIA_WALL_SIGN, Material.DARK_OAK_WALL_SIGN,
+                Material.CRIMSON_WALL_SIGN, Material.WARPED_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE,
+                Material.STICK };
+        common = createEnum(temporary);
+        temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
+                Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH };
+        redstone = createEnum(temporary);
+        common.addAll(redstone);
+        temporary = new Material[] { Material.POLISHED_ANDESITE, Material.POLISHED_ANDESITE_SLAB,
+                Material.POLISHED_ANDESITE_STAIRS, Material.POLISHED_DIORITE, Material.POLISHED_DIORITE_SLAB,
+                Material.POLISHED_DIORITE_STAIRS, Material.POLISHED_GRANITE, Material.POLISHED_GRANITE_SLAB,
+                Material.POLISHED_GRANITE_STAIRS, Material.POLISHED_BASALT, Material.POLISHED_BLACKSTONE, // ab hier
+                Material.POLISHED_BLACKSTONE_WALL, Material.POLISHED_BLACKSTONE_STAIRS, // nether
+                Material.POLISHED_BLACKSTONE_SLAB, Material.POLISHED_BLACKSTONE_BUTTON,
+                Material.POLISHED_BLACKSTONE_PRESSURE_PLATE, Material.POLISHED_BLACKSTONE_BRICK_SLAB,
+                Material.POLISHED_BLACKSTONE_BRICK_STAIRS, Material.POLISHED_BLACKSTONE_BRICKS,
+                Material.POLISHED_BLACKSTONE_BRICK_WALL };
+        stoneBlocks = createEnum(temporary);
+        common.addAll(stoneBlocks);
+        flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE);
+        common.addAll(flowers);
+        temporary = new Material[] { Material.WHITE_BED, Material.YELLOW_BED, Material.RED_BED, Material.PURPLE_BED,
+                Material.PINK_BED, Material.ORANGE_BED, Material.MAGENTA_BED, Material.LIME_BED,
+                Material.LIGHT_GRAY_BED, Material.LIGHT_BLUE_BED, Material.GREEN_BED, Material.GRAY_BED,
+                Material.CYAN_BED, Material.BROWN_BED, Material.BLUE_BED, Material.BLACK_BED };
+        allBeds = createEnum(temporary);
     }
 
     protected final <T> T[] concatenate(T[] a, T[] b) {
@@ -170,9 +220,93 @@ abstract class Job implements Class {
     public final boolean onPlayerInteractEvent(PlayerInteractEvent event) {
         if (event.getPlayer() instanceof Player) {
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                // TODO: either just completly move this into the single Classes, or do a
-                // blacklist for this here (like previously)
-                onXpBreaking(event);
+                switch (event.getMaterial()) {
+                    case BOW:
+                        if (new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
+                            return true;
+                        }
+                        return false;
+                    case TRIDENT:
+                        if (new Sql("race").readfromTable(event.getPlayer().getName())[0] == "aquaman") {
+                            return true;
+                        }
+                        return false;
+                    case WOODEN_HOE:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                            return true;
+                        }
+                        return false;
+                    case STONE_HOE:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                            return true;
+                        }
+                        return false;
+                    case IRON_HOE:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                            return true;
+                        }
+                        return false;
+                    case DIAMOND_HOE:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                            return true;
+                        }
+                        return false;
+                    case NETHERITE_HOE:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                            return true;
+                        }
+                        return false;
+                    case STONE_SWORD:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
+                            return true;
+                        }
+                        return false;
+                    case IRON_SWORD:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
+                            return true;
+                        }
+                        return false;
+                    case DIAMOND_SWORD:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
+                            return true;
+                        }
+                        return false;
+                    case NETHERITE_SWORD:
+                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
+                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
+                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight") {
+                            return true;
+                        }
+                        return false;
+                    default:
+                        break;
+
+                }
+                if (farmingBlocks.contains(event.getMaterial())) {
+                    if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                        return true;
+                    }
+                }
                 return true;
                 // return onInteracting(event);
             } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -194,16 +328,25 @@ abstract class Job implements Class {
 
     public final boolean onPlayerFishEvent(PlayerFishEvent event) {
         onXpFishing(event);
+        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "fisher") {
+            return true;
+        }
         return onFishing(event);
     }
 
     public final boolean onPlayerShearEntityEvent(PlayerShearEntityEvent event) {
         onXpShear(event);
+        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "shepard") {
+            return true;
+        }
         return onShear(event);
     }
 
     public final boolean onEnchantItemEvent(EnchantItemEvent event) {
         onXpEnchanting(event);
+        if (new Sql("hobby").readfromTable(event.getEnchanter().getName())[0] == "mage") {
+            return true;
+        }
         return onEnchanting(event);
     }
 
@@ -238,6 +381,9 @@ abstract class Job implements Class {
                 || event.getBlock().getType().name() == "NETHER_WART"
                 || event.getBlock().getType().name() == "FARMLAND") {
             onXpHarvestBreak(event);
+            if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+                return true;
+            }
             return onHarvestBreak(event);
         }
         onXpBreakBlock(event);

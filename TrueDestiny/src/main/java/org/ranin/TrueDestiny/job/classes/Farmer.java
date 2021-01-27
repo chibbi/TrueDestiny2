@@ -27,6 +27,8 @@ public class Farmer extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
+        allowedCraftingItems.addAll(common);
+        allowedCraftingItems.addAll(farmingBlocks);
         doubleDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
     }
@@ -67,7 +69,7 @@ public class Farmer extends Job {
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         // smithing by default false => Blacksmith
-        return true;
+        return false;
     }
 
     @Override

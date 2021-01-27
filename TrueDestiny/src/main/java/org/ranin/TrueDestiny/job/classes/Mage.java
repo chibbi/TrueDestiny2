@@ -32,6 +32,7 @@ public class Mage extends Job {
 
     @Override
     protected boolean onCraft(CraftItemEvent event) {
+        // TODO: add Hobby stuff
         return false;
     }
 
@@ -47,7 +48,6 @@ public class Mage extends Job {
 
     @Override
     protected boolean onShear(PlayerShearEntityEvent event) {
-        // Shearing by default false => Hirte
         return false;
     }
 
@@ -60,18 +60,22 @@ public class Mage extends Job {
     @Override
     protected boolean onEnchanting(EnchantItemEvent event) {
         // enchanting by default false => Mage
-        return false;
+        event.setExpLevelCost(0);
+        return true;
     }
 
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         // smithing by default false => Blacksmith
-        return true;
+        return false;
     }
 
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
         event.setDropItems(false);
+        if (event.getBlock().getType().equals(Material.FARMLAND)) {
+            return false;
+        }
         return true;
     }
 
@@ -168,4 +172,5 @@ public class Mage extends Job {
     @Override
     public void effects(String playerName, int xp) {
     }
+
 }
