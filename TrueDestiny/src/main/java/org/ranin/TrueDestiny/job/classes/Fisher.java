@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 /*
 author: "chibbi"
@@ -27,7 +28,8 @@ public class Fisher extends Job {
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
         doubleDropBlocks = super.farmingBlocks;
-        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
+        doubleDropMobs = super.fishMobs;
+        noDropMobs = super.concatenate(super.hostileMobs, super.friendlyMobs);
     }
 
     @Override
@@ -53,19 +55,16 @@ public class Fisher extends Job {
 
     @Override
     protected boolean onFishing(PlayerFishEvent event) {
-        // fishing by default false => Fisher
-        return false;
+        return true;
     }
 
     @Override
     protected boolean onEnchanting(EnchantItemEvent event) {
-        // enchanting by default false => Mage
         return false;
     }
 
     @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
-        // smithing by default false => Blacksmith
         return false;
     }
 
@@ -81,6 +80,11 @@ public class Fisher extends Job {
     @Override
     protected boolean onBreakBlock(BlockBreakEvent event) {
         // break by default true => Breaking already configured in InteractEvent
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+        }
         return true;
     }
 

@@ -13,8 +13,11 @@ import org.bukkit.entity.Player;
 
 public class JobCommand implements CommandExecutor {
 
-    final String[] alljobs = { "miner", "farmer", "blacksmith" }; // TODO: Make Configurable
-    final String[] allhobbies = { "mage", "farmer", "fisher", "shepard" }; // TODO: Make Configurable
+    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack" }; // TODO:
+    // Make
+    // Configurable
+    final String[] allhobbies = { "mage", "farmer", "fisher", "shepard", "assassin", "knight" }; // TODO: Make
+                                                                                                 // Configurable
 
     public JobCommand() {
 
@@ -83,7 +86,7 @@ public class JobCommand implements CommandExecutor {
                             return false;
                         }
                         for (String job : alljobs) { // TODO: Make Configurable
-                            if (args[1].equals(job)) {
+                            if (args[2].equals(job)) {
                                 if (info[0] == null) {
                                     new Sql("job").addtoTable(args[1], args[2]);
                                     player.sendMessage("§6Set Job of §7" + args[1] + "§6 to §7" + args[2]);

@@ -105,6 +105,7 @@ public class Sql {
 
     public void UpdateJobinJobTable(String player, String job) {
         String sql = "UPDATE " + table + " SET job = ? WHERE player=?;";
+        System.out.println(sql);
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, job);
             pstmt.setString(2, getUuid(player));

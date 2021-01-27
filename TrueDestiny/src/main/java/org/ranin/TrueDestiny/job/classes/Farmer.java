@@ -29,8 +29,7 @@ public class Farmer extends Job {
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
         allowedCraftingItems.addAll(farmingBlocks);
-        doubleDropBlocks = super.farmingBlocks;
-        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
+        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
     @Override
@@ -75,8 +74,10 @@ public class Farmer extends Job {
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
         System.out.println("HERE HARVEST: " + event.getBlock().getDrops());
-        for (ItemStack item : event.getBlock().getDrops()) {
-            event.getPlayer().getInventory().addItem(item);
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
         }
         return true;
     }
@@ -84,6 +85,11 @@ public class Farmer extends Job {
     @Override
     protected boolean onBreakBlock(BlockBreakEvent event) {
         // break by default true => Breaking already configured in InteractEvent
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+        }
         return true;
     }
 

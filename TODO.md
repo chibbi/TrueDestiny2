@@ -9,12 +9,13 @@
 | Mage       | 70% |   |   | X |
 | Knight     | 00% | X |   |   |
 | Assassin   | 00% | X |   |   |
-| Fisher     | 00% | X |   |   |
+| Fisher     | 30% | X |   | X |
 
 
 - Code:
   - Future Plans:
     - Mage gets xp via a transfer system, instead of just no xp cost
+    - When "finished", clean up code
   - immidiate Plans:
     - Add Commands for hobbies
     - Check if assassin or knight wants to have hobby the other one => not allowed

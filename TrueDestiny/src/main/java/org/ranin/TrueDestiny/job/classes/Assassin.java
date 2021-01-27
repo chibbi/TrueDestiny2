@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 /*
 author: "chibbi"
@@ -26,8 +27,7 @@ public class Assassin extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        doubleDropBlocks = super.farmingBlocks;
-        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
+        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
     @Override
@@ -87,7 +87,12 @@ public class Assassin extends Job {
     @Override
     protected boolean onPlaceBlock(BlockPlaceEvent event) {
         // place by default true => Placing already configured in InteractEvent
-        // aka. everything can be palced, by everyone
+        // aka. everything can be placed, by everyone
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+        }
         return true;
     }
 
@@ -158,6 +163,7 @@ public class Assassin extends Job {
 
     @Override
     protected void onXpPlayerKill(PlayerDeathEvent event) {
+        // TODO: GIVE XPPP
     }
 
     @Override

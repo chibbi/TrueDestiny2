@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 import org.ranin.TrueDestiny.job.Sql;
 
 /*
@@ -218,110 +219,66 @@ abstract class Job implements Class {
     }
 
     public final boolean onPlayerInteractEvent(PlayerInteractEvent event) {
-        if (event.getPlayer() instanceof Player) {
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                switch (event.getMaterial()) {
-                    case BOW:
-                        if (new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
-                            return true;
-                        }
-                        return false;
-                    case TRIDENT:
-                        if (new Sql("race").readfromTable(event.getPlayer().getName())[0] == "aquaman") {
-                            return true;
-                        }
-                        return false;
-                    case WOODEN_HOE:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
-                            return true;
-                        }
-                        return false;
-                    case STONE_HOE:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
-                            return true;
-                        }
-                        return false;
-                    case IRON_HOE:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
-                            return true;
-                        }
-                        return false;
-                    case DIAMOND_HOE:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
-                            return true;
-                        }
-                        return false;
-                    case NETHERITE_HOE:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
-                            return true;
-                        }
-                        return false;
-                    case STONE_SWORD:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
-                            return true;
-                        }
-                        return false;
-                    case IRON_SWORD:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
-                            return true;
-                        }
-                        return false;
-                    case DIAMOND_SWORD:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "hunter") {
-                            return true;
-                        }
-                        return false;
-                    case NETHERITE_SWORD:
-                        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "assassin"
-                                || new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "knight"
-                                || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "knight") {
-                            return true;
-                        }
-                        return false;
-                    default:
-                        break;
-
-                }
-                if (farmingBlocks.contains(event.getMaterial())) {
-                    if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0] == "farmer"
-                            || new Sql("job").readfromTable(event.getPlayer().getName())[0] == "farmer") {
+        Player player = (Player) event.getPlayer();
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            switch (event.getMaterial()) {
+                case TRIDENT:
+                    if (new Sql("race").readfromTable(player.getName())[0] == "aquaman") {
                         return true;
                     }
-                }
-                return true;
-                // return onInteracting(event);
-            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                if (event.getMaterial() == Material.AIR) {
-                    onXpBreaking(event);
-                    return true;
-                } else if (allowedTools.contains(event.getMaterial())) {
-                    onXpBreaking(event);
-                    return true;
-                }
-                System.out.println("IS SOME DISALLOWED TOOL, ...");
-                return onBreaking(event);
-            }
+                    return false;
+                case WOODEN_HOE:
+                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                        return true;
+                    }
+                    return false;
+                case STONE_HOE:
+                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                        return true;
+                    }
+                    return false;
+                case IRON_HOE:
+                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                        return true;
+                    }
+                    return false;
+                case DIAMOND_HOE:
+                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                        return true;
+                    }
+                    return false;
+                case NETHERITE_HOE:
+                    if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                            || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                        return true;
+                    }
+                    return false;
 
+            }
+            if (farmingBlocks.contains(event.getMaterial())) {
+                if (new Sql("hobby").readfromTable(player.getName())[0] == "farmer"
+                        || new Sql("job").readfromTable(player.getName())[0] == "farmer") {
+                    return true;
+                }
+            }
+            return true;
+            // return onInteracting(event);
+        } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (event.getMaterial() == Material.AIR) {
+                onXpBreaking(event);
+                return true;
+            } else if (allowedTools.contains(event.getMaterial())) {
+                onXpBreaking(event);
+                return true;
+            }
+            System.out.println("IS SOME DISALLOWED TOOL, ...");
+            return onBreaking(event);
         }
+
         return true;
 
     }
@@ -373,6 +330,11 @@ abstract class Job implements Class {
     }
 
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+        }
         if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
                 || event.getBlock().getType().name() == "CARROTS" || event.getBlock().getType().name() == "BEETROOT"
                 || event.getBlock().getType().name() == "PUMPKIN" || event.getBlock().getType().name() == "COCOA"
@@ -396,8 +358,69 @@ abstract class Job implements Class {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
+        for (String mob : doubleDropMobs) {
+            if (event.getEntityType().name().equals(mob)) {
+                for (ItemStack item : event.getDrops()) {
+                    event.getEntity().getKiller().getInventory().addItem(item);
+                }
+            }
+        }
+        for (String mob : noDropMobs) {
+            if (event.getEntityType().name().equals(mob)) {
+                event.getDrops().clear();
+            }
+        }
         onXpMobKills(event);
         onMobKills(event);
+    }
+
+    public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
+        Player player = (Player) event.getDamager();
+        switch (player.getItemInHand().getType()) {
+            case STONE_SWORD:
+                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                    return true;
+                }
+                return false;
+            case IRON_SWORD:
+                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                    return true;
+                }
+                return false;
+            case DIAMOND_SWORD:
+                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                    return true;
+                }
+                return false;
+            case NETHERITE_SWORD:
+                if (new Sql("hobby").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("job").readfromTable(player.getName())[0] == "assassin"
+                        || new Sql("hobby").readfromTable(player.getName())[0] == "knight"
+                        || new Sql("job").readfromTable(player.getName())[0] == "knight") {
+                    return true;
+                }
+                return false;
+            case BOW:
+                if (new Sql("job").readfromTable(player.getName())[0] == "hunter"
+                        || new Sql("job").readfromTable(player.getName())[0] == "hunter") {
+                    return true;
+                }
+                return false;
+            default:
+                return true;
+        }
     }
 
     public final void onPlayerDeathEvent(PlayerDeathEvent event) {

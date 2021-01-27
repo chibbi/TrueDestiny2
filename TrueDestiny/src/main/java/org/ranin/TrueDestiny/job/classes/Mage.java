@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 /*
 author: "chibbi"
@@ -26,8 +27,7 @@ public class Mage extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        doubleDropBlocks = super.farmingBlocks;
-        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.friendlyMobs);
+        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
     @Override
@@ -82,6 +82,11 @@ public class Mage extends Job {
     @Override
     protected boolean onBreakBlock(BlockBreakEvent event) {
         // break by default true => Breaking already configured in InteractEvent
+        if (doubleDropBlocks.contains(event.getBlock().getType())) {
+            for (ItemStack item : event.getBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+        }
         return true;
     }
 
