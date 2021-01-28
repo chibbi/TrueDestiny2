@@ -154,6 +154,7 @@ public class JobListeners implements Listener {
         }
     }
 
+    @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
@@ -217,6 +218,7 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
+            System.out.println("HERE: " + ((Player) event.getDamager()).getInventory().getItemInMainHand().getType());
             String[] info = new Sql("job").readfromTable(event.getDamager().getName());
             if (info[0] == null) {
                 event.getDamager().sendMessage("Get a Job");

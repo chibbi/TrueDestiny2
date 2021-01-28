@@ -183,7 +183,7 @@ abstract class Job {
                 Material.POLISHED_BLACKSTONE_BRICK_WALL };
         stoneBlocks = createEnum(temporary);
         common.addAll(stoneBlocks);
-        flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE);
+        flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE); // THAT WORKS
         common.addAll(flowers);
         temporary = new Material[] { Material.WHITE_BED, Material.YELLOW_BED, Material.RED_BED, Material.PURPLE_BED,
                 Material.PINK_BED, Material.ORANGE_BED, Material.MAGENTA_BED, Material.LIME_BED,
@@ -227,6 +227,8 @@ abstract class Job {
 
     public final boolean onPlayerInteractEvent(PlayerInteractEvent event) {
         Player player = (Player) event.getPlayer();
+        String[] jobInfo = new Sql("job").readfromTable(player.getName());
+        String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             switch (event.getMaterial()) {
                 case TRIDENT:
@@ -235,41 +237,35 @@ abstract class Job {
                     }
                     return false;
                 case WOODEN_HOE:
-                    System.out.println("ITsaacoola  showww " + new Sql("job").readfromTable(player.getName())[0]);
-                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                    System.out.println("ITsaacoola  showww " + jobInfo[0]);
+                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case STONE_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case IRON_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case DIAMOND_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case NETHERITE_HOE:
-                    if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                            || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
 
             }
             if (farmingBlocks.contains(event.getMaterial())) {
-                if (new Sql("hobby").readfromTable(player.getName())[0].equals("farmer")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("farmer")) {
+                if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                     return true;
                 }
             }
@@ -292,6 +288,14 @@ abstract class Job {
     }
 
     public boolean onEntityShootBowEvent(EntityShootBowEvent event) {
+        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0] == null) { // TODO: do null pointer test
+            // everywhere xD || fall in love with a terminal full of Exception, and Error
+            if (new Sql("job").readfromTable(event.getEntity().getName())[0].equals("hunter")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
         if (new Sql("hobby").readfromTable(event.getEntity().getName())[0].equals("hunter")
                 || new Sql("job").readfromTable(event.getEntity().getName())[0].equals("hunter")) {
             return true;
@@ -399,45 +403,39 @@ abstract class Job {
 
     public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
         Player player = (Player) event.getDamager();
-        switch (player.getItemInHand().getType()) {
+        String[] jobInfo = new Sql("job").readfromTable(player.getName());
+        String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
+        // TODO: live with a lot of NullPointerExeptions
+        switch (player.getInventory().getItemInMainHand().getType()) {
             case STONE_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
+                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
+                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case IRON_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
+                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
+                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case DIAMOND_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
+                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
+                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case NETHERITE_SWORD:
-                if (new Sql("hobby").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("assassin")
-                        || new Sql("hobby").readfromTable(player.getName())[0].equals("knight")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("knight")) {
+                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
+                        || jobInfo[0].equals("knight")) {
                     return true;
                 }
                 return false;
             case BOW:
-                if (new Sql("job").readfromTable(player.getName())[0].equals("hunter")
-                        || new Sql("job").readfromTable(player.getName())[0].equals("hunter")) {
+                if (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
