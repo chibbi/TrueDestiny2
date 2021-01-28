@@ -28,6 +28,8 @@ public class Lumberjack extends Job {
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
         allowedCraftingItems.add(Material.ARMOR_STAND);
+        allowedCraftingItems.add(Material.CHEST);
+        allowedCraftingItems.add(Material.CHEST_MINECART);
         allowedCraftingItems.addAll(super.woodBlocks);
         allowedCraftingItems.addAll(super.allBeds);
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
