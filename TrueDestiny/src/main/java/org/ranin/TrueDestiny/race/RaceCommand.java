@@ -40,7 +40,7 @@ public class RaceCommand implements CommandExecutor {
                         return true;
                     case "all":
                         // TODO: Add new Classes
-                        player.sendMessage("§6All Races:\n§7" + allraces);
+                        player.sendMessage("§6All Races:\n§7" + allraces.toString());
                         return true;
                     case "mine":
                         player.sendMessage("§6Your race§7(if race is null, you didn't choose one yet)§6:\n"

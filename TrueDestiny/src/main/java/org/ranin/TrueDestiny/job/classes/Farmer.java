@@ -29,6 +29,7 @@ public class Farmer extends Job {
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
         allowedCraftingItems.addAll(farmingBlocks);
+        doubleDropBlocks = farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 

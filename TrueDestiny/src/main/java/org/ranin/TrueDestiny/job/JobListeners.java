@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -72,6 +71,10 @@ public class JobListeners implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (event.getEntity().getKiller() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getEntity().getKiller().getName());
+            if (info[0] == null) {
+                event.getEntity().getKiller().sendMessage("Get a Job");
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     new Miner().onPlayerDeathEvent(event);
@@ -110,6 +113,12 @@ public class JobListeners implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity().getKiller() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getEntity().getKiller().getName());
+            if (info[0] == null) {
+                event.getEntity().getKiller().sendMessage("Get a Job");
+                event.setDroppedExp(0);
+                event.getDrops().clear();
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     new Miner().onEntityDeathEvent(event);
@@ -145,11 +154,15 @@ public class JobListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityShootBow(EntityShootBowEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
             String[] info = new Sql("job").readfromTable(player.getName());
+            if (info[0] == null) {
+                player.sendMessage("Get a Job");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onEntityShootBowEvent(event)) {
@@ -205,6 +218,11 @@ public class JobListeners implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getDamager().getName());
+            if (info[0] == null) {
+                event.getDamager().sendMessage("Get a Job");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onEntityDamageByEntityEvent(event)) {
@@ -260,6 +278,11 @@ public class JobListeners implements Listener {
     public void onCraftItem(CraftItemEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getWhoClicked().getName());
+            if (info[0] == null) {
+                event.getWhoClicked().sendMessage("Get a Job");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onCraftItemEvent(event)) {
@@ -315,10 +338,14 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+        if (info[0] == null) {
+            event.getPlayer().sendMessage("Get a Job");
+            event.setCancelled(true);
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 if (!new Miner().onPlayerInteractEvent(event)) {
-                    System.out.println("I AM CANCELING");
                     event.setCancelled(true);
                 }
                 break;
@@ -368,6 +395,11 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+        if (info[0] == null) {
+            event.getPlayer().sendMessage("Get a Job");
+            event.setCancelled(true);
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 if (!new Miner().onPlayerFishEvent(event)) {
@@ -421,6 +453,11 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onPlayerShearEntity(PlayerShearEntityEvent event) {
         String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+        if (info[0] == null) {
+            event.getPlayer().sendMessage("Get a Job");
+            event.setCancelled(true);
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 if (!new Miner().onPlayerShearEntityEvent(event)) {
@@ -473,6 +510,11 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onEnchantItem(EnchantItemEvent event) {
         String[] info = new Sql("job").readfromTable(event.getViewers().get(0).getName());
+        if (info[0] == null) {
+            event.getViewers().get(0).sendMessage("Get a Job");
+            event.setCancelled(true);
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 if (!new Miner().onEnchantItemEvent(event)) {
@@ -525,6 +567,10 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onPrepareSmithing(PrepareSmithingEvent event) {
         String[] info = new Sql("job").readfromTable(event.getViewers().get(0).getName());
+        if (info[0] == null) {
+            event.getViewers().get(0).sendMessage("Get a Job");
+            return;
+        }
         switch (info[0]) {
             case "miner":
                 if (!new Miner().onPrepareSmithingEvent(event)) {
@@ -587,6 +633,11 @@ public class JobListeners implements Listener {
     public void onBlockDropItem(BlockDropItemEvent event) {
         if (event.getPlayer() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+            if (info[0] == null) {
+                event.getPlayer().sendMessage("Get a Job");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onBlockDropItemEvent(event)) {
@@ -643,6 +694,11 @@ public class JobListeners implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         if (event.getPlayer() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+            if (info[0] == null) {
+                event.getPlayer().sendMessage("§eGET YOURSELF A JOB");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onBlockBreakEvent(event)) {
@@ -690,6 +746,17 @@ public class JobListeners implements Listener {
                     }
                     break;
             }
+        } else {
+            if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
+                    || event.getBlock().getType().name() == "CARROTS" || event.getBlock().getType().name() == "BEETROOT"
+                    || event.getBlock().getType().name() == "PUMPKIN" || event.getBlock().getType().name() == "COCOA"
+                    || event.getBlock().getType().name() == "MELON" || event.getBlock().getType().name() == "SUGAR_CANE"
+                    || event.getBlock().getType().name() == "CACTUS"
+                    || event.getBlock().getType().name() == "POTTED_CACTUS"
+                    || event.getBlock().getType().name() == "NETHER_WART"
+                    || event.getBlock().getType().name() == "FARMLAND") {
+                event.setDropItems(false);
+            }
         }
     }
 
@@ -697,6 +764,11 @@ public class JobListeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         if (event.getPlayer() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+            if (info[0] == null) {
+                event.getPlayer().sendMessage("§eGET YOURSELF A JOB");
+                event.setCancelled(true);
+                return;
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onBlockPlaceEvent(event)) {
@@ -794,6 +866,10 @@ public class JobListeners implements Listener {
         if (event.getEntered() instanceof Player) {
             String[] info = new Sql("job").readfromTable(event.getEntered().getName());
             // no cancel part here, because of Hoppers
+            if (info[0] == null) {
+                event.getEntered().sendMessage("Get a Job");
+                event.setCancelled(true);
+            }
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onVehicleEnterEvent(event)) {
