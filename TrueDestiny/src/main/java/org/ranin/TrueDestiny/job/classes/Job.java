@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -21,6 +22,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.ranin.TrueDestiny.job.Sql;
 
@@ -98,8 +100,13 @@ abstract class Job {
                 Material.SPRUCE_LOG, Material.BIRCH_LOG, Material.JUNGLE_LOG, Material.ACACIA_LOG,
                 Material.DARK_OAK_LOG, Material.OAK_PLANKS, Material.SPRUCE_PLANKS, Material.BIRCH_PLANKS,
                 Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
-                Material.WARPED_PLANKS, Material.OAK_BOAT, Material.SPRUCE_BOAT, Material.BIRCH_BOAT,
-                Material.JUNGLE_BOAT, Material.ACACIA_BOAT, Material.DARK_OAK_BOAT, };
+                Material.WARPED_PLANKS, Material.ACACIA_DOOR, Material.OAK_DOOR, Material.SPRUCE_DOOR,
+                Material.BIRCH_DOOR, Material.JUNGLE_DOOR, Material.DARK_OAK_DOOR, Material.CRIMSON_DOOR,
+                Material.WARPED_DOOR, Material.OAK_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.BIRCH_TRAPDOOR,
+                Material.JUNGLE_TRAPDOOR, Material.ACACIA_TRAPDOOR, Material.DARK_OAK_TRAPDOOR,
+                Material.CRIMSON_TRAPDOOR, Material.WARPED_TRAPDOOR, Material.ACACIA_BOAT, Material.OAK_BOAT,
+                Material.SPRUCE_BOAT, Material.BIRCH_BOAT, Material.JUNGLE_BOAT, Material.DARK_OAK_BOAT,
+                Material.CHEST };
         woodBlocks = createEnum(temporary);
         // TODO: COPPER_ORE => for 1.17
         temporary = new Material[] { Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.GOLD_ORE,
@@ -161,12 +168,9 @@ abstract class Job {
                 Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
                 Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE,
                 Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE,
-                Material.OAK_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.JUNGLE_TRAPDOOR,
-                Material.ACACIA_TRAPDOOR, Material.DARK_OAK_TRAPDOOR, Material.CRIMSON_TRAPDOOR,
-                Material.WARPED_TRAPDOOR, Material.OAK_WALL_SIGN, Material.SPRUCE_WALL_SIGN, Material.BIRCH_WALL_SIGN,
-                Material.JUNGLE_WALL_SIGN, Material.ACACIA_WALL_SIGN, Material.DARK_OAK_WALL_SIGN,
-                Material.CRIMSON_WALL_SIGN, Material.WARPED_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE,
-                Material.STICK };
+                Material.OAK_WALL_SIGN, Material.SPRUCE_WALL_SIGN, Material.BIRCH_WALL_SIGN, Material.JUNGLE_WALL_SIGN,
+                Material.ACACIA_WALL_SIGN, Material.DARK_OAK_WALL_SIGN, Material.CRIMSON_WALL_SIGN,
+                Material.WARPED_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK };
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
                 Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH };
@@ -213,9 +217,29 @@ abstract class Job {
     }
 
     public final boolean onCraftItemEvent(CraftItemEvent event) {
+        ItemStack craftedItem = event.getInventory().getResult(); // Get result of recipe
+        Inventory Inventory = event.getInventory(); // Get crafting inventory
+        ClickType clickType = event.getClick();
+        int realAmount = craftedItem.getAmount();
+        if (clickType.isShiftClick()) {
+            int lowerAmount = craftedItem.getMaxStackSize() + 1000; // Set lower at recipe result max stack size + 1000
+                                                                    // (or just highter max stacksize of reciped item)
+            for (ItemStack actualItem : Inventory.getContents()) // For each item in crafting inventory
+            {
+                if (!actualItem.getType().isAir() && lowerAmount > actualItem.getAmount()
+                        && !actualItem.getType().equals(craftedItem.getType()))
+                    // if slot is not air && lowerAmount is higher than this slot amount && it's not
+                    // the recipe amount
+                    lowerAmount = actualItem.getAmount(); // Set new lower amount
+            }
+            // Calculate the final amount : lowerAmount * craftedItem.getAmount
+            realAmount = lowerAmount * craftedItem.getAmount();
+        }
         if (doubleCraftingItems.contains(event.getRecipe().getResult().getType())) {
             onXpCraft(event);
-            event.getWhoClicked().getInventory().addItem(new ItemStack(event.getRecipe().getResult().getType()));
+            ItemStack doublsstuff = new ItemStack(event.getRecipe().getResult().getType());
+            doublsstuff.setAmount(realAmount);
+            event.getWhoClicked().getInventory().addItem(doublsstuff);
             return true;
         }
         if (allowedCraftingItems.contains(event.getRecipe().getResult().getType())) {
@@ -404,28 +428,30 @@ abstract class Job {
         onXpMobKills(event);
     }
 
+    @Deprecated
     public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
         Player player = (Player) event.getDamager();
         String[] jobInfo = new Sql("job").readfromTable(player.getName());
         String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
         // TODO: live with a lot of NullPointerExeptions
+        System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
         switch (player.getInventory().getItemInMainHand().getType()) {
             case STONE_SWORD:
-                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                System.out.println("HESTRE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case IRON_SWORD:
-                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case DIAMOND_SWORD:
-                System.out.println("HERE: " + player.getInventory().getItemInMainHand().getType());
+                System.out.println("HDAERE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;

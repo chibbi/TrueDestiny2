@@ -34,6 +34,8 @@ public class Blacksmith extends Job {
         allowedCraftingItems.removeAll(farmingBlocks);
         allowedCraftingItems.removeAll(allBeds);
         allowedCraftingItems.removeAll(woodBlocks);
+        temporary = new Material[] { Material.ARMOR_STAND, Material.CHEST_MINECART, };
+        allowedCraftingItems.removeAll(super.createEnum(temporary));
         // all of this should be cached in a always on class
         allowedCraftingItems.removeIf(m -> m.name().contains("LEGACY"));
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);

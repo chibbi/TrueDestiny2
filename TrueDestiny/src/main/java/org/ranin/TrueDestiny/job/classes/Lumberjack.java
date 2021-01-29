@@ -28,9 +28,8 @@ public class Lumberjack extends Job {
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
-        allowedCraftingItems.add(Material.ARMOR_STAND);
-        allowedCraftingItems.add(Material.CHEST);
-        allowedCraftingItems.add(Material.CHEST_MINECART);
+        temporary = new Material[] { Material.ARMOR_STAND, Material.CHEST_MINECART, };
+        allowedCraftingItems.addAll(super.createEnum(temporary));
         allowedCraftingItems.addAll(super.woodBlocks);
         allowedCraftingItems.addAll(super.allBeds);
         temporary = new Material[] { Material.OAK_PLANKS, Material.SPRUCE_PLANKS, Material.BIRCH_PLANKS,

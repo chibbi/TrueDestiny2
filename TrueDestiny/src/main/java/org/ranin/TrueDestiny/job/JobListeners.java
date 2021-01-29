@@ -149,7 +149,11 @@ public class JobListeners implements Listener {
                     break;
             }
         } else {
-            event.setDroppedExp(0);
+            if (event.getEntity() instanceof Player) {
+                // so the stuff of an player isn't getting deleted
+                event.setDroppedExp(0);
+                return;
+            }
             event.getDrops().clear();
         }
     }
@@ -218,14 +222,49 @@ public class JobListeners implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
-            System.out.println("HERE: " + ((Player) event.getDamager()).getInventory().getItemInMainHand().getType());
-            String[] info = new Sql("job").readfromTable(event.getDamager().getName());
-            if (info[0] == null) {
+            Player player = (Player) event.getDamager();
+            String[] jobInfo = new Sql("job").readfromTable(player.getName());
+            String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
+            if (jobInfo[0] == null) {
                 event.getDamager().sendMessage("Get a Job");
                 event.setCancelled(true);
                 return;
             }
-            switch (info[0]) {
+            // TODO: live with a lot of NullPointerExeptions
+            System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
+            switch (player.getInventory().getItemInMainHand().getType()) {
+                case STONE_SWORD:
+                    System.out.println("HESTRE: " + player.getInventory().getItemInMainHand().getType());
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        break;
+                    }
+                    event.setCancelled(true);
+                case IRON_SWORD:
+                    System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        break;
+                    }
+                    event.setCancelled(true);
+                case DIAMOND_SWORD:
+                    System.out.println("HDAERE: " + player.getInventory().getItemInMainHand().getType());
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        break;
+                    }
+                    event.setCancelled(true);
+                case NETHERITE_SWORD:
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight")) {
+                        break;
+                    }
+                    event.setCancelled(true);
+                case BOW:
+                    if (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) {
+                        break;
+                    }
+                    event.setCancelled(true);
+                default:
+                    break;
+            }
+            switch (jobInfo[0]) {
                 case "miner":
                     if (!new Miner().onEntityDamageByEntityEvent(event)) {
                         event.setCancelled(true);
