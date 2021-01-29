@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -224,29 +223,26 @@ public class JobListeners implements Listener {
         if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
             String[] jobInfo = new Sql("job").readfromTable(player.getName());
-            String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
+            // if not used, not needed => String[] hobbyInfo = new
+            // Sql("hobby").readfromTable(player.getName());
             if (jobInfo[0] == null) {
                 event.getDamager().sendMessage("Get a Job");
                 event.setCancelled(true);
                 return;
             }
             // TODO: live with a lot of NullPointerExeptions
-            System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
             switch (player.getInventory().getItemInMainHand().getType()) {
                 case STONE_SWORD:
-                    System.out.println("HESTRE: " + player.getInventory().getItemInMainHand().getType());
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                         break;
                     }
                     event.setCancelled(true);
                 case IRON_SWORD:
-                    System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                         break;
                     }
                     event.setCancelled(true);
                 case DIAMOND_SWORD:
-                    System.out.println("HDAERE: " + player.getInventory().getItemInMainHand().getType());
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                         break;
                     }
@@ -667,67 +663,6 @@ public class JobListeners implements Listener {
                     event.setResult(new ItemStack(Material.AIR));
                 }
                 break;
-        }
-    }
-
-    @EventHandler
-    public void onBlockDropItem(BlockDropItemEvent event) {
-        if (event.getPlayer() instanceof Player) {
-            String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
-            if (info[0] == null) {
-                event.getPlayer().sendMessage("Get a Job");
-                event.setCancelled(true);
-                return;
-            }
-            switch (info[0]) {
-                case "miner":
-                    if (!new Miner().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "farmer":
-                    if (!new Farmer().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "mage":
-                    if (!new Mage().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "knight":
-                    if (!new Knight().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "hunter":
-                    if (!new Hunter().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "lumberjack":
-                    if (!new Lumberjack().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "fisher":
-                    if (!new Fisher().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "blacksmith":
-                    if (!new Blacksmith().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "assassin":
-                    if (!new Assassin().onBlockDropItemEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-            }
-        } else {
-            event.setCancelled(true);
         }
     }
 

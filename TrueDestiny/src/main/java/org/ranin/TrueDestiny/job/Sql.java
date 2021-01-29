@@ -1,5 +1,10 @@
 package org.ranin.TrueDestiny.job;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -120,7 +125,7 @@ public class Sql {
 
     public void UpdateXpinJobTable(String player, int xp) {
         // TODO: remove this debug message
-        System.out.println(player + " gets " + xp + " xp!");
+        System.out.println(player + " has now " + xp + " xp!");
         String sql = "UPDATE " + table + " SET job_xp = ? WHERE player=?;";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, xp);
@@ -157,6 +162,43 @@ public class Sql {
 
     public String getUuid(String player) {
         // TODO: just split on " or on : and remove before and after UUID
-        return (player);
+        String uuidUlr = "https://api.mojang.com/users/profiles/minecraft/" + player;
+        String respo = null;
+        try {
+            URL url = new URL(uuidUlr);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(500);
+            con.setReadTimeout(500);
+
+            int status = con.getResponseCode();
+
+            if (status >= 400) {
+                System.out.println("[TrueDestiny] " + "Error with connection with Mojang API !!");
+                con.disconnect();
+                return player;
+            }
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            respo = content.toString();
+            in.close();
+            con.disconnect();
+            if (respo == null) {
+                System.out.println("[TrueDestiny] " + "Mojan API returned no INFO !!");
+                return player;
+            }
+            respo = respo.split(":")[2].replace("\"", "").replace("}", "");
+            return respo;
+
+        } catch (IOException e) {
+            System.out.println("[TrueDestiny] "
+                    + "Connection Error: likely lost internet connection. if multiple errors pop up, please look that your connection is stable\n"
+                    + "             You can contact the developer if you have problems.");
+        }
+        return player;
     }
 }

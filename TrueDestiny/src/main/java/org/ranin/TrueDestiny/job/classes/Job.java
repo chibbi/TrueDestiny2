@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -168,9 +167,7 @@ abstract class Job {
                 Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
                 Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE,
                 Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE,
-                Material.OAK_WALL_SIGN, Material.SPRUCE_WALL_SIGN, Material.BIRCH_WALL_SIGN, Material.JUNGLE_WALL_SIGN,
-                Material.ACACIA_WALL_SIGN, Material.DARK_OAK_WALL_SIGN, Material.CRIMSON_WALL_SIGN,
-                Material.WARPED_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK };
+                Material.OAK_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK };
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
                 Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH };
@@ -254,33 +251,33 @@ abstract class Job {
         String[] jobInfo = new Sql("job").readfromTable(player.getName());
         String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            switch (event.getMaterial()) {
-                case TRIDENT:
+            switch (event.getMaterial().name()) {
+                case "TRIDENT":
                     if (new Sql("race").readfromTable(player.getName())[0].equals("aquaman")) {
                         return true;
                     }
                     return false;
-                case WOODEN_HOE:
+                case "WOODEN_HOE":
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
-                case STONE_HOE:
+                case "STONE_HOE":
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
-                case IRON_HOE:
+                case "IRON_HOE":
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
-                case DIAMOND_HOE:
+                case "DIAMOND_HOE":
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
-                case NETHERITE_HOE:
+                case "NETHERITE_HOE":
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
@@ -302,7 +299,7 @@ abstract class Job {
                 onXpBreaking(event);
                 return true;
             }
-            System.out.println("IS SOME DISALLOWED TOOL, " + event.getMaterial());
+            event.getPlayer().sendMessage("DISALLOWED TOOL, " + event.getMaterial());
             return onBreaking(event);
         }
 
@@ -359,29 +356,12 @@ abstract class Job {
         return onSmithing(event);
     }
 
-    @Deprecated
-    public final boolean onBlockDropItemEvent(BlockDropItemEvent event) {
-        if (event.getBlockState().getType().name() == "POTATO" || event.getBlockState().getType().name() == "WHEAT"
-                || event.getBlockState().getType().name() == "CARROTS"
-                || event.getBlockState().getType().name() == "BEETROOT"
-                || event.getBlockState().getType().name() == "PUMPKIN"
-                || event.getBlockState().getType().name() == "COCOA"
-                || event.getBlockState().getType().name() == "MELON"
-                || event.getBlockState().getType().name() == "SUGAR_CANE"
-                || event.getBlockState().getType().name() == "CACTUS"
-                || event.getBlockState().getType().name() == "POTTED_CACTUS"
-                || event.getBlockState().getType().name() == "NETHER_WART"
-                || event.getBlockState().getType().name() == "FARMLAND") {
-        }
-        return true;
-    }
-
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
         String[] info = new Sql("hobby").readfromTable(event.getPlayer().getName());
         if (doubleDropBlocks != null && doubleDropBlocks.contains(event.getBlock().getType())) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
-                System.out.println("Doubling: " + item);
+                event.getPlayer().sendMessage("Doubling: " + item);
             }
         }
         if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
@@ -408,12 +388,14 @@ abstract class Job {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
+        // TODO: WHY ISN'T IT WORKINNGNGG
         System.out.print(event.getEntityType().name());
         if (doubleDropMobs == null) {
             return;
         }
         for (String mob : doubleDropMobs) {
             if (event.getEntityType().name().equals(mob)) {
+                // TODO: Add XP HERE for sure
                 for (ItemStack item : event.getDrops()) {
                     event.getEntity().getKiller().getInventory().addItem(item);
                 }
@@ -434,24 +416,20 @@ abstract class Job {
         String[] jobInfo = new Sql("job").readfromTable(player.getName());
         String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
         // TODO: live with a lot of NullPointerExeptions
-        System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
         switch (player.getInventory().getItemInMainHand().getType()) {
             case STONE_SWORD:
-                System.out.println("HESTRE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case IRON_SWORD:
-                System.out.println("HEIRRE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;
                 }
                 return false;
             case DIAMOND_SWORD:
-                System.out.println("HDAERE: " + player.getInventory().getItemInMainHand().getType());
                 if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
                         || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                     return true;

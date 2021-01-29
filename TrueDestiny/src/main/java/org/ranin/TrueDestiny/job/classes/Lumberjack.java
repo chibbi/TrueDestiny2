@@ -37,7 +37,6 @@ public class Lumberjack extends Job {
                 Material.WARPED_PLANKS };
         doubleCraftingItems = super.createEnum(temporary);
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
-        System.out.print(noDropMobs);
     }
 
     @Override

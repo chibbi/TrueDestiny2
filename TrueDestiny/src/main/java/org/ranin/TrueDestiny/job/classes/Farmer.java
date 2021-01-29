@@ -74,7 +74,6 @@ public class Farmer extends Job {
 
     @Override
     protected boolean onHarvestBreak(BlockBreakEvent event) {
-        System.out.println("HERE HARVEST: " + event.getBlock().getDrops());
         if (doubleDropBlocks.contains(event.getBlock().getType())) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
