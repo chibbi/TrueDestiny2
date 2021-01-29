@@ -237,7 +237,6 @@ abstract class Job {
                     }
                     return false;
                 case WOODEN_HOE:
-                    System.out.println("ITsaacoola  showww " + jobInfo[0]);
                     if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
                         return true;
                     }
@@ -288,16 +287,17 @@ abstract class Job {
     }
 
     public boolean onEntityShootBowEvent(EntityShootBowEvent event) {
-        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0] == null) { // TODO: do null pointer test
+        String[] jobInfo = new Sql("job").readfromTable(event.getEntity().getName());
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEntity().getName());
+        if (hobbyInfo[0] == null) { // TODO: do null pointer test
             // everywhere xD || fall in love with a terminal full of Exception, and Error
-            if (new Sql("job").readfromTable(event.getEntity().getName())[0].equals("hunter")) {
+            if (jobInfo[0].equals("hunter")) {
                 return true;
             } else {
                 return false;
             }
         }
-        if (new Sql("hobby").readfromTable(event.getEntity().getName())[0].equals("hunter")
-                || new Sql("job").readfromTable(event.getEntity().getName())[0].equals("hunter")) {
+        if (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) {
             return true;
         }
         return false;
@@ -305,7 +305,8 @@ abstract class Job {
 
     public final boolean onPlayerFishEvent(PlayerFishEvent event) {
         onXpFishing(event);
-        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0].equals("fisher")) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getPlayer().getName());
+        if (hobbyInfo[0].equals("fisher")) {
             return true;
         }
         return onFishing(event);
@@ -313,7 +314,8 @@ abstract class Job {
 
     public final boolean onPlayerShearEntityEvent(PlayerShearEntityEvent event) {
         onXpShear(event);
-        if (new Sql("hobby").readfromTable(event.getPlayer().getName())[0].equals("shepard")) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEntity().getName());
+        if (hobbyInfo[0].equals("shepard")) {
             return true;
         }
         return onShear(event);
@@ -321,7 +323,8 @@ abstract class Job {
 
     public final boolean onEnchantItemEvent(EnchantItemEvent event) {
         onXpEnchanting(event);
-        if (new Sql("hobby").readfromTable(event.getEnchanter().getName())[0].equals("mage")) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEnchanter().getName());
+        if (hobbyInfo[0].equals("mage")) {
             return true;
         }
         return onEnchanting(event);
@@ -381,7 +384,7 @@ abstract class Job {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
-        System.out.print(noDropMobs);
+        System.out.print(event.getEntityType().name());
         if (doubleDropMobs == null) {
             return;
         }
