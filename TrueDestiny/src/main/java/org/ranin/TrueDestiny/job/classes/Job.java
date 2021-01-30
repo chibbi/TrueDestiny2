@@ -326,6 +326,7 @@ abstract class Job {
                 onXpBreaking(event);
                 return true;
             }
+            // TODO add abfrage für hobby: miner
             event.getPlayer().sendMessage("DISALLOWED TOOL, " + event.getMaterial());
             return onBreaking(event);
         }
@@ -386,6 +387,7 @@ abstract class Job {
     public final boolean onPlayerHarvestBlockEvent(PlayerHarvestBlockEvent event) {
         String[] hobbyInfo = new Sql("hobby").readfromTable(event.getPlayer().getName());
         Material brokenBlock = event.getHarvestedBlock().getType();
+        System.out.println(brokenBlock + " hobby: " + hobbyInfo[0]);
         if (doubleDropBlocks != null && doubleDropBlocks.contains(brokenBlock)) {
             for (ItemStack item : event.getHarvestedBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
@@ -394,6 +396,7 @@ abstract class Job {
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
             if (farmingBlocks.contains(brokenBlock) && hobbyInfo[0].equals("farmer")) {
+                System.out.println("IS THAT");
             } else {
                 System.out.println("CONTAINS");
                 return false;

@@ -38,6 +38,7 @@ public class Blacksmith extends Job {
         allowedCraftingItems.removeAll(super.createEnum(temporary));
         // all of this should be cached in a always on class
         allowedCraftingItems.removeIf(m -> m.name().contains("LEGACY"));
+        noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
