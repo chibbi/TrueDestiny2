@@ -47,6 +47,7 @@ public class RaceTasks {
             case "nereid":
                 Dolphin d = (Dolphin) player.getWorld().spawnEntity(player.getLocation(), EntityType.DOLPHIN);
                 d.setCustomName(player.getName());
+                d.setRemoveWhenFarAway(false);
                 break;
             case "elve":
                 Horse h = (Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
@@ -57,6 +58,7 @@ public class RaceTasks {
                 h.setAdult();
                 h.getInventory().setSaddle(new ItemStack(Material.SADDLE));
                 h.setCustomName(player.getName());
+                h.setRemoveWhenFarAway(false);
                 break;
             case "dwarf":
                 Cat c = (Cat) player.getWorld().spawnEntity(player.getLocation(), EntityType.CAT);
@@ -66,6 +68,7 @@ public class RaceTasks {
                 c.setTamed(true);
                 c.setOwner(player);
                 c.setCustomName(player.getName() + " 1");
+                c.setRemoveWhenFarAway(false);
                 c = (Cat) player.getWorld().spawnEntity(player.getLocation(), EntityType.CAT);
                 c.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)
                         .setBaseValue(c.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).getValue() * 2D);
@@ -73,6 +76,7 @@ public class RaceTasks {
                 c.setTamed(true);
                 c.setOwner(player);
                 c.setCustomName(player.getName() + " 2");
+                c.setRemoveWhenFarAway(false);
                 break;
             case "NAME":
                 Wolf w = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
@@ -93,6 +97,7 @@ public class RaceTasks {
                 w.setTamed(true);
                 w.setOwner(player);
                 w.setCustomName(player.getName() + " 2");
+                w.setRemoveWhenFarAway(false);
                 break;
         }
     }

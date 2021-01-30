@@ -151,6 +151,7 @@ abstract class Job {
         allArmor.addAll(ironArmor);
         allArmor.addAll(diamondArmor);
         allArmor.addAll(netheriteArmor);
+        // TODO: automate some of that
         temporary = new Material[] { Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB, Material.JUNGLE_SLAB,
                 Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB, Material.WARPED_SLAB,
                 Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS, Material.ACACIA_STAIRS,
@@ -166,7 +167,20 @@ abstract class Job {
                 Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
                 Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE,
                 Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE,
-                Material.OAK_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK };
+                Material.OAK_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK,
+                Material.COBBLESTONE_SLAB, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE_WALL, Material.STONE_SLAB,
+                Material.STONE_STAIRS, Material.STONE_BUTTON, Material.STONE_BRICKS, Material.STONE_BRICK_SLAB,
+                Material.STONE_BRICK_STAIRS, Material.STONE_BRICK_WALL, Material.SANDSTONE, Material.SANDSTONE_SLAB,
+                Material.SANDSTONE_STAIRS, Material.SANDSTONE_WALL, Material.RED_SANDSTONE, Material.RED_SANDSTONE_SLAB,
+                Material.RED_SANDSTONE_STAIRS, Material.RED_SANDSTONE_WALL, Material.SMOOTH_RED_SANDSTONE,
+                Material.SMOOTH_RED_SANDSTONE_SLAB, Material.SMOOTH_RED_SANDSTONE_STAIRS, Material.SMOOTH_SANDSTONE,
+                Material.SMOOTH_SANDSTONE_SLAB, Material.SMOOTH_SANDSTONE_STAIRS, Material.SMOOTH_STONE,
+                Material.SMOOTH_STONE_SLAB, Material.STONE_PRESSURE_PLATE, Material.CHISELED_STONE_BRICKS,
+                Material.CRACKED_STONE_BRICKS, Material.DRIED_KELP_BLOCK, Material.IRON_BLOCK, Material.COAL_BLOCK,
+                Material.GOLD_BLOCK, Material.DIAMOND_BLOCK, Material.REDSTONE_BLOCK, Material.LAPIS_BLOCK,
+                Material.EMERALD_BLOCK, Material.IRON_NUGGET, Material.GOLDEN_APPLE, Material.TERRACOTTA,
+                Material.TORCH, Material.LANTERN };
+        // TODO: GOLD_APPLE only for Mage
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
                 Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH };
