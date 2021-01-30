@@ -13,6 +13,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.ranin.TrueDestiny.job.HobbyCommand;
+import org.ranin.TrueDestiny.job.HobbyTabCompleter;
 import org.ranin.TrueDestiny.job.JobCommand;
 import org.ranin.TrueDestiny.job.JobListeners;
 import org.ranin.TrueDestiny.job.JobTabCompleter;
@@ -61,6 +63,8 @@ public class App extends JavaPlugin {
         this.getCommand("race").setTabCompleter(new RaceTabCompleter());
         this.getCommand("job").setExecutor(new JobCommand());
         this.getCommand("job").setTabCompleter(new JobTabCompleter());
+        this.getCommand("hobby").setExecutor(new HobbyCommand());
+        this.getCommand("hobby").setTabCompleter(new HobbyTabCompleter());
         this.getCommand("warn").setExecutor(new WarnCommand(getLogger()));
         this.getCommand("warn").setTabCompleter(new WarnTabCompletion());
         // Initiating Event Listeners

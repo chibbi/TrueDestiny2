@@ -9,6 +9,9 @@ commands:
    warn:
       description: "warns a player"
       permission: warn
+   hobby:
+      description: "lets you choose your hobby"
+      permission: hobby
    job:
       description: "lets you choose your job"
       aliases: ["jb"]
@@ -23,6 +26,9 @@ permissions:
    warn:
       description: Permission for the /warn command
       default: op
+   hobby:
+      description: Permission for the /hobby command
+      default: true
    job:
       description: Permission for the /job command
       default: true
