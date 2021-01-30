@@ -1,6 +1,6 @@
 main: org.ranin.TrueDestiny.App
 name: "TrueDestiny"
-version: 0.0.1
+version: 0.1.0
 api-version: 1.16
 authors: ["chibbi", "raninninn"]
 description: "An exhaustive plugin to make roleplay servers even more enjoyable and challengin."

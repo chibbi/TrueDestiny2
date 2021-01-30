@@ -2,6 +2,7 @@ package org.ranin.TrueDestiny.race;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,9 +12,21 @@ import org.ranin.TrueDestiny.repetual.RaceTasks;
 
 public class RaceCommand implements CommandExecutor {
 
-    final String[] allraces = { "aquaman", "elve", "dwarf", "troll" }; // TODO: Make Configurable
+    // nereid => sea nymphs
+    // dryad => tree nymphs
+    // oreades => mountain nymphs
+    // eleionomae => wetland nymphs
+    // hamadryad => lives in tree (is a dryad) (tree dies, hamadryad dies)
+    // napaeae => bewälderte täler, grotten
+    // hyades => rain nymphs
+    // lampads => underworld nymphs ( => NETHER)
+    // hesperides => sun rise sun set nymphs
+    // . . . . . . other name: Atlantides (got that from their father (Titan Atlas))
+    final String[] allraces = { "nereid", "elve", "dwarf", "NAME" }; // TODO: Make Configurable
     // TODO implement a hobbit (player only 1,5 blocks high, with sneaking only 1
     // block high)
+    // source: https://www.spigotmc.org/threads/how-to-change-a-hitbox.230451/
+    // seems like it would NEED a mod for that
 
     public RaceCommand() {
 
@@ -27,20 +40,15 @@ public class RaceCommand implements CommandExecutor {
             if (args.length == 1) {
                 switch (args[0]) {
                     case "help":
-                        player.sendMessage(
-                                "§e ---------- §fHelp: race §e---------- \n" + "§6set race: §7/race set RACE\n"
-                                        + "§6list of all races: §7/race all\n" + "§6stats of your race: §7/race mine\n"
-                                        + "§6list of all available commands: §7/race help");
+                        player.sendMessage("§e ---------- §fHelp: race §e---------- \n"
+                                + "§6set race: §7/race set RACE\n" + "§6stats of your race: §7/race mine\n"
+                                + "§6list of all available commands: §7/race help");
                         if (player.isOp()) {
                             player.sendMessage("§cSERVER OPERATOR STUFF:\n"
                                     + "§6list of races of online players: §7/race listAll\n"
                                     + "§6cheat XP to race: §7/race xp PLAYER XP\n"
                                     + "§6set your race new (regardless if you have one or not): §7/race put PLAYER RACE\n");
                         }
-                        return true;
-                    case "all":
-                        // TODO: Add new Classes
-                        player.sendMessage("§6All Races:\n§7" + allraces.toString());
                         return true;
                     case "mine":
                         player.sendMessage("§6Your race§7(if race is null, you didn't choose one yet)§6:\n"
@@ -92,7 +100,8 @@ public class RaceCommand implements CommandExecutor {
                                     new Sql("race").UpdateJobinJobTable(args[1], args[2]);
                                     player.sendMessage("§6Set Race of §7" + args[1] + "§6 to §7" + args[2]);
                                 }
-                                new RaceTasks().giveRaceEffects(player, args[2]);
+                                new RaceTasks().giveRaceEffects(Bukkit.getPlayer(args[1]), args[2]);
+                                new RaceTasks().choseRace(Bukkit.getPlayer(args[1]), args[2]);
                                 return true;
                             }
                         }

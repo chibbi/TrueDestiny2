@@ -19,7 +19,6 @@ public class JobTabCompleter implements TabCompleter {
         List<String> l = new ArrayList<String>();
         if (args.length == 1) {
             l.add("set");
-            l.add("all");
             l.add("mine");
             l.add("help");
             if (sender.isOp()) {
@@ -60,6 +59,7 @@ public class JobTabCompleter implements TabCompleter {
             if (sender.isOp()) {
                 switch (args[0]) {
                     case "put":
+                        // TODO: this doesn't work, why?
                         for (String job : new JobCommand().alljobs) {
                             l.add(job); // TODO: Make Configurable
                         }

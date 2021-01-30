@@ -170,46 +170,55 @@ public class JobListeners implements Listener {
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "farmer":
                     if (!new Farmer().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "mage":
                     if (!new Mage().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "knight":
                     if (!new Knight().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "hunter":
                     if (!new Hunter().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "lumberjack":
                     if (!new Lumberjack().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "fisher":
                     if (!new Fisher().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "blacksmith":
                     if (!new Blacksmith().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
                 case "assassin":
                     if (!new Assassin().onEntityShootBowEvent(event)) {
+                        player.sendMessage("You're Class doesn't know how to use a Bow");
                         event.setCancelled(true);
                     }
                     break;
@@ -225,89 +234,87 @@ public class JobListeners implements Listener {
             String[] jobInfo = new Sql("job").readfromTable(player.getName());
             // if not used, not needed => String[] hobbyInfo = new
             // Sql("hobby").readfromTable(player.getName());
+            // it jsut generates nullpointer exceptions
             if (jobInfo[0] == null) {
                 event.getDamager().sendMessage("Get a Job");
                 event.setCancelled(true);
                 return;
             }
-            // TODO: live with a lot of NullPointerExeptions
-            switch (player.getInventory().getItemInMainHand().getType()) {
-                case STONE_SWORD:
+            switch (player.getInventory().getItemInMainHand().getType().name()) {
+                case "WOODEN_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        event.setDamage(event.getDamage() * 1.05D);
                         break;
                     }
-                    event.setCancelled(true);
-                case IRON_SWORD:
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.8D); // TODO: make this configurable (for every sword)
+                    // is already good configured i think but still make it configurable
+                    break;
+                case "GOLDEN_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        event.setDamage(event.getDamage() * 1.1D);
                         break;
                     }
-                    event.setCancelled(true);
-                case DIAMOND_SWORD:
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.85D);
+                    break;
+                case "STONE_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        event.setDamage(event.getDamage() * 1.15D);
                         break;
                     }
-                    event.setCancelled(true);
-                case NETHERITE_SWORD:
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.8D);
+                    break;
+                case "IRON_SWORD":
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        event.setDamage(event.getDamage() * 1.2D);
+                        break;
+                    }
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.75D);
+                    break;
+                case "DIAMOND_SWORD":
+                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
+                        event.setDamage(event.getDamage() * 1.25D);
+                        break;
+                    }
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.7D);
+                    break;
+                case "NETHERITE_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight")) {
+                        event.setDamage(event.getDamage() * 1.3D);
                         break;
                     }
-                    event.setCancelled(true);
-                case BOW:
-                    if (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) {
-                        break;
-                    }
-                    event.setCancelled(true);
+                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
+                    event.setDamage(event.getDamage() * 0.65D);
+                    break;
                 default:
+                    event.setDamage(event.getDamage() / 2.5D);
                     break;
             }
-            switch (jobInfo[0]) {
-                case "miner":
-                    if (!new Miner().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "farmer":
-                    if (!new Farmer().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "mage":
-                    if (!new Mage().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "knight":
-                    if (!new Knight().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "hunter":
-                    if (!new Hunter().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "lumberjack":
-                    if (!new Lumberjack().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "fisher":
-                    if (!new Fisher().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "blacksmith":
-                    if (!new Blacksmith().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-                case "assassin":
-                    if (!new Assassin().onEntityDamageByEntityEvent(event)) {
-                        event.setCancelled(true);
-                    }
-                    break;
-
-            }
+            /*
+             * If you want to use it again, just uncomment (also in Job.java) switch
+             * (jobInfo[0]) { case "miner": if (!new
+             * Miner().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
+             * break; case "farmer": if (!new Farmer().onEntityDamageByEntityEvent(event)) {
+             * event.setCancelled(true); } break; case "mage": if (!new
+             * Mage().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
+             * break; case "knight": if (!new Knight().onEntityDamageByEntityEvent(event)) {
+             * event.setCancelled(true); } break; case "hunter": if (!new
+             * Hunter().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
+             * break; case "lumberjack": if (!new
+             * Lumberjack().onEntityDamageByEntityEvent(event)) { event.setCancelled(true);
+             * } break; case "fisher": if (!new Fisher().onEntityDamageByEntityEvent(event))
+             * { event.setCancelled(true); } break; case "blacksmith": if (!new
+             * Blacksmith().onEntityDamageByEntityEvent(event)) { event.setCancelled(true);
+             * } break; case "assassin": if (!new
+             * Assassin().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
+             * break;
+             * 
+             * }
+             */
         }
     }
 
@@ -729,8 +736,7 @@ public class JobListeners implements Listener {
                     || event.getBlock().getType().name() == "MELON" || event.getBlock().getType().name() == "SUGAR_CANE"
                     || event.getBlock().getType().name() == "CACTUS"
                     || event.getBlock().getType().name() == "POTTED_CACTUS"
-                    || event.getBlock().getType().name() == "NETHER_WART"
-                    || event.getBlock().getType().name() == "FARMLAND") {
+                    || event.getBlock().getType().name() == "NETHER_WART") {
                 event.setDropItems(false);
             }
         }

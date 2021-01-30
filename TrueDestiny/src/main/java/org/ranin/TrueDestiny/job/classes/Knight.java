@@ -26,7 +26,11 @@ public class Knight extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
+        allowedCraftingItems.addAll(common);
+        temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL };
+        allowedCraftingItems.addAll(super.createEnum(temporary));
+        noDropBlocks = super.farmingBlocks;
+        noDropMobs = super.concatenate(super.friendlyMobs, super.fishMobs);
     }
 
     @Override
@@ -69,15 +73,6 @@ public class Knight extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
-        if (event.getBlock().getType().equals(Material.FARMLAND)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -116,10 +111,6 @@ public class Knight extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

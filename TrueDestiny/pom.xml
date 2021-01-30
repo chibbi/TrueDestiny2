@@ -7,7 +7,7 @@
   <groupId>org.ranin.TrueDestiny</groupId>
   <artifactId>TrueDestiny</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
 
   <name>TrueDestiny</name>
   <!-- FIXME change it to the project's website -->

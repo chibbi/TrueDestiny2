@@ -26,7 +26,10 @@ public class Fisher extends Job {
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
-        doubleDropBlocks = super.farmingBlocks;
+        allowedCraftingItems.addAll(common);
+        temporary = new Material[] { Material.FISHING_ROD };
+        allowedCraftingItems.addAll(super.createEnum(temporary));
+        noDropBlocks = super.farmingBlocks;
         doubleDropMobs = super.fishMobs;
         noDropMobs = super.concatenate(super.hostileMobs, super.friendlyMobs);
     }
@@ -68,15 +71,6 @@ public class Fisher extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
-        if (event.getBlock().getType().equals(Material.FARMLAND)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -115,10 +109,6 @@ public class Fisher extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

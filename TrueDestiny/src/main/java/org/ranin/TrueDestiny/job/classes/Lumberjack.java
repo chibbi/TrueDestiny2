@@ -36,6 +36,7 @@ public class Lumberjack extends Job {
                 Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
                 Material.WARPED_PLANKS };
         doubleCraftingItems = super.createEnum(temporary);
+        noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
@@ -79,15 +80,6 @@ public class Lumberjack extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
-        if (event.getBlock().getType().equals(Material.FARMLAND)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -126,10 +118,6 @@ public class Lumberjack extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

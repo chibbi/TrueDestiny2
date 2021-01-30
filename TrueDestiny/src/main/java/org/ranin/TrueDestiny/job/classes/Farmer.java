@@ -13,7 +13,6 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
-import org.bukkit.inventory.ItemStack;
 
 /*
 author: "chibbi"
@@ -25,11 +24,11 @@ public class Farmer extends Job {
         super();
         Material[] temporary = { Material.WOODEN_HOE, Material.STONE_HOE, Material.IRON_HOE, Material.NETHERITE_HOE };
         allowedTools = super.createEnum(temporary);
-        allowedTools.addAll(woodTools);
+        allowedTools.addAll(super.woodTools);
         allowedCraftingItems = super.woodTools;
-        allowedCraftingItems.addAll(common);
-        allowedCraftingItems.addAll(farmingBlocks);
-        doubleDropBlocks = farmingBlocks;
+        allowedCraftingItems.addAll(super.common);
+        allowedCraftingItems.addAll(super.farmingBlocks);
+        doubleDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
@@ -73,16 +72,6 @@ public class Farmer extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        if (doubleDropBlocks.contains(event.getBlock().getType())) {
-            for (ItemStack item : event.getBlock().getDrops()) {
-                event.getPlayer().getInventory().addItem(item);
-            }
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -121,10 +110,6 @@ public class Farmer extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

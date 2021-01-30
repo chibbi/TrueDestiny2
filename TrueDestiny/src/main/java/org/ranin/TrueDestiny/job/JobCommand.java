@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class JobCommand implements CommandExecutor {
 
-    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack", "hunter" }; // TODO:
+    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack", "hunter", "knight" }; // TODO:
     // Make
     // Configurable
     final String[] allhobbies = { "mage", "farmer", "fisher", "shepard", "assassin", "knight" }; // TODO: Make
@@ -32,7 +32,7 @@ public class JobCommand implements CommandExecutor {
                 switch (args[0]) {
                     case "help":
                         player.sendMessage("§e ---------- §fHelp: job §e---------- \n" + "§6set job: §7/job set JOB\n"
-                                + "§6list of all jobs: §7/job all\n" + "§6stats of your job: §7/job mine\n"
+                                + "§6stats of your job: §7/job mine\n"
                                 + "§6list of all available commands: §7/job help");
                         if (player.isOp()) {
                             player.sendMessage("§cSERVER OPERATOR STUFF:\n"
@@ -41,10 +41,6 @@ public class JobCommand implements CommandExecutor {
                                     + "§6set your job new (regardless if you have one or not): §7/job put PLAYER JOB\n"
                                     + "§6de/activate pvpmode: §7/job config pvpmode BOOL");
                         }
-                        return true;
-                    case "all":
-                        // TODO: Add new Classes
-                        player.sendMessage("§6All Jobs:\n§7" + alljobs);
                         return true;
                     case "mine":
                         player.sendMessage("§6Your job§7(if job is null, you didn't choose one yet)§6:\n" + "§6job §7"

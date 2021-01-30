@@ -7,11 +7,12 @@ author: "chibbi"
 import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.Bukkit;
 
 public class WarnCommand implements CommandExecutor {
 
@@ -56,7 +57,7 @@ public class WarnCommand implements CommandExecutor {
                     i++;
                 }
                 Bukkit.getPlayer(args[0]).sendTitle(output, "", 20, 45, 20);
-                Bukkit.getPlayer(args[0]).chat("§4I am a stupid fuck");
+                Bukkit.getPlayer(args[0]).chat("§0I §1a§2m §3a §4s§bt§5u§9p§3i§6d §cf§1u§ec§ak§f.");
                 return true;
             } else {
                 log.info(sender.getName() + " (" + sender.getClass() + ") has tried: " + Arrays.toString(args));

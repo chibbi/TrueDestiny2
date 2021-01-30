@@ -26,11 +26,14 @@ public class Miner extends Job {
                 Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
+        temporary = new Material[] { Material.MINECART, Material.RAIL };
+        doubleCraftingItems = super.createEnum(temporary);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
         temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL };
         allowedCraftingItems.addAll(super.createEnum(temporary));
         doubleDropBlocks = super.oreBlocks;
+        noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
 
@@ -74,15 +77,6 @@ public class Miner extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
-        if (event.getBlock().getType().equals(Material.FARMLAND)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -121,10 +115,6 @@ public class Miner extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

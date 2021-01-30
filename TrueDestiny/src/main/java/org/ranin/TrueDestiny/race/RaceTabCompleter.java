@@ -16,7 +16,6 @@ public class RaceTabCompleter implements TabCompleter {
         List<String> l = new ArrayList<String>();
         if (args.length == 1) {
             l.add("set");
-            l.add("all");
             l.add("mine");
             l.add("help");
             if (sender.isOp()) {

@@ -27,14 +27,14 @@ public class Blacksmith extends Job {
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(super.allMaterials);
-        allowedCraftingItems.addAll(common);
+        allowedCraftingItems.addAll(super.common);
         allowedCraftingItems.add(Material.ANVIL);
         // don't forget "complement of" it is basically a negative of the set you give
         // so it takes all of the items of the parent set, the given set doesn't list
-        allowedCraftingItems.removeAll(farmingBlocks);
-        allowedCraftingItems.removeAll(allBeds);
-        allowedCraftingItems.removeAll(woodBlocks);
-        temporary = new Material[] { Material.ARMOR_STAND, Material.CHEST_MINECART, };
+        allowedCraftingItems.removeAll(super.farmingBlocks);
+        allowedCraftingItems.removeAll(super.allBeds);
+        allowedCraftingItems.removeAll(super.woodBlocks);
+        temporary = new Material[] { Material.ARMOR_STAND, Material.FISHING_ROD, };
         allowedCraftingItems.removeAll(super.createEnum(temporary));
         // all of this should be cached in a always on class
         allowedCraftingItems.removeIf(m -> m.name().contains("LEGACY"));
@@ -81,15 +81,6 @@ public class Blacksmith extends Job {
     }
 
     @Override
-    protected boolean onHarvestBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
-        if (event.getBlock().getType().equals(Material.FARMLAND)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected boolean onVehicleEnter(VehicleEnterEvent event) {
         // vehicles by default true => TODO: Configure vehicles for everyone
         // aka. everyone can use boats, minecarts
@@ -128,10 +119,6 @@ public class Blacksmith extends Job {
 
     @Override
     protected void onXpSmithing(PrepareSmithingEvent event) {
-    }
-
-    @Override
-    protected void onXpHarvestBreak(BlockBreakEvent event) {
     }
 
     @Override

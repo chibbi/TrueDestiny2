@@ -9,7 +9,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -86,7 +85,7 @@ abstract class Job {
     public Job() {
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROT, Material.BEETROOT, Material.PUMPKIN,
                 Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.BAMBOO, Material.NETHER_WART,
-                Material.FARMLAND, Material.WHEAT_SEEDS, Material.CARROTS, Material.BEETROOTS, Material.BAMBOO_SAPLING,
+                Material.WHEAT_SEEDS, Material.CARROTS, Material.BEETROOTS, Material.BAMBOO_SAPLING,
                 Material.BEETROOT_SEEDS, Material.PUMPKIN_SEEDS, Material.PUMPKIN_PIE, Material.COCOA_BEANS,
                 Material.MELON_SEEDS, Material.SUGAR_CANE, Material.NETHER_WART_BLOCK, Material.PUMPKIN_STEM,
                 Material.MELON_STEM, Material.MELON_SLICE, Material.MUSHROOM_STEM, Material.BEETROOT_SOUP,
@@ -232,12 +231,14 @@ abstract class Job {
             // Calculate the final amount : lowerAmount * craftedItem.getAmount
             realAmount = lowerAmount * craftedItem.getAmount();
         }
-        if (doubleCraftingItems.contains(event.getRecipe().getResult().getType())) {
-            onXpCraft(event);
-            ItemStack doublsstuff = new ItemStack(event.getRecipe().getResult().getType());
-            doublsstuff.setAmount(realAmount);
-            event.getWhoClicked().getInventory().addItem(doublsstuff);
-            return true;
+        if (doubleCraftingItems != null) {
+            if (doubleCraftingItems.contains(event.getRecipe().getResult().getType())) {
+                onXpCraft(event);
+                ItemStack doublsstuff = new ItemStack(event.getRecipe().getResult().getType());
+                doublsstuff.setAmount(realAmount);
+                event.getWhoClicked().getInventory().addItem(doublsstuff);
+                return true;
+            }
         }
         if (allowedCraftingItems.contains(event.getRecipe().getResult().getType())) {
             onXpCraft(event);
@@ -285,8 +286,13 @@ abstract class Job {
 
             }
             if (farmingBlocks.contains(event.getMaterial())) {
-                if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
+                if (jobInfo[0].equals("farmer")) {
                     return true;
+                } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("farmer")) {
+                    return true;
+                } else {
+                    event.getPlayer().sendMessage("Can't do that");
+                    return false;
                 }
             }
             return true;
@@ -364,18 +370,10 @@ abstract class Job {
                 event.getPlayer().sendMessage("Doubling: " + item);
             }
         }
-        if (event.getBlock().getType().name() == "POTATO" || event.getBlock().getType().name() == "WHEAT"
-                || event.getBlock().getType().name() == "CARROTS" || event.getBlock().getType().name() == "BEETROOT"
-                || event.getBlock().getType().name() == "PUMPKIN" || event.getBlock().getType().name() == "COCOA"
-                || event.getBlock().getType().name() == "MELON" || event.getBlock().getType().name() == "SUGAR_CANE"
-                || event.getBlock().getType().name() == "CACTUS" || event.getBlock().getType().name() == "POTTED_CACTUS"
-                || event.getBlock().getType().name() == "NETHER_WART"
-                || event.getBlock().getType().name() == "FARMLAND") {
-            onXpHarvestBreak(event);
-            if (info[0] == null && info[0].equals("farmer")) {
-                return true;
-            }
-            return onHarvestBreak(event);
+        if (noDropBlocks != null && noDropBlocks.contains(event.getBlock().getType())) {
+            event.getPlayer().sendMessage("Can't do that");
+            event.setDropItems(false);
+            return true;
         }
         onXpBreakBlock(event);
         return true;
@@ -388,68 +386,51 @@ abstract class Job {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
-        // TODO: WHY ISN'T IT WORKINNGNGG
-        System.out.print(event.getEntityType().name());
-        if (doubleDropMobs == null) {
-            return;
-        }
-        for (String mob : doubleDropMobs) {
-            if (event.getEntityType().name().equals(mob)) {
-                // TODO: Add XP HERE for sure
-                for (ItemStack item : event.getDrops()) {
-                    event.getEntity().getKiller().getInventory().addItem(item);
+        System.out.println(event.getEntityType().name());
+        System.out.println("doubles: " + doubleDropMobs);
+        if (doubleDropMobs != null) {
+            for (String mob : doubleDropMobs) {
+                System.out.println(event.getEntityType().name() + " == " + mob);
+                if (event.getEntityType().name().equals(mob)) {
+                    for (ItemStack item : event.getDrops()) {
+                        event.getEntity().getKiller().getInventory().addItem(item);
+                    }
                 }
             }
         }
+        System.out.println("noos: " + noDropMobs);
         for (String mob : noDropMobs) {
-            System.out.println(event.getEntityType().name() + " == " + mob);
             if (event.getEntityType().name().equals(mob)) {
+                event.setDroppedExp(0);
                 event.getDrops().clear();
             }
         }
         onXpMobKills(event);
     }
 
-    @Deprecated
-    public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
-        Player player = (Player) event.getDamager();
-        String[] jobInfo = new Sql("job").readfromTable(player.getName());
-        String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
-        // TODO: live with a lot of NullPointerExeptions
-        switch (player.getInventory().getItemInMainHand().getType()) {
-            case STONE_SWORD:
-                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
-                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
-                    return true;
-                }
-                return false;
-            case IRON_SWORD:
-                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
-                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
-                    return true;
-                }
-                return false;
-            case DIAMOND_SWORD:
-                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
-                        || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
-                    return true;
-                }
-                return false;
-            case NETHERITE_SWORD:
-                if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight")
-                        || jobInfo[0].equals("knight")) {
-                    return true;
-                }
-                return false;
-            case BOW:
-                if (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) {
-                    return true;
-                }
-                return false;
-            default:
-                return true;
-        }
-    }
+    /*
+     * If you want to use it again, just uncomment (also in JobListeners.java)
+     * public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
+     * Player player = (Player) event.getDamager(); String[] jobInfo = new
+     * Sql("job").readfromTable(player.getName()); String[] hobbyInfo = new
+     * Sql("hobby").readfromTable(player.getName()); // TODO: live with a lot of
+     * NullPointerExeptions switch
+     * (player.getInventory().getItemInMainHand().getType()) { case STONE_SWORD: if
+     * (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") ||
+     * hobbyInfo[0].equals("knight") || jobInfo[0].equals("knight") ||
+     * jobInfo[0].equals("hunter")) { return true; } return false; case IRON_SWORD:
+     * if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") ||
+     * hobbyInfo[0].equals("knight") || jobInfo[0].equals("knight") ||
+     * jobInfo[0].equals("hunter")) { return true; } return false; case
+     * DIAMOND_SWORD: if (hobbyInfo[0].equals("assassin") ||
+     * jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight") ||
+     * jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) { return true; }
+     * return false; case NETHERITE_SWORD: if (hobbyInfo[0].equals("assassin") ||
+     * jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight") ||
+     * jobInfo[0].equals("knight")) { return true; } return false; case BOW: if
+     * (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) { return true; }
+     * return false; default: return true; } }
+     */
 
     public final void onPlayerDeathEvent(PlayerDeathEvent event) {
         onXpPlayerKill(event);
@@ -457,14 +438,6 @@ abstract class Job {
 
     public final void onFurnaceExtractEvent(FurnaceExtractEvent event) {
         onXpFurnaceExtract(event);
-    }
-
-    public final boolean onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        // TODO: test if breaking whitelsit applies on here to, if so this event is not
-        // needed
-        // if not, put limit on damage of non fighters (by calling their functions which
-        // aren't implemented yet)
-        return true;
     }
 
     public final boolean onVehicleEnterEvent(VehicleEnterEvent event) {
@@ -486,8 +459,6 @@ abstract class Job {
 
     protected abstract boolean onSmithing(PrepareSmithingEvent event);
 
-    protected abstract boolean onHarvestBreak(BlockBreakEvent event);
-
     protected abstract boolean onVehicleEnter(VehicleEnterEvent event);
 
     protected abstract void onXpCraft(CraftItemEvent event);
@@ -503,8 +474,6 @@ abstract class Job {
     protected abstract void onXpEnchanting(EnchantItemEvent event);
 
     protected abstract void onXpSmithing(PrepareSmithingEvent event);
-
-    protected abstract void onXpHarvestBreak(BlockBreakEvent event);
 
     protected abstract void onXpBreakBlock(BlockBreakEvent event);
 
