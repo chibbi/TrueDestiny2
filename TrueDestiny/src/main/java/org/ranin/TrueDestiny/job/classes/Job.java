@@ -393,7 +393,9 @@ abstract class Job {
             }
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
-            if (!farmingBlocks.contains(brokenBlock) && !hobbyInfo[0].equals("farmer")) {
+            if (farmingBlocks.contains(brokenBlock) && hobbyInfo[0].equals("farmer")) {
+            } else {
+                System.out.println("CONTAINS");
                 return false;
             }
         }
