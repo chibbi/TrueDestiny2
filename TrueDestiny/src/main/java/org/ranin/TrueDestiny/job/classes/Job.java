@@ -301,6 +301,9 @@ abstract class Job {
                     return false;
 
             }
+            EnumSet<Material> temp = farmingBlocks;
+            temp.remove(Material.PUMPKIN);
+            temp.remove(Material.MELON);
             if (farmingBlocks.contains(event.getMaterial())) {
                 if (jobInfo[0].equals("farmer")) {
                     return true;
@@ -379,17 +382,22 @@ abstract class Job {
     }
 
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
-        String[] info = new Sql("hobby").readfromTable(event.getPlayer().getName());
-        if (doubleDropBlocks != null && doubleDropBlocks.contains(event.getBlock().getType())) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getPlayer().getName());
+        Material brokenBlock = event.getBlock().getType();
+        if (doubleDropBlocks != null && doubleDropBlocks.contains(brokenBlock)) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
                 event.getPlayer().sendMessage("Doubling: " + item);
             }
         }
-        if (noDropBlocks != null && noDropBlocks.contains(event.getBlock().getType())) {
-            event.getPlayer().sendMessage("Can't do that");
-            event.setDropItems(false);
-            return true;
+        if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
+            if (farmingBlocks.contains(brokenBlock) && hobbyInfo[0].equals("farmer")) {
+                event.getPlayer().sendMessage("HOBBY FARMERRR");
+            } else {
+                event.getPlayer().sendMessage("Can't do that");
+                event.setDropItems(false);
+                return true;
+            }
         }
         onXpBreakBlock(event);
         return true;

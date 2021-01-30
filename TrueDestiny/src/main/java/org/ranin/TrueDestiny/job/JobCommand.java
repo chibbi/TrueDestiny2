@@ -13,11 +13,8 @@ import org.bukkit.entity.Player;
 
 public class JobCommand implements CommandExecutor {
 
-    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack", "hunter", "knight" }; // TODO:
-    // Make
-    // Configurable
-    final String[] allhobbies = { "mage", "farmer", "fisher", "shepard", "assassin", "knight" }; // TODO: Make
-                                                                                                 // Configurable
+    final String[] alljobs = { "miner", "farmer", "blacksmith", "fisher", "mage", "lumberjack", "hunter", "knight" };
+    // TODO: Make Configurable
 
     public JobCommand() {
 
