@@ -61,7 +61,7 @@ public class JobListeners implements Listener {
         if (event.getPlayer() instanceof Player) {
             File customConfigFile = new File("plugins/TrueDestiny/config.yml");
             FileConfiguration cusconf = YamlConfiguration.loadConfiguration(customConfigFile);
-            if (!cusconf.getBoolean("pvpmode")) {
+            if (cusconf.get("pvpmode").equals("false")) {
                 new Sql("job").deletefromJobTable(event.getPlayer().getName());
             }
         }
