@@ -391,9 +391,7 @@ abstract class Job {
             }
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
-            if (farmingBlocks.contains(brokenBlock) && hobbyInfo[0].equals("farmer")) {
-                event.getPlayer().sendMessage("HOBBY FARMERRR");
-            } else {
+            if (!farmingBlocks.contains(brokenBlock) && !hobbyInfo[0].equals("farmer")) {
                 event.getPlayer().sendMessage("Can't do that");
                 event.setDropItems(false);
                 return true;
