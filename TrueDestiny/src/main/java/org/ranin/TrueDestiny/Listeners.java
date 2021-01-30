@@ -4,6 +4,7 @@ author: "chibbi"
 */
 
 import java.io.File;
+import java.util.Random;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,8 +26,19 @@ public class Listeners implements Listener {
         } else {
             event.getPlayer().sendTitle("You are awesome!", "", 20, 45, 20);
         }
-        event.setJoinMessage("Welcome, " + event.getPlayer().getName() + "!");
-        event.setJoinMessage("Quick Reminder, if you change your Username, you loose all your xp and money!");
-        event.setJoinMessage("If you have any issues or find bugs, don't hesitate, and contact an admin or a mod!");
+        switch (new Random().nextInt(4 - 1 + 1) + 1) {
+            case 1:
+                event.setJoinMessage("§5" + event.getPlayer().getName() + " slided in dich rein");
+                break;
+            case 2:
+                event.setJoinMessage("§2" + event.getPlayer().getName() + " has descended upon us");
+                break;
+            case 3:
+                event.setJoinMessage("§6" + event.getPlayer().getName() + " wird dich jetzt auseinandernehmen");
+                break;
+            case 4:
+                event.setJoinMessage("§bCronus has summoned " + event.getPlayer().getName() + "!");
+                break;
+        }
     }
 }

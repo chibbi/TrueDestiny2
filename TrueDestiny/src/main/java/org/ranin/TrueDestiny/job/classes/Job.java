@@ -176,10 +176,12 @@ abstract class Job {
                 Material.SMOOTH_RED_SANDSTONE_SLAB, Material.SMOOTH_RED_SANDSTONE_STAIRS, Material.SMOOTH_SANDSTONE,
                 Material.SMOOTH_SANDSTONE_SLAB, Material.SMOOTH_SANDSTONE_STAIRS, Material.SMOOTH_STONE,
                 Material.SMOOTH_STONE_SLAB, Material.STONE_PRESSURE_PLATE, Material.CHISELED_STONE_BRICKS,
-                Material.CRACKED_STONE_BRICKS, Material.DRIED_KELP_BLOCK, Material.IRON_BLOCK, Material.COAL_BLOCK,
-                Material.GOLD_BLOCK, Material.DIAMOND_BLOCK, Material.REDSTONE_BLOCK, Material.LAPIS_BLOCK,
-                Material.EMERALD_BLOCK, Material.IRON_NUGGET, Material.GOLDEN_APPLE, Material.TERRACOTTA,
-                Material.TORCH, Material.LANTERN };
+                Material.CRACKED_STONE_BRICKS, Material.DRIED_KELP_BLOCK, Material.COAL_BLOCK, Material.COAL,
+                Material.GOLD_BLOCK, Material.GOLD_INGOT, Material.DIAMOND_BLOCK, Material.DIAMOND,
+                Material.REDSTONE_BLOCK, Material.REDSTONE, Material.LAPIS_BLOCK, Material.LAPIS_LAZULI,
+                Material.EMERALD_BLOCK, Material.EMERALD, Material.IRON_BLOCK, Material.IRON_INGOT,
+                Material.IRON_NUGGET, Material.IRON_BARS, Material.GOLDEN_APPLE, Material.TERRACOTTA, Material.TORCH,
+                Material.LANTERN };
         // TODO: GOLD_APPLE only for Mage
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,

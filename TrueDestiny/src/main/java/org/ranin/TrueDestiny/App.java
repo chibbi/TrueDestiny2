@@ -51,6 +51,7 @@ public class App extends JavaPlugin {
             System.out.println("Created Database");
             dir.mkdir();
         }
+        getConf();
         // Initiating Database
         new Sql("hobby").createTable();
         new Sql("job").createTable();
