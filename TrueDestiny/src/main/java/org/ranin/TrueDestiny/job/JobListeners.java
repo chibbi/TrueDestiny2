@@ -453,7 +453,7 @@ public class JobListeners implements Listener {
                 break;
             case "farmer":
                 if (!new Farmer().onPlayerHarvestBlockEvent(event)) {
-                    event.setCancelled(true);
+                    event.getItemsHarvested().clear();
                 }
                 break;
             case "mage":
@@ -468,7 +468,7 @@ public class JobListeners implements Listener {
                 break;
             case "hunter":
                 if (!new Hunter().onPlayerHarvestBlockEvent(event)) {
-                    event.setCancelled(true);
+                    event.getItemsHarvested().clear();
                 }
                 break;
             case "lumberjack":
@@ -478,17 +478,17 @@ public class JobListeners implements Listener {
                 break;
             case "fisher":
                 if (!new Fisher().onPlayerHarvestBlockEvent(event)) {
-                    event.setCancelled(true);
+                    event.getItemsHarvested().clear();
                 }
                 break;
             case "blacksmith":
                 if (!new Blacksmith().onPlayerHarvestBlockEvent(event)) {
-                    event.setCancelled(true);
+                    event.getItemsHarvested().clear();
                 }
                 break;
             case "assassin":
                 if (!new Assassin().onPlayerHarvestBlockEvent(event)) {
-                    event.setCancelled(true);
+                    event.getItemsHarvested().clear();
                 }
                 break;
         }
