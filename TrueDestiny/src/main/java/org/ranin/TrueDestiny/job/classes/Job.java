@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -380,6 +381,23 @@ abstract class Job {
     public final boolean onPrepareSmithingEvent(PrepareSmithingEvent event) {
         onXpSmithing(event);
         return onSmithing(event);
+    }
+
+    public final boolean onPlayerHarvestBlockEvent(PlayerHarvestBlockEvent event) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getPlayer().getName());
+        Material brokenBlock = event.getHarvestedBlock().getType();
+        if (doubleDropBlocks != null && doubleDropBlocks.contains(brokenBlock)) {
+            for (ItemStack item : event.getHarvestedBlock().getDrops()) {
+                event.getPlayer().getInventory().addItem(item);
+                event.getPlayer().sendMessage("Doubling: " + item);
+            }
+        }
+        if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
+            if (!farmingBlocks.contains(brokenBlock) && !hobbyInfo[0].equals("farmer")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {

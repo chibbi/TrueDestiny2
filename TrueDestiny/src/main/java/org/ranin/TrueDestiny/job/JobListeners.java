@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -430,6 +431,63 @@ public class JobListeners implements Listener {
                 break;
             case "assassin":
                 if (!new Assassin().onPlayerInteractEvent(event)) {
+                    event.setCancelled(true);
+                }
+                break;
+        }
+    }
+
+    @EventHandler
+    public void onPlayerExtract(PlayerHarvestBlockEvent event) {
+        String[] info = new Sql("job").readfromTable(event.getPlayer().getName());
+        if (info[0] == null) {
+            event.getPlayer().sendMessage("Get a Job");
+            event.setCancelled(true);
+            return;
+        }
+        switch (info[0]) {
+            case "miner":
+                if (!new Miner().onPlayerHarvestBlockEvent(event)) {
+                    event.getItemsHarvested().clear();
+                }
+                break;
+            case "farmer":
+                if (!new Farmer().onPlayerHarvestBlockEvent(event)) {
+                    event.setCancelled(true);
+                }
+                break;
+            case "mage":
+                if (!new Mage().onPlayerHarvestBlockEvent(event)) {
+                    event.getItemsHarvested().clear();
+                }
+                break;
+            case "knight":
+                if (!new Knight().onPlayerHarvestBlockEvent(event)) {
+                    event.getItemsHarvested().clear();
+                }
+                break;
+            case "hunter":
+                if (!new Hunter().onPlayerHarvestBlockEvent(event)) {
+                    event.setCancelled(true);
+                }
+                break;
+            case "lumberjack":
+                if (!new Lumberjack().onPlayerHarvestBlockEvent(event)) {
+                    event.getItemsHarvested().clear();
+                }
+                break;
+            case "fisher":
+                if (!new Fisher().onPlayerHarvestBlockEvent(event)) {
+                    event.setCancelled(true);
+                }
+                break;
+            case "blacksmith":
+                if (!new Blacksmith().onPlayerHarvestBlockEvent(event)) {
+                    event.setCancelled(true);
+                }
+                break;
+            case "assassin":
+                if (!new Assassin().onPlayerHarvestBlockEvent(event)) {
                     event.setCancelled(true);
                 }
                 break;
