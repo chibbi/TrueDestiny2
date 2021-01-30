@@ -89,7 +89,8 @@ abstract class Job {
                 Material.BEETROOT_SEEDS, Material.PUMPKIN_SEEDS, Material.PUMPKIN_PIE, Material.COCOA_BEANS,
                 Material.MELON_SEEDS, Material.SUGAR_CANE, Material.NETHER_WART_BLOCK, Material.PUMPKIN_STEM,
                 Material.MELON_STEM, Material.MELON_SLICE, Material.MUSHROOM_STEM, Material.BEETROOT_SOUP,
-                Material.MUSHROOM_STEW, Material.RABBIT_STEW, Material.SUSPICIOUS_STEW };
+                Material.MUSHROOM_STEW, Material.RABBIT_STEW, Material.SUSPICIOUS_STEW, Material.SWEET_BERRIES,
+                Material.SWEET_BERRY_BUSH };
         farmingBlocks = createEnum(temporary);
         temporary = new Material[] { Material.OAK_SAPLING, Material.SPRUCE_SAPLING, Material.BIRCH_SAPLING,
                 Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING, Material.OAK_WOOD,
