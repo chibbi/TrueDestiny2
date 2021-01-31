@@ -157,40 +157,6 @@ abstract class Job {
         allArmor.addAll(ironArmor);
         allArmor.addAll(diamondArmor);
         allArmor.addAll(netheriteArmor);
-        // TODO: automate some of that
-        temporary = new Material[] { Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB, Material.JUNGLE_SLAB,
-                Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB, Material.WARPED_SLAB,
-                Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS, Material.ACACIA_STAIRS,
-                Material.DARK_OAK_STAIRS, Material.CRIMSON_STAIRS, Material.WARPED_STAIRS, Material.OAK_FENCE,
-                Material.SPRUCE_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE, Material.ACACIA_FENCE,
-                Material.DARK_OAK_FENCE, Material.CRIMSON_FENCE, Material.WARPED_FENCE, Material.OAK_FENCE_GATE,
-                Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.JUNGLE_FENCE_GATE,
-                Material.ACACIA_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.CRIMSON_FENCE_GATE,
-                Material.WARPED_FENCE_GATE, Material.OAK_BUTTON, Material.SPRUCE_BUTTON, Material.BIRCH_BUTTON,
-                Material.JUNGLE_BUTTON, Material.ACACIA_BUTTON, Material.DARK_OAK_BUTTON, Material.CRIMSON_BUTTON,
-                Material.WARPED_BUTTON, Material.OAK_SIGN, Material.SPRUCE_SIGN, Material.BIRCH_SIGN,
-                Material.JUNGLE_SIGN, Material.ACACIA_SIGN, Material.DARK_OAK_SIGN, Material.CRIMSON_SIGN,
-                Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE,
-                Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE,
-                Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE,
-                Material.OAK_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE, Material.STICK,
-                Material.COBBLESTONE_SLAB, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE_WALL, Material.STONE_SLAB,
-                Material.STONE_STAIRS, Material.STONE_BUTTON, Material.STONE_BRICKS, Material.STONE_BRICK_SLAB,
-                Material.STONE_BRICK_STAIRS, Material.STONE_BRICK_WALL, Material.SANDSTONE, Material.SANDSTONE_SLAB,
-                Material.SANDSTONE_STAIRS, Material.SANDSTONE_WALL, Material.RED_SANDSTONE, Material.RED_SANDSTONE_SLAB,
-                Material.RED_SANDSTONE_STAIRS, Material.RED_SANDSTONE_WALL, Material.SMOOTH_RED_SANDSTONE,
-                Material.SMOOTH_RED_SANDSTONE_SLAB, Material.SMOOTH_RED_SANDSTONE_STAIRS, Material.SMOOTH_SANDSTONE,
-                Material.SMOOTH_SANDSTONE_SLAB, Material.SMOOTH_SANDSTONE_STAIRS, Material.SMOOTH_STONE,
-                Material.SMOOTH_STONE_SLAB, Material.STONE_PRESSURE_PLATE, Material.CHISELED_STONE_BRICKS,
-                Material.CRACKED_STONE_BRICKS, Material.DRIED_KELP_BLOCK, Material.COAL_BLOCK, Material.COAL,
-                Material.GOLD_BLOCK, Material.GOLD_INGOT, Material.DIAMOND_BLOCK, Material.DIAMOND,
-                Material.REDSTONE_BLOCK, Material.REDSTONE, Material.LAPIS_BLOCK, Material.LAPIS_LAZULI,
-                Material.EMERALD_BLOCK, Material.EMERALD, Material.IRON_BLOCK, Material.IRON_INGOT,
-                Material.IRON_NUGGET, Material.IRON_BARS, Material.GOLDEN_APPLE, Material.TERRACOTTA, Material.TORCH,
-                Material.LANTERN, Material.PAPER, Material.BOOK, Material.WRITABLE_BOOK, Material.WRITTEN_BOOK,
-                Material.GLASS_PANE };
-        // TODO: GOLD_APPLE only for Mage
-        common = createEnum(temporary);
         temporary = new Material[] { Material.POLISHED_ANDESITE, Material.POLISHED_ANDESITE_SLAB,
                 Material.POLISHED_ANDESITE_STAIRS, Material.POLISHED_DIORITE, Material.POLISHED_DIORITE_SLAB,
                 Material.POLISHED_DIORITE_STAIRS, Material.POLISHED_GRANITE, Material.POLISHED_GRANITE_SLAB,
@@ -201,9 +167,7 @@ abstract class Job {
                 Material.POLISHED_BLACKSTONE_BRICK_STAIRS, Material.POLISHED_BLACKSTONE_BRICKS,
                 Material.POLISHED_BLACKSTONE_BRICK_WALL };
         stoneBlocks = createEnum(temporary);
-        common.addAll(stoneBlocks);
         flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE); // THAT WORKS
-        common.addAll(flowers);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
                 Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH,
                 Material.DROPPER, Material.LEVER, Material.DISPENSER };
@@ -213,6 +177,57 @@ abstract class Job {
                 Material.LIGHT_GRAY_BED, Material.LIGHT_BLUE_BED, Material.GREEN_BED, Material.GRAY_BED,
                 Material.CYAN_BED, Material.BROWN_BED, Material.BLUE_BED, Material.BLACK_BED };
         allBeds = createEnum(temporary);
+        // TODO: automate some of that
+        temporary = new Material[] { Material.LADDER, Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB,
+                Material.JUNGLE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB,
+                Material.WARPED_SLAB, Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS,
+                Material.ACACIA_STAIRS, Material.DARK_OAK_STAIRS, Material.CRIMSON_STAIRS, Material.WARPED_STAIRS,
+                Material.OAK_FENCE, Material.SPRUCE_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE,
+                Material.ACACIA_FENCE, Material.DARK_OAK_FENCE, Material.CRIMSON_FENCE, Material.WARPED_FENCE,
+                Material.OAK_FENCE_GATE, Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE,
+                Material.JUNGLE_FENCE_GATE, Material.ACACIA_FENCE_GATE, Material.DARK_OAK_FENCE_GATE,
+                Material.CRIMSON_FENCE_GATE, Material.WARPED_FENCE_GATE, Material.OAK_BUTTON, Material.SPRUCE_BUTTON,
+                Material.BIRCH_BUTTON, Material.JUNGLE_BUTTON, Material.ACACIA_BUTTON, Material.DARK_OAK_BUTTON,
+                Material.CRIMSON_BUTTON, Material.WARPED_BUTTON, Material.OAK_SIGN, Material.SPRUCE_SIGN,
+                Material.BIRCH_SIGN, Material.JUNGLE_SIGN, Material.ACACIA_SIGN, Material.DARK_OAK_SIGN,
+                Material.CRIMSON_SIGN, Material.WARPED_SIGN, Material.OAK_PRESSURE_PLATE,
+                Material.SPRUCE_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE,
+                Material.ACACIA_PRESSURE_PLATE, Material.DARK_OAK_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE,
+                Material.WARPED_PRESSURE_PLATE, Material.OAK_WALL_SIGN, Material.MELON_SLICE, Material.CRAFTING_TABLE,
+                Material.STICK, Material.COBBLESTONE_SLAB, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE_WALL,
+                Material.STONE_SLAB, Material.STONE_STAIRS, Material.STONE_BUTTON, Material.STONE_BRICKS,
+                Material.STONE_BRICK_SLAB, Material.STONE_BRICK_STAIRS, Material.STONE_BRICK_WALL, Material.SANDSTONE,
+                Material.SANDSTONE_SLAB, Material.SANDSTONE_STAIRS, Material.SANDSTONE_WALL, Material.RED_SANDSTONE,
+                Material.RED_SANDSTONE_SLAB, Material.RED_SANDSTONE_STAIRS, Material.RED_SANDSTONE_WALL,
+                Material.SMOOTH_RED_SANDSTONE, Material.SMOOTH_RED_SANDSTONE_SLAB, Material.SMOOTH_RED_SANDSTONE_STAIRS,
+                Material.SMOOTH_SANDSTONE, Material.SMOOTH_SANDSTONE_SLAB, Material.SMOOTH_SANDSTONE_STAIRS,
+                Material.SMOOTH_STONE, Material.SMOOTH_STONE_SLAB, Material.STONE_PRESSURE_PLATE,
+                Material.CHISELED_STONE_BRICKS, Material.CRACKED_STONE_BRICKS, Material.DRIED_KELP_BLOCK,
+                Material.COAL_BLOCK, Material.COAL, Material.GOLD_BLOCK, Material.GOLD_INGOT, Material.DIAMOND_BLOCK,
+                Material.DIAMOND, Material.REDSTONE_BLOCK, Material.REDSTONE, Material.LAPIS_BLOCK,
+                Material.LAPIS_LAZULI, Material.EMERALD_BLOCK, Material.EMERALD, Material.IRON_BLOCK,
+                Material.IRON_INGOT, Material.IRON_NUGGET, Material.IRON_BARS, Material.GOLDEN_APPLE,
+                Material.TERRACOTTA, Material.TORCH, Material.LANTERN, Material.PAPER, Material.BOOK,
+                Material.WRITABLE_BOOK, Material.WRITTEN_BOOK, Material.GLASS_PANE };
+        // TODO: GOLD_APPLE only for Mage
+        common = createEnum(temporary);
+        temporary = new Material[] { Material.ARMOR_STAND, Material.FISHING_ROD, };
+        common.removeAll(createEnum(temporary));
+        common.addAll(stoneBlocks);
+        common.addAll(flowers);
+        common.addAll(woodTools);
+        common.addAll(allMaterials);
+        // don't forget "complement of" it is basically a negative of the set you give
+        // so it takes all of the items of the parent set, the given set doesn't list
+        common.removeAll(stoneTools);
+        common.removeAll(ironTools);
+        common.removeAll(diamondTools);
+        common.removeAll(netheriteTools);
+        common.removeAll(allArmor);
+        common.removeAll(farmingBlocks);
+        common.removeAll(woodBlocks);
+        common.removeAll(allBeds);
+        common.removeAll(redstone);
     }
 
     protected final <T> T[] concatenate(T[] a, T[] b) {
@@ -267,7 +282,12 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
-            if (redstone.contains(event.getRecipe().getResult().getType())) {
+            if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
+                ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
+                result.setAmount(realAmount / 2);
+                event.setResult(null);
+                event.getWhoClicked().getInventory().addItem(result);
+            } else if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
                     return true;

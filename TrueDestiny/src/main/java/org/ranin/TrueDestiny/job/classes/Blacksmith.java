@@ -27,16 +27,17 @@ public class Blacksmith extends Job {
         allowedTools.addAll(woodTools);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(super.allMaterials);
+        allowedCraftingItems.addAll(stoneTools);
+        allowedCraftingItems.addAll(ironTools);
+        allowedCraftingItems.addAll(diamondTools);
+        allowedCraftingItems.addAll(netheriteTools);
+        allowedCraftingItems.addAll(allArmor);
         allowedCraftingItems.addAll(super.common);
+        allowedCraftingItems.add(Material.ARROW);
+        allowedCraftingItems.add(Material.BOW);
+        allowedCraftingItems.add(Material.CROSSBOW);
+        allowedCraftingItems.add(Material.BUCKET);
         allowedCraftingItems.add(Material.ANVIL);
-        // don't forget "complement of" it is basically a negative of the set you give
-        // so it takes all of the items of the parent set, the given set doesn't list
-        allowedCraftingItems.removeAll(super.farmingBlocks);
-        allowedCraftingItems.removeAll(super.allBeds);
-        allowedCraftingItems.removeAll(super.woodBlocks);
-        allowedCraftingItems.removeAll(super.redstone);
-        temporary = new Material[] { Material.ARMOR_STAND, Material.FISHING_ROD, };
-        allowedCraftingItems.removeAll(super.createEnum(temporary));
         // all of this should be cached in a always on class
         allowedCraftingItems.removeIf(m -> m.name().contains("LEGACY"));
         noDropBlocks = super.farmingBlocks;
