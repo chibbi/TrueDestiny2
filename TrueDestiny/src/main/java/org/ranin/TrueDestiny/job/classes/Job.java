@@ -2,6 +2,7 @@ package org.ranin.TrueDestiny.job.classes;
 
 import java.lang.reflect.Array;
 import java.util.EnumSet;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -286,15 +287,19 @@ abstract class Job {
                 return false;
             }
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
-                ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
-                result.setAmount(realAmount / 2);
-                event.getInventory().setResult(new ItemStack(Material.AIR, 1));
-                event.getWhoClicked().getInventory().addItem(result);
+                if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
+                    event.getInventory().clear();
+                    return false;
+                } else {
+                    return true;
+                }
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
-                ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
-                result.setAmount(realAmount / 2);
-                event.getInventory().setResult(new ItemStack(Material.AIR, 1));
-                event.getWhoClicked().getInventory().addItem(result);
+                if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
+                    event.getInventory().clear();
+                    return false;
+                } else {
+                    return true;
+                }
             } else if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
