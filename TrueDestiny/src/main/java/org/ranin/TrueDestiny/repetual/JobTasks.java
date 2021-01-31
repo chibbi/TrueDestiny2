@@ -26,30 +26,39 @@ public class JobTasks {
         switch (info[0]) {
             case "miner":
                 new Miner().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[miner]" + player.getName());
                 break;
             case "farmer":
                 new Farmer().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[farmer]" + player.getName());
                 break;
             case "mage":
                 new Mage().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[mage]" + player.getName());
                 break;
             case "knight":
                 new Knight().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[knight]" + player.getName());
                 break;
             case "hunter":
                 new Hunter().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[hunter]" + player.getName());
                 break;
             case "lumberjack":
                 new Lumberjack().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[lumberjack]" + player.getName());
                 break;
             case "fisher":
                 new Fisher().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[fisher]" + player.getName());
                 break;
             case "blacksmith":
                 new Blacksmith().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[blacksmith]" + player.getName());
                 break;
             case "assassin":
                 new Assassin().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setPlayerListName("[assassin]" + player.getName());
                 break;
         }
     }
