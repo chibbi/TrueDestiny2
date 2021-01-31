@@ -87,12 +87,12 @@ abstract class Job {
     public Job() {
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROT, Material.BEETROOT, Material.PUMPKIN,
                 Material.COCOA, Material.MELON, Material.SUGAR_CANE, Material.BAMBOO, Material.NETHER_WART,
-                Material.WHEAT_SEEDS, Material.CARROTS, Material.BEETROOTS, Material.BAMBOO_SAPLING,
-                Material.BEETROOT_SEEDS, Material.PUMPKIN_SEEDS, Material.PUMPKIN_PIE, Material.COCOA_BEANS,
-                Material.MELON_SEEDS, Material.SUGAR_CANE, Material.NETHER_WART_BLOCK, Material.PUMPKIN_STEM,
-                Material.MELON_STEM, Material.MELON_SLICE, Material.MUSHROOM_STEM, Material.BEETROOT_SOUP,
-                Material.MUSHROOM_STEW, Material.RABBIT_STEW, Material.SUSPICIOUS_STEW, Material.SWEET_BERRIES,
-                Material.SWEET_BERRY_BUSH };
+                Material.WHEAT_SEEDS, Material.CARROTS, Material.BEETROOTS, Material.HAY_BLOCK, Material.BREAD,
+                Material.BAMBOO_SAPLING, Material.BEETROOT_SEEDS, Material.PUMPKIN_SEEDS, Material.PUMPKIN_PIE,
+                Material.COCOA_BEANS, Material.MELON_SEEDS, Material.SUGAR_CANE, Material.NETHER_WART_BLOCK,
+                Material.PUMPKIN_STEM, Material.MELON_STEM, Material.MELON_SLICE, Material.MUSHROOM_STEM,
+                Material.BEETROOT_SOUP, Material.MUSHROOM_STEW, Material.RABBIT_STEW, Material.SUSPICIOUS_STEW,
+                Material.SWEET_BERRIES, Material.SWEET_BERRY_BUSH };
         farmingBlocks = createEnum(temporary);
         temporary = new Material[] { Material.OAK_SAPLING, Material.SPRUCE_SAPLING, Material.BIRCH_SAPLING,
                 Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING, Material.OAK_WOOD,
@@ -481,7 +481,6 @@ abstract class Job {
     public final void onEntityDeathEvent(EntityDeathEvent event) {
         String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEntity().getKiller().getName());
         System.out.println(event.getEntityType().name());
-        System.out.println("doubles: " + doubleDropMobs);
         if (doubleDropMobs != null) {
             for (String mob : doubleDropMobs) {
                 System.out.println(event.getEntityType().name() + " == " + mob);
@@ -492,9 +491,9 @@ abstract class Job {
                 }
             }
         }
-        System.out.println("noos: " + noDropMobs);
         for (String mob : noDropMobs) {
             if (event.getEntityType().name().equals(mob)) {
+                System.out.println("noos: " + mob);
                 if (hobbyInfo[0] != null && hobbyInfo[1].equals("hunter")) {
                 } else {
                     event.setDroppedExp(0);
