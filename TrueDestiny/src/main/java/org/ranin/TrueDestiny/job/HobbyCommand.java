@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class HobbyCommand implements CommandExecutor {
 
-    final String[] allhobbies = { "mage", "farmer", "miner", "fisher", "shepard", "hunter" };
+    final String[] allhobbies = { "farmer", "miner" };
     // TODO: Make Configurable
 
     public HobbyCommand() {

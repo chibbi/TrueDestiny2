@@ -325,8 +325,12 @@ abstract class Job {
             } else if (allowedTools.contains(event.getMaterial())) {
                 onXpBreaking(event);
                 return true;
+            } else if (event.getMaterial().name().contains("PICKAXE")
+                    && !event.getMaterial().equals(Material.NETHERITE_PICKAXE)) {
+                event.getPlayer().sendMessage("HOBBY MINERRR");
+                onXpBreaking(event);
+                return true;
             }
-            // TODO add abfrage für hobby: miner
             event.getPlayer().sendMessage("DISALLOWED TOOL, " + event.getMaterial());
             return onBreaking(event);
         }
