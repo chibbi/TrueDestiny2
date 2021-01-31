@@ -282,7 +282,7 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
-            if (!clickType.isShiftClick()) {
+            if (clickType.isShiftClick()) {
                 return false;
             }
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
