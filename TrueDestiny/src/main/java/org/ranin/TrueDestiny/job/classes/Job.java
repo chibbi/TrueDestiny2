@@ -493,12 +493,10 @@ abstract class Job {
         }
         for (String mob : noDropMobs) {
             if (event.getEntityType().name().equals(mob)) {
-                if (hobbyInfo[0] != null && hobbyInfo[1].equals("hunter")) {
-                    System.out.println("truus: " + mob);
+                if (hobbyInfo[0] != null && hobbyInfo[0].equals("hunter")) {
                     onXpMobKills(event);
                     return;
                 } else {
-                    System.out.println("noos: " + mob);
                     event.setDroppedExp(0);
                     event.getDrops().clear();
                 }
