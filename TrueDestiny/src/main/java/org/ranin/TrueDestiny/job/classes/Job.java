@@ -287,17 +287,17 @@ abstract class Job {
                     }
                     return false;
                 case "IRON_HOE":
-                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
+                    if (jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case "DIAMOND_HOE":
-                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
+                    if (jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
                 case "NETHERITE_HOE":
-                    if (hobbyInfo[0].equals("farmer") || jobInfo[0].equals("farmer")) {
+                    if (jobInfo[0].equals("farmer")) {
                         return true;
                     }
                     return false;
