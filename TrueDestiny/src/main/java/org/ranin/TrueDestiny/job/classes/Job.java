@@ -34,6 +34,7 @@ abstract class Job {
     protected final EnumSet<Material> farmingBlocks;
     protected final EnumSet<Material> woodBlocks;
     protected final EnumSet<Material> oreBlocks;
+    protected final EnumSet<Material> ingots;
     // #endregion
 
     // #region TOOLS
@@ -113,6 +114,9 @@ abstract class Job {
                 Material.NETHER_GOLD_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
                 Material.EMERALD_ORE, Material.ANCIENT_DEBRIS };
         oreBlocks = createEnum(temporary);
+        temporary = new Material[] { Material.COAL, Material.IRON_INGOT, Material.LAPIS_LAZULI, Material.GOLD_INGOT,
+                Material.QUARTZ, Material.REDSTONE, Material.DIAMOND, Material.EMERALD, Material.ANCIENT_DEBRIS };
+        ingots = createEnum(temporary);
         temporary = new Material[] { Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.WOODEN_PICKAXE,
                 Material.WOODEN_SWORD, Material.WOODEN_HOE };
         woodTools = createEnum(temporary);
@@ -502,6 +506,11 @@ abstract class Job {
     }
 
     public final void onFurnaceExtractEvent(FurnaceExtractEvent event) {
+        if (doubleCraftingItems.contains(event.getItemType())) {
+            ItemStack doubles = new ItemStack(event.getItemType());
+            doubles.setAmount(event.getItemAmount());
+            event.getPlayer().getInventory().addItem(doubles);
+        }
         onXpFurnaceExtract(event);
     }
 

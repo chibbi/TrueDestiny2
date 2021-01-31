@@ -33,7 +33,7 @@ public class Miner extends Job {
         temporary = new Material[] { Material.FURNACE, Material.MINECART, Material.RAIL };
         allowedCraftingItems.addAll(super.createEnum(temporary));
         // Can't be used, because everyone will abuse it -_-
-        // doubleDropBlocks = super.oreBlocks;
+        doubleCraftingItems = super.oreBlocks;
         noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }
