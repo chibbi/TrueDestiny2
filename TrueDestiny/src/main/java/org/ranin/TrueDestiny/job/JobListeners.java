@@ -234,8 +234,7 @@ public class JobListeners implements Listener {
         if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
             String[] jobInfo = new Sql("job").readfromTable(player.getName());
-            // if not used, not needed => String[] hobbyInfo = new
-            // Sql("hobby").readfromTable(player.getName());
+            String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
             // it jsut generates nullpointer exceptions
             if (jobInfo[0] == null) {
                 event.getDamager().sendMessage("Get a Job");
@@ -248,6 +247,10 @@ public class JobListeners implements Listener {
                         event.setDamage(event.getDamage() * 1.05D);
                         break;
                     }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 0.95D);
+                        break;
+                    }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.8D); // TODO: make this configurable (for every sword)
                     // is already good configured i think but still make it configurable
@@ -255,6 +258,10 @@ public class JobListeners implements Listener {
                 case "GOLDEN_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                         event.setDamage(event.getDamage() * 1.1D);
+                        break;
+                    }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 1D);
                         break;
                     }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
@@ -265,12 +272,20 @@ public class JobListeners implements Listener {
                         event.setDamage(event.getDamage() * 1.15D);
                         break;
                     }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 0.95D);
+                        break;
+                    }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.8D);
                     break;
                 case "IRON_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
                         event.setDamage(event.getDamage() * 1.2D);
+                        break;
+                    }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 0.9D);
                         break;
                     }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
@@ -281,6 +296,10 @@ public class JobListeners implements Listener {
                         event.setDamage(event.getDamage() * 1.25D);
                         break;
                     }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 0.85D);
+                        break;
+                    }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.7D);
                     break;
@@ -289,10 +308,18 @@ public class JobListeners implements Listener {
                         event.setDamage(event.getDamage() * 1.3D);
                         break;
                     }
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() * 0.8D);
+                        break;
+                    }
                     player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.65D);
                     break;
                 default:
+                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
+                        event.setDamage(event.getDamage() / 1.5D);
+                        break;
+                    }
                     event.setDamage(event.getDamage() / 2.5D);
                     break;
             }
