@@ -187,7 +187,8 @@ abstract class Job {
                 Material.REDSTONE_BLOCK, Material.REDSTONE, Material.LAPIS_BLOCK, Material.LAPIS_LAZULI,
                 Material.EMERALD_BLOCK, Material.EMERALD, Material.IRON_BLOCK, Material.IRON_INGOT,
                 Material.IRON_NUGGET, Material.IRON_BARS, Material.GOLDEN_APPLE, Material.TERRACOTTA, Material.TORCH,
-                Material.LANTERN, Material.PAPER, Material.BOOK, Material.WRITABLE_BOOK, Material.WRITTEN_BOOK };
+                Material.LANTERN, Material.PAPER, Material.BOOK, Material.WRITABLE_BOOK, Material.WRITTEN_BOOK,
+                Material.GLASS_PANE };
         // TODO: GOLD_APPLE only for Mage
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
