@@ -285,12 +285,12 @@ abstract class Job {
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
                 ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
                 result.setAmount(realAmount / 2);
-                event.setResult(null);
+                event.getCurrentItem().setType(Material.AIR);
                 event.getWhoClicked().getInventory().addItem(result);
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
                 ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
                 result.setAmount(realAmount / 2);
-                event.setResult(null);
+                event.getCurrentItem().setType(Material.AIR);
                 event.getWhoClicked().getInventory().addItem(result);
             } else if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
