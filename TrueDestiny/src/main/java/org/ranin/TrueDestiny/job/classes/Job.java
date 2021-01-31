@@ -336,16 +336,15 @@ abstract class Job {
                             && !event.getMaterial().equals(Material.NETHERITE_PICKAXE)) {
                         onXpBreaking(event);
                         return true;
-                    } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("builder")) {
-                        if (event.getMaterial().name().contains("SHOVEL")
-                                && !event.getMaterial().equals(Material.NETHERITE_SHOVEL)
-                                && !event.getMaterial().equals(Material.DIAMOND_SHOVEL)) {
-                            event.getPlayer().sendMessage("HOBBY MINERRR");
-                            onXpBreaking(event);
-                            return true;
-                        }
                     }
-
+                } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("builder")) {
+                    if (event.getMaterial().name().contains("SHOVEL")
+                            && !event.getMaterial().equals(Material.NETHERITE_SHOVEL)
+                            && !event.getMaterial().equals(Material.DIAMOND_SHOVEL)) {
+                        event.getPlayer().sendMessage("HOBBY MINERRR");
+                        onXpBreaking(event);
+                        return true;
+                    }
                 }
             }
             event.getPlayer().sendMessage("DISALLOWED TOOL, " + event.getMaterial());
