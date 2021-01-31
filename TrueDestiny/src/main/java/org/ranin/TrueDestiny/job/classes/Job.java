@@ -266,6 +266,16 @@ abstract class Job {
         if (allowedCraftingItems.contains(event.getRecipe().getResult().getType())) {
             onXpCraft(event);
             return true;
+        } else {
+            if (redstone.contains(event.getRecipe().getResult().getType())) {
+                String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
+                if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
+                    return true;
+                } else {
+                    event.getWhoClicked().sendMessage("Can't do that, find a redstone dude");
+                    return false;
+                }
+            }
         }
         return onCraft(event);
     }

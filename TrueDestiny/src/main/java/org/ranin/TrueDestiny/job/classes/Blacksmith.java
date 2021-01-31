@@ -34,6 +34,7 @@ public class Blacksmith extends Job {
         allowedCraftingItems.removeAll(super.farmingBlocks);
         allowedCraftingItems.removeAll(super.allBeds);
         allowedCraftingItems.removeAll(super.woodBlocks);
+        allowedCraftingItems.removeAll(super.redstone);
         temporary = new Material[] { Material.ARMOR_STAND, Material.FISHING_ROD, };
         allowedCraftingItems.removeAll(super.createEnum(temporary));
         // all of this should be cached in a always on class
