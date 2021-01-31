@@ -419,6 +419,7 @@ abstract class Job {
         onXpEnchanting(event);
         String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEnchanter().getName());
         if (hobbyInfo[0].equals("mage")) {
+            event.setExpLevelCost(event.getExpLevelCost() / 2);
             return true;
         }
         return onEnchanting(event);
