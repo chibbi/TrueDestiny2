@@ -63,6 +63,7 @@ public class JobListeners implements Listener {
             FileConfiguration cusconf = YamlConfiguration.loadConfiguration(customConfigFile);
             if (cusconf.get("pvpmode").equals("false")) {
                 new Sql("job").deletefromJobTable(event.getPlayer().getName());
+                new Sql("hobby").deletefromJobTable(event.getPlayer().getName());
             }
         }
     }
