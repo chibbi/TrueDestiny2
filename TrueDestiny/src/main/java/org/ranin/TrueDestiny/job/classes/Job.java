@@ -478,6 +478,7 @@ abstract class Job {
     }
 
     public final void onEntityDeathEvent(EntityDeathEvent event) {
+        String[] hobbyInfo = new Sql("hobby").readfromTable(event.getEntity().getKiller().getName());
         System.out.println(event.getEntityType().name());
         System.out.println("doubles: " + doubleDropMobs);
         if (doubleDropMobs != null) {
@@ -493,8 +494,11 @@ abstract class Job {
         System.out.println("noos: " + noDropMobs);
         for (String mob : noDropMobs) {
             if (event.getEntityType().name().equals(mob)) {
-                event.setDroppedExp(0);
-                event.getDrops().clear();
+                if (hobbyInfo[0] != null && hobbyInfo[1].equals("hunter")) {
+                } else {
+                    event.setDroppedExp(0);
+                    event.getDrops().clear();
+                }
             }
         }
         onXpMobKills(event);
