@@ -68,7 +68,7 @@ public class HobbyCommand implements CommandExecutor {
                             return true;
                         }
                         for (String hobby : allhobbies) { // TODO: Make Configurable
-                            if (args[2].equals(hobby)) {
+                            if (args[1].equals(hobby)) {
                                 if (info[0] == null) {
                                     new Sql("hobby").addtoTable(player.getName(), args[1]);
                                     player.sendMessage("§6Set Hobby to §7" + args[1]);
