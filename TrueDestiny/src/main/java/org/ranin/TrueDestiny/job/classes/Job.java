@@ -191,10 +191,6 @@ abstract class Job {
                 Material.GLASS_PANE };
         // TODO: GOLD_APPLE only for Mage
         common = createEnum(temporary);
-        temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
-                Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH };
-        redstone = createEnum(temporary);
-        common.addAll(redstone);
         temporary = new Material[] { Material.POLISHED_ANDESITE, Material.POLISHED_ANDESITE_SLAB,
                 Material.POLISHED_ANDESITE_STAIRS, Material.POLISHED_DIORITE, Material.POLISHED_DIORITE_SLAB,
                 Material.POLISHED_DIORITE_STAIRS, Material.POLISHED_GRANITE, Material.POLISHED_GRANITE_SLAB,
@@ -208,6 +204,10 @@ abstract class Job {
         common.addAll(stoneBlocks);
         flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE); // THAT WORKS
         common.addAll(flowers);
+        temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
+                Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH,
+                Material.DROPPER, Material.LEVER, Material.DISPENSER };
+        redstone = createEnum(temporary);
         temporary = new Material[] { Material.WHITE_BED, Material.YELLOW_BED, Material.RED_BED, Material.PURPLE_BED,
                 Material.PINK_BED, Material.ORANGE_BED, Material.MAGENTA_BED, Material.LIME_BED,
                 Material.LIGHT_GRAY_BED, Material.LIGHT_BLUE_BED, Material.GREEN_BED, Material.GRAY_BED,
@@ -317,7 +317,15 @@ abstract class Job {
                 } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("farmer")) {
                     return true;
                 } else {
-                    event.getPlayer().sendMessage("Can't do that");
+                    event.getPlayer().sendMessage("Can't do that, find a farmer");
+                    return false;
+                }
+            }
+            if (redstone.contains(event.getMaterial())) {
+                if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
+                    return true;
+                } else {
+                    event.getPlayer().sendMessage("Can't do that, find a redstone dude");
                     return false;
                 }
             }
@@ -333,7 +341,14 @@ abstract class Job {
             } else {
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("miner")) {
                     if (event.getMaterial().name().contains("PICKAXE")
+                            && !event.getMaterial().equals(Material.DIAMOND_PICKAXE)
                             && !event.getMaterial().equals(Material.NETHERITE_PICKAXE)) {
+                        onXpBreaking(event);
+                        return true;
+                    }
+                } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("lumberjack")) {
+                    if (event.getMaterial().name().contains("AXE") && !event.getMaterial().equals(Material.DIAMOND_AXE)
+                            && !event.getMaterial().equals(Material.NETHERITE_AXE)) {
                         onXpBreaking(event);
                         return true;
                     }
@@ -416,9 +431,7 @@ abstract class Job {
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
             if (farmingBlocks.contains(brokenBlock) && hobbyInfo[0].equals("farmer")) {
-                System.out.println("IS THAT");
             } else {
-                System.out.println("CONTAINS");
                 return false;
             }
         }
