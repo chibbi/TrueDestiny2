@@ -95,7 +95,7 @@ public class App extends JavaPlugin {
                         + "If you have any issues or find bugs, don't hesitate, and contact an admin or a mod!");
                 // "Ey don't change your name, you will loose your job and xp"
             }
-        }, 12000L, 12000L); // 24000L => 20minutes (one mc day)
+        }, 48000L, 48000L); // 24000L => 20minutes (one mc day)
     }
 
     public FileConfiguration getConf() {

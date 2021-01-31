@@ -2,7 +2,10 @@ package org.ranin.TrueDestiny.job;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.ranin.TrueDestiny.App;
 
 public class HobbyCommand implements CommandExecutor {
 
@@ -56,14 +61,21 @@ public class HobbyCommand implements CommandExecutor {
             } else if (args.length == 2) {
                 switch (args[0]) {
                     case "set":
-                        if (info[0] != null) {
-                            player.sendMessage("§6You already have a hobby you moron!");
+                        int timeLeft = getCooldown(player.getUniqueId());
+                        if (timeLeft != 0) {
+                            player.sendMessage(
+                                    "§6You can't just change your hobby all the time! time left: §7" + timeLeft);
                             return true;
                         }
                         for (String hobby : allhobbies) { // TODO: Make Configurable
-                            if (args[1].equals(hobby)) {
-                                new Sql("hobby").addtoTable(player.getName(), args[1]);
-                                player.sendMessage("§6Set Hobby to §7" + args[1]);
+                            if (args[2].equals(hobby)) {
+                                if (info[0] == null) {
+                                    new Sql("hobby").addtoTable(player.getName(), args[1]);
+                                    player.sendMessage("§6Set Hobby to §7" + args[1]);
+                                } else {
+                                    new Sql("hobby").UpdateJobinJobTable(player.getName(), args[1]);
+                                    player.sendMessage("§6Set Hobby to §7" + args[1]);
+                                }
                                 return true;
                             }
                         }
@@ -86,6 +98,18 @@ public class HobbyCommand implements CommandExecutor {
                                     new Sql("hobby").UpdateJobinJobTable(args[1], args[2]);
                                     player.sendMessage("§6Set Hobby of §7" + args[1] + "§6 to §7" + args[2]);
                                 }
+                                // Start the countdown task
+                                setCooldown(player.getUniqueId(), DEFAULT_COOLDOWN);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        int timeLeft = getCooldown(player.getUniqueId());
+                                        setCooldown(player.getUniqueId(), --timeLeft);
+                                        if (timeLeft == 0) {
+                                            this.cancel();
+                                        }
+                                    }
+                                }.runTaskTimer(App.getPlugin(App.class), 20, 20);
                                 return true;
                             }
                         }
@@ -117,6 +141,22 @@ public class HobbyCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private final Map<UUID, Integer> cooldowns = new HashMap<>();
+
+    public static final int DEFAULT_COOLDOWN = 86400;
+
+    public void setCooldown(UUID player, int time) {
+        if (time < 1) {
+            cooldowns.remove(player);
+        } else {
+            cooldowns.put(player, time);
+        }
+    }
+
+    public int getCooldown(UUID player) {
+        return cooldowns.getOrDefault(player, 0);
     }
 
 }
