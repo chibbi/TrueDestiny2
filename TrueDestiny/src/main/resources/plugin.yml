@@ -19,9 +19,6 @@ commands:
    race:
       description: "warns a player"
       permission: race
-   money:
-      description: "lets you manage your finances"
-      permission: money
 permissions:
    warn:
       description: Permission for the /warn command
@@ -34,7 +31,4 @@ permissions:
       default: true
    race:
       description: Permission for the /race command
-      default: true
-   money:
-      description: Permission for the /money command
       default: true

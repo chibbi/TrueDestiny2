@@ -183,7 +183,7 @@ abstract class Job {
                 Material.REDSTONE_BLOCK, Material.REDSTONE, Material.LAPIS_BLOCK, Material.LAPIS_LAZULI,
                 Material.EMERALD_BLOCK, Material.EMERALD, Material.IRON_BLOCK, Material.IRON_INGOT,
                 Material.IRON_NUGGET, Material.IRON_BARS, Material.GOLDEN_APPLE, Material.TERRACOTTA, Material.TORCH,
-                Material.LANTERN };
+                Material.LANTERN, Material.PAPER, Material.BOOK, Material.WRITABLE_BOOK, Material.WRITTEN_BOOK };
         // TODO: GOLD_APPLE only for Mage
         common = createEnum(temporary);
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
@@ -325,11 +325,23 @@ abstract class Job {
             } else if (allowedTools.contains(event.getMaterial())) {
                 onXpBreaking(event);
                 return true;
-            } else if (event.getMaterial().name().contains("PICKAXE")
-                    && !event.getMaterial().equals(Material.NETHERITE_PICKAXE)) {
-                event.getPlayer().sendMessage("HOBBY MINERRR");
-                onXpBreaking(event);
-                return true;
+            } else {
+                if (hobbyInfo[0] != null && hobbyInfo[0].equals("miner")) {
+                    if (event.getMaterial().name().contains("PICKAXE")
+                            && !event.getMaterial().equals(Material.NETHERITE_PICKAXE)) {
+                        onXpBreaking(event);
+                        return true;
+                    } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("builder")) {
+                        if (event.getMaterial().name().contains("SHOVEL")
+                                && !event.getMaterial().equals(Material.NETHERITE_SHOVEL)
+                                && !event.getMaterial().equals(Material.DIAMOND_SHOVEL)) {
+                            event.getPlayer().sendMessage("HOBBY MINERRR");
+                            onXpBreaking(event);
+                            return true;
+                        }
+                    }
+
+                }
             }
             event.getPlayer().sendMessage("DISALLOWED TOOL, " + event.getMaterial());
             return onBreaking(event);
