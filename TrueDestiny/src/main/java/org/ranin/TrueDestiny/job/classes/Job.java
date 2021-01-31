@@ -282,6 +282,9 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
+            if (!clickType.isShiftClick()) {
+                return false;
+            }
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
                 ItemStack result = new ItemStack(event.getRecipe().getResult().getType());
                 result.setAmount(realAmount / 2);
