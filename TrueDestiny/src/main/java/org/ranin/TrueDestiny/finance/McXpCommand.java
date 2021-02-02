@@ -22,9 +22,9 @@ public class McXpCommand implements CommandExecutor, TabCompleter {
                     System.out.println("Add XP lvl: " + args[1]);
                     System.out.println("new XP lvl: " + (player.getLevel() - Integer.valueOf(args[1])));
                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),
-                            "xp add" + player.getName() + " -" + args[1] + " levels");
+                            "xp add " + player.getName() + " -" + args[1] + " levels");
                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),
-                            "xp add" + args[0] + " " + args[1] + " levels");
+                            "xp add " + args[0] + " " + args[1] + " levels");
                     player.sendMessage("§6gave §7" + args[0] + "  §7" + args[1] + " §6xp");
                     Bukkit.getPlayer(args[0]).sendMessage("Got §7" + args[1] + " §6xp from §7" + player.getName());
                     return true;
