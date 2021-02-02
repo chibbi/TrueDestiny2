@@ -2,7 +2,7 @@ main: org.ranin.TrueDestiny.App
 name: "TrueDestiny"
 version: 0.1.0
 api-version: 1.16
-authors: ["chibbi", "raninninn"]
+author: chibbi
 description: "An exhaustive plugin to make roleplay servers even more enjoyable and challengin."
 website: "www.spigotmc.org"
 commands:
