@@ -18,7 +18,7 @@ public class McXpCommand implements CommandExecutor, TabCompleter {
             Player player = (Player) sender;
             if (args.length == 2) {
                 if (player.getLevel() - Integer.valueOf(args[1]) >= 0) {
-                    player.giveExpLevels(Integer.valueOf(args[1]));
+                    player.giveExpLevels(-Integer.valueOf(args[1]));
                     Bukkit.getPlayer(args[0]).giveExpLevels(Integer.valueOf(args[1]));
                     player.sendMessage("§6gave §7" + args[0] + "  §7" + args[1] + " §6xp");
                     return true;
