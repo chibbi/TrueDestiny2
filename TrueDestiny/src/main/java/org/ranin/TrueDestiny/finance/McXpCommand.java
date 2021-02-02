@@ -17,9 +17,15 @@ public class McXpCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 2) {
-                player.setExp(player.getExp() - Integer.valueOf(args[1]));
-                Bukkit.getPlayer(args[1]).setExp(player.getExp() + Integer.valueOf(args[1]));
-                return true;
+                if (player.getExpToLevel() - Integer.valueOf(args[1]) >= 0) {
+                    player.setLevel(player.getExpToLevel() - Integer.valueOf(args[1]));
+                    Bukkit.getPlayer(args[1]).setLevel(player.getExpToLevel() + Integer.valueOf(args[1]));
+                    player.sendMessage("§6gave §7" + args[1] + "  §7" + args[2] + " §6xp");
+                    return true;
+                } else {
+                    player.sendMessage("§6you don't have enough xp");
+                    return true;
+                }
             }
             player.sendMessage("§e ---------- §fTip: givexp §e---------- \n" + "§7/givexp PLAYER AMOUNT");
         }
