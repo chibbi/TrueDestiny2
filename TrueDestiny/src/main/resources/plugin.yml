@@ -9,6 +9,9 @@ commands:
    warn:
       description: "warns a player"
       permission: warn
+   givexp:
+      description: "give xp to a player"
+      permission: givexp
    hobby:
       description: "lets you choose your hobby"
       permission: hobby
@@ -31,4 +34,7 @@ permissions:
       default: true
    race:
       description: Permission for the /race command
+      default: true
+   givexp:
+      description: Permission for the /givexp command
       default: true

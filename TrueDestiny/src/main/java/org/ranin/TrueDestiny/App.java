@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.ranin.TrueDestiny.finance.McXpCommand;
 import org.ranin.TrueDestiny.job.HobbyCommand;
 import org.ranin.TrueDestiny.job.HobbyTabCompleter;
 import org.ranin.TrueDestiny.job.JobCommand;
@@ -59,6 +60,8 @@ public class App extends JavaPlugin {
         new Sql("job").createTable();
         new Sql("race").createTable();
         // Initiating Commands
+        this.getCommand("givexp").setExecutor(new McXpCommand());
+        this.getCommand("givexp").setTabCompleter(new McXpCommand());
         this.getCommand("race").setExecutor(new RaceCommand());
         this.getCommand("race").setTabCompleter(new RaceTabCompleter());
         this.getCommand("job").setExecutor(new JobCommand());

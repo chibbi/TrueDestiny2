@@ -283,18 +283,15 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
-            if (clickType.isShiftClick()) {
-                return false;
-            }
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
-                if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
+                if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
                     event.getInventory().clear();
                     return false;
                 } else {
                     return true;
                 }
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
-                if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
+                if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
                     event.getInventory().clear();
                     return false;
                 } else {
