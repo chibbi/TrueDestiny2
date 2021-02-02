@@ -17,7 +17,7 @@ public class McXpCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 2) {
-                if ((player.getLevel() - Integer.valueOf(args[1])) >= 0) {
+                if (Integer.valueOf(args[1]) >= 0 && (player.getLevel() - Integer.valueOf(args[1])) >= 0) {
                     System.out.println("Current XP lvl: " + player.getLevel());
                     System.out.println("Add XP lvl: " + args[1]);
                     System.out.println("new XP lvl: " + (player.getLevel() - Integer.valueOf(args[1])));
