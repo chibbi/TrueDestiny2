@@ -83,7 +83,7 @@ abstract class Job {
     protected EnumSet<Material> noDropBlocks; // disallowed for your class => only rare drops
     protected String[] doubleDropMobs;
     protected String[] normalDropMobs;
-    protected String[] noDropMobs = { "HI" };
+    protected String[] noDropMobs;
 
     public Job() {
         Material[] temporary = { Material.POTATO, Material.WHEAT, Material.CARROT, Material.BEETROOT, Material.PUMPKIN,
@@ -486,7 +486,8 @@ abstract class Job {
         // check if player placed block, so he won't just double his existing stuff
         // source:
         // https://www.spigotmc.org/threads/check-if-block-is-placed-by-a-player.133061/
-        if (doubleDropBlocks != null && doubleDropBlocks.contains(brokenBlock)) {
+        if (!event.getBlock().hasMetadata("playermade") && doubleDropBlocks != null
+                && doubleDropBlocks.contains(brokenBlock)) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
                 event.getPlayer().sendMessage("Doubling: " + item);

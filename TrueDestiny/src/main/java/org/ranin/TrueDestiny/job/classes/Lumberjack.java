@@ -36,6 +36,7 @@ public class Lumberjack extends Job {
                 Material.JUNGLE_PLANKS, Material.DARK_OAK_PLANKS, Material.ACACIA_PLANKS, Material.CRIMSON_PLANKS,
                 Material.WARPED_PLANKS };
         doubleCraftingItems = super.createEnum(temporary);
+        doubleDropBlocks = super.woodBlocks;
         noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }

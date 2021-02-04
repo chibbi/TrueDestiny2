@@ -26,14 +26,13 @@ public class Miner extends Job {
                 Material.DIAMOND_PICKAXE, Material.NETHERITE_PICKAXE };
         allowedTools = super.createEnum(temporary);
         allowedTools.addAll(woodTools);
-        temporary = new Material[] { Material.MINECART, Material.RAIL };
-        doubleCraftingItems = super.createEnum(temporary);
         allowedCraftingItems = super.woodTools;
         allowedCraftingItems.addAll(common);
         temporary = new Material[] { Material.BLAST_FURNACE, Material.FURNACE, Material.MINECART, Material.RAIL };
         allowedCraftingItems.addAll(super.createEnum(temporary));
-        // Can't be used, because everyone will abuse it -_-
-        doubleCraftingItems = super.oreBlocks;
+        temporary = new Material[] { Material.MINECART, Material.RAIL, Material.POWERED_RAIL };
+        doubleCraftingItems = super.createEnum(temporary);
+        doubleDropBlocks = super.oreBlocks;
         noDropBlocks = super.farmingBlocks;
         noDropMobs = super.concatenate(super.concatenate(super.hostileMobs, super.friendlyMobs), super.fishMobs);
     }

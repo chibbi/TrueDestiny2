@@ -837,6 +837,7 @@ public class JobListeners implements Listener {
                 event.setCancelled(true);
                 return;
             }
+            event.getBlock().setMetadata("playermade", new MetadataParser().plmad);
             switch (info[0]) {
                 case "miner":
                     if (!new Miner().onBlockPlaceEvent(event)) {
