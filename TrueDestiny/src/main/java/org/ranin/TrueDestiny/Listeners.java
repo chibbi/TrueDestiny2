@@ -26,7 +26,7 @@ public class Listeners implements Listener {
         } else {
             event.getPlayer().sendTitle("You are awesome!", "", 20, 45, 20);
         }
-        switch (new Random().nextInt(4 - 1 + 1) + 1) {
+        switch (new Random().nextInt(5 - 1 + 1) + 1) {
             case 1:
                 event.setJoinMessage("§5" + event.getPlayer().getName() + " slided in dich rein");
                 break;
@@ -38,6 +38,9 @@ public class Listeners implements Listener {
                 break;
             case 4:
                 event.setJoinMessage("§bCronus has summoned " + event.getPlayer().getName() + "!");
+                break;
+            case 5:
+                event.setJoinMessage("§bHello i am here and i am " + event.getPlayer().getName() + "");
                 break;
         }
     }

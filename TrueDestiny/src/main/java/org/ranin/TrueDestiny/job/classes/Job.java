@@ -284,23 +284,15 @@ abstract class Job {
             return true;
         } else {
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
-                // TODO: Do this random for every single crafted item, not for the whole stack
-                // or multiply the output with the random number
-                if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
-                    event.getInventory().clear();
-                    return false;
-                } else {
-                    return true;
-                }
+                event.getInventory().clear();
+                ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
+                resus.setAmount(realAmount * new Random().nextInt(10 - 1 + 1) + 1);
+                event.getWhoClicked().getInventory().addItem(resus);
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
-                // TODO: Do this random for every single crafted item, not for the whole stack
-                // or multiply the output with the random number
-                if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
-                    event.getInventory().clear();
-                    return false;
-                } else {
-                    return true;
-                }
+                event.getInventory().clear();
+                ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
+                resus.setAmount(realAmount * new Random().nextInt(10 - 1 + 1) + 1);
+                event.getWhoClicked().getInventory().addItem(resus);
             } else if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
@@ -352,10 +344,7 @@ abstract class Job {
                     return false;
 
             }
-            EnumSet<Material> temp = farmingBlocks;
-            temp.remove(Material.PUMPKIN);
-            temp.remove(Material.MELON);
-            if (farmingBlocks.contains(event.getMaterial())) {
+            if (event.getMaterial() == Material.SWEET_BERRIES) {
                 if (jobInfo[0].equals("farmer")) {
                     return true;
                 } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("farmer")) {
@@ -365,6 +354,14 @@ abstract class Job {
                     return false;
                 }
             }
+            /*
+             * EnumSet<Material> temp = farmingBlocks; temp.remove(Material.PUMPKIN);
+             * temp.remove(Material.MELON); if (temp.contains(event.getMaterial())) { if
+             * (jobInfo[0].equals("farmer")) { return true; } else if (hobbyInfo[0] != null
+             * && hobbyInfo[0].equals("farmer")) { return true; } else {
+             * event.getPlayer().sendMessage("Can't do that, find a farmer"); return false;
+             * } }
+             */
             if (redstone.contains(event.getMaterial())) {
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
                     return true;

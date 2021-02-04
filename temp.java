@@ -8,23 +8,11 @@ public class temp {
         int two = 0;
         int three = 0;
         int four = 0;
-        for (int i = 0; i < 1000; i++) {
-            switch (new Random().nextInt(10 - 5 + 1) + 5) {
-                case 0:
-                    nul++;
-                    break;
-                case 1:
-                    one++;
-                    break;
-                case 2:
-                    two++;
-                    break;
-                case 3:
-                    three++;
-                    break;
-                case 4:
-                    four++;
-                    break;
+        for (int i = 0; i < 100000; i++) {
+            if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
+                one++;
+            } else {
+                nul++;
             }
         }
         System.out.println("Null: " + nul);

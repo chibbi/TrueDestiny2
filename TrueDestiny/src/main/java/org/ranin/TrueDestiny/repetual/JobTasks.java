@@ -2,6 +2,7 @@ package org.ranin.TrueDestiny.repetual;
 
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -77,13 +78,15 @@ public class JobTasks {
         for (Player singplayer : allplayers) {
             String[] info = new Sql("job").readfromTable(singplayer.getName());
             if (info[0] != null && info[0].equals("knight")) {
-                double maxDist = 10L; // TODO make configurable
-                for (Player other : allplayers) {
-                    if (other != singplayer && other.getLocation().distance(singplayer.getLocation()) <= maxDist) {
-                        String[] inf = new Sql("job").readfromTable(other.getName());
-                        if (inf[0] != null && inf[0] != "assassin") {
-                            other.addPotionEffect(new PotionEffect(PotionEffectType.getByName("REGENERATION"), 65,
-                                    Integer.parseInt(info[1])));
+                if (!singplayer.getInventory().getItemInOffHand().equals(Material.SWEET_BERRIES)) {
+                    double maxDist = 10L; // TODO make configurable
+                    for (Player other : allplayers) {
+                        if (other != singplayer && other.getLocation().distance(singplayer.getLocation()) <= maxDist) {
+                            String[] inf = new Sql("job").readfromTable(other.getName());
+                            if (inf[0] != null && inf[0] != "assassin") {
+                                other.addPotionEffect(new PotionEffect(PotionEffectType.getByName("REGENERATION"), 65,
+                                        Integer.parseInt(info[1])));
+                            }
                         }
                     }
                 }
