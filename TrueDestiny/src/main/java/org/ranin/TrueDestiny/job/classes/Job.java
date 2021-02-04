@@ -284,6 +284,8 @@ abstract class Job {
             return true;
         } else {
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
+                // TODO: Do this random for every single crafted item, not for the whole stack
+                // or multiply the output with the random number
                 if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
                     event.getInventory().clear();
                     return false;
@@ -291,6 +293,8 @@ abstract class Job {
                     return true;
                 }
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
+                // TODO: Do this random for every single crafted item, not for the whole stack
+                // or multiply the output with the random number
                 if (new Random().nextInt(10 - 1 + 1) + 1 > 1) {
                     event.getInventory().clear();
                     return false;
