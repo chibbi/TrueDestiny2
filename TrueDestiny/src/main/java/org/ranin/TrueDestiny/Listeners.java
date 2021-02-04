@@ -21,7 +21,7 @@ public class Listeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         File customConfigFile = new File("plugins/TrueDestiny/config.yml");
         FileConfiguration cusconf = YamlConfiguration.loadConfiguration(customConfigFile);
-        if (cusconf.getBoolean("imperatormode")) {
+        if (cusconf.getString("imperatormode").equals("true")) {
             event.getPlayer().sendTitle("all HAIL imperator CHIBBI!", "brought to you by Illuminati", 20, 45, 20);
         } else {
             event.getPlayer().sendTitle("You are awesome!", "", 20, 45, 20);
