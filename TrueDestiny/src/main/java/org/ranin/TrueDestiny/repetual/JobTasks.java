@@ -72,7 +72,6 @@ public class JobTasks {
         }
     }
 
-    // TODO: Check if rewrite, cause its copy pasted from old one
     public void giveNearbyReg(World wor) {
         List<Player> allplayers = wor.getPlayers();
         for (Player singplayer : allplayers) {

@@ -241,6 +241,7 @@ public class JobListeners implements Listener {
                 event.setCancelled(true);
                 return;
             }
+            // TODO: rework this configs (look at diamond sword)
             switch (player.getInventory().getItemInMainHand().getType().name()) {
                 case "WOODEN_SWORD":
                     if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
@@ -292,15 +293,27 @@ public class JobListeners implements Listener {
                     event.setDamage(event.getDamage() * 0.75D);
                     break;
                 case "DIAMOND_SWORD":
-                    if (jobInfo[0].equals("assassin") || jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) {
-                        event.setDamage(event.getDamage() * 1.25D);
-                        break;
+                    switch (jobInfo[0]) {
+                        case "assassin":
+                            event.setDamage(event.getDamage() * 1.25D);
+                            break;
+                        case "knight":
+                            event.setDamage(event.getDamage() * 1.30D);
+                            break;
+                        case "hunter":
+                            event.setDamage(event.getDamage() * 1.25D);
+                            break;
                     }
-                    if (hobbyInfo[0] != null && hobbyInfo[0] == "hunter" || hobbyInfo[0] == "knight") {
-                        event.setDamage(event.getDamage() * 0.85D);
-                        break;
+                    if (hobbyInfo[0] != null) {
+                        switch (hobbyInfo[0]) {
+                            case "knight":
+                                event.setDamage(event.getDamage() * 0.85D);
+                                break;
+                            case "hunter":
+                                event.setDamage(event.getDamage() * 0.85D);
+                                break;
+                        }
                     }
-                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.7D);
                     break;
                 case "NETHERITE_SWORD":
@@ -312,7 +325,6 @@ public class JobListeners implements Listener {
                         event.setDamage(event.getDamage() * 0.8D);
                         break;
                     }
-                    player.sendMessage("You're Class doesn't know how to use such a Sword!");
                     event.setDamage(event.getDamage() * 0.65D);
                     break;
                 default:

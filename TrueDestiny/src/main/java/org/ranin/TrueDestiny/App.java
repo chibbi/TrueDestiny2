@@ -48,16 +48,16 @@ public class App extends JavaPlugin {
                 comPath += completePath[i] + "/";
             }
         } catch (URISyntaxException e) {
-            System.out.println("Getting Complete Path of Jar didn't work");
+            this.getLogger().severe("Getting Complete Path of Jar didn't work");
         }
         File dir = new File(comPath + "TrueDestiny/");
         if (!dir.exists()) {
-            System.out.println("Created Config Folder");
+            this.getLogger().fine("Created Config Folder");
             dir.mkdir();
         }
         dir = new File(comPath + "TrueDestiny/db/");
         if (!dir.exists()) {
-            System.out.println("Created Database");
+            this.getLogger().fine("Created Database");
             dir.mkdir();
         }
         getConf();
@@ -130,8 +130,8 @@ public class App extends JavaPlugin {
             try {
                 cusconf.save(customConfigFile);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                this.getLogger().severe("Could not create config File");
+                this.getLogger().severe(e.getMessage());
             }
         }
         return cusconf;

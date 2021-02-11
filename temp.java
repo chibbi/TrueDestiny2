@@ -3,23 +3,18 @@ import java.util.Random;
 public class temp {
 
     public static void main(String[] args) {
-        int nul = 0;
-        int one = 0;
-        int two = 0;
-        int three = 0;
-        int four = 0;
-        for (int i = 0; i < 100000; i++) {
-            if (new Random().nextInt(10 - 1 + 1) + 1 > 3) {
-                one++;
-            } else {
-                nul++;
-            }
+        int realAmount = 64;
+        int[] allInts = new int[realAmount + 1];
+        for (int i = 0; i < 1000000; i++) {
+            int randy = new Random().nextInt(realAmount + 1);
+            allInts[randy] = allInts[randy] + 1;
+
         }
-        System.out.println("Null: " + nul);
-        System.out.println("One: " + one);
-        System.out.println("Two: " + two);
-        System.out.println("Three: " + three);
-        System.out.println("Four: " + four);
+        int i = 0;
+        for (int into : allInts) {
+            System.out.println(i + " = " + into);
+            i++;
+        }
 
     }
 

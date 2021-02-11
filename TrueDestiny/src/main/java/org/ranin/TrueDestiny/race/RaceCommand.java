@@ -23,7 +23,8 @@ public class RaceCommand implements CommandExecutor {
     // hesperides => sun rise sun set nymphs
     // . . . . . . other name: Atlantides (got that from their father (Titan Atlas))
     final String[] allraces = { "nereid", "elve", "dwarf", "NAME" }; // TODO: Make Configurable
-    // TODO implement a hobbit (player only 1,5 blocks high, with sneaking only 1
+    // TODO implement a hobbit (player only 1,5 blocks high, with sneaking only 1 =>
+    // think not possible
     // block high)
     // source: https://www.spigotmc.org/threads/how-to-change-a-hitbox.230451/
     // seems like it would NEED a mod for that

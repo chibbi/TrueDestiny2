@@ -178,7 +178,7 @@ abstract class Job {
                 Material.LIGHT_GRAY_BED, Material.LIGHT_BLUE_BED, Material.GREEN_BED, Material.GRAY_BED,
                 Material.CYAN_BED, Material.BROWN_BED, Material.BLUE_BED, Material.BLACK_BED };
         allBeds = createEnum(temporary);
-        // TODO: automate some of that
+        // TODO: automate some of that (or not? xD)
         temporary = new Material[] { Material.LADDER, Material.OAK_SLAB, Material.SPRUCE_SLAB, Material.BIRCH_SLAB,
                 Material.JUNGLE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB, Material.CRIMSON_SLAB,
                 Material.WARPED_SLAB, Material.OAK_STAIRS, Material.BIRCH_STAIRS, Material.JUNGLE_STAIRS,
@@ -283,27 +283,20 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
-            System.out.println("UNALLOWED: " + event.getRecipe().getResult().getType());
-            if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
-                event.getInventory().clear();
-                ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
-                resus.setAmount(new Random().nextInt(realAmount - 1 + 1) + 1);
-                event.getWhoClicked().getInventory().addItem(resus);
-            } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
-                event.getInventory().clear();
-                ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
-                resus.setAmount(new Random().nextInt(realAmount - 1 + 1) + 1);
-                event.getWhoClicked().getInventory().addItem(resus);
-            } else if (redstone.contains(event.getRecipe().getResult().getType())) {
+            if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
                 if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
                     return true;
-                } else {
-                    event.getWhoClicked().sendMessage("Can't do that, find a redstone dude");
-                    return false;
                 }
             }
         }
+        // gives you a percentage chance to get the desired item (for EVERYTHING)
+        event.getInventory().clear();
+        ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
+        // gives the player an Amount of the crafted item between 0 and the Amount he'd
+        // get in vanilla mc
+        resus.setAmount(new Random().nextInt(realAmount + 1));
+        event.getWhoClicked().getInventory().addItem(resus);
         return onCraft(event);
     }
 

@@ -17,8 +17,6 @@ public class Sql {
 
     private Connection conn = null;
 
-    private String uuidUlr = "https://api.mojang.com/users/profiles/minecraft/";
-
     private String playerLoc = "jdbc:sqlite:plugins/TrueDestiny/db/Player.db"; // TODO: Make Configurable
     private String table = "playerjobs";
 
@@ -156,32 +154,7 @@ public class Sql {
     }
 
     public String getUuid(String player) {
-        /*
-         * THE UUID PARSING (NOT USED, because INEFFICIENT, mojang api blocks you after
-         * a few minutes) TODO: Make this actually efficient (a cache or smth, the
-         * server already has smth like that jsut look up how to use it) String uuidUlr
-         * = "https://api.mojang.com/users/profiles/minecraft/" + player; String respo =
-         * null; try { URL url = new URL(uuidUlr); HttpURLConnection con =
-         * (HttpURLConnection) url.openConnection(); con.setRequestMethod("GET");
-         * con.setConnectTimeout(500); con.setReadTimeout(500);
-         * 
-         * int status = con.getResponseCode();
-         * 
-         * if (status >= 400) { System.out.println("[TrueDestiny] " +
-         * "Error with connection with Mojang API !!"); con.disconnect(); return player;
-         * } BufferedReader in = new BufferedReader(new
-         * InputStreamReader(con.getInputStream())); String inputLine; StringBuffer
-         * content = new StringBuffer(); while ((inputLine = in.readLine()) != null) {
-         * content.append(inputLine); } respo = content.toString(); in.close();
-         * con.disconnect(); if (respo == null) { System.out.println("[TrueDestiny] " +
-         * "Mojan API returned no INFO !!"); return player; } respo =
-         * respo.split(":")[2].replace("\"", "").replace("}", ""); return respo;
-         * 
-         * } catch (IOException e) { System.out.println("[TrueDestiny] " +
-         * "Connection Error: likely lost internet connection. if multiple errors pop up, please look that your connection is stable\n"
-         * + "             You can contact the developer if you have problems."); }
-         * return player;
-         */
+        // TODO: read usercache.json, parse it and get the needed info out of there
         return player;
     }
 }
