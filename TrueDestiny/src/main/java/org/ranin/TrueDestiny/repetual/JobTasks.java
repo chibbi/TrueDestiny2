@@ -79,7 +79,6 @@ public class JobTasks {
             String[] info = new Sql("job").readfromTable(singplayer.getName());
             if (info[0] != null && info[0].equals("knight")) {
                 if (singplayer.getInventory().getItemInOffHand().getType().equals(Material.SWEET_BERRIES)) {
-                    System.out.println("KNIGHT GIVES REGGING");
                     double maxDist = 10L; // TODO make configurable
                     for (Player other : allplayers) {
                         if (other != singplayer && other.getLocation().distance(singplayer.getLocation()) <= maxDist) {

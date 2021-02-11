@@ -51,21 +51,6 @@ public class Fisher extends Job {
     }
 
     @Override
-    protected boolean onShear(PlayerShearEntityEvent event) {
-        return false;
-    }
-
-    @Override
-    protected boolean onFishing(PlayerFishEvent event) {
-        return true;
-    }
-
-    @Override
-    protected boolean onEnchanting(EnchantItemEvent event) {
-        return false;
-    }
-
-    @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         return false;
     }
@@ -137,6 +122,8 @@ public class Fisher extends Job {
 
     @Override
     public void effects(String playerName, int xp) {
+        // TODO: ADD BOOSTS (add more disadvantages maybe ?? or add disadvantages while
+        // inexperienced (so death is more bad))
     }
 
 }

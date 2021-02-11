@@ -116,7 +116,7 @@ abstract class Job {
                 Material.EMERALD_ORE, Material.ANCIENT_DEBRIS };
         oreBlocks = createEnum(temporary);
         temporary = new Material[] { Material.COAL, Material.IRON_INGOT, Material.LAPIS_LAZULI, Material.GOLD_INGOT,
-                Material.QUARTZ, Material.REDSTONE, Material.DIAMOND, Material.EMERALD, Material.ANCIENT_DEBRIS };
+                Material.QUARTZ, Material.REDSTONE, Material.DIAMOND, Material.EMERALD, Material.NETHERITE_SCRAP };
         ingots = createEnum(temporary);
         temporary = new Material[] { Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.WOODEN_PICKAXE,
                 Material.WOODEN_SWORD, Material.WOODEN_HOE };
@@ -170,8 +170,8 @@ abstract class Job {
         stoneBlocks = createEnum(temporary);
         flowers = allMaterials.range(Material.DANDELION, Material.WITHER_ROSE); // THAT WORKS
         temporary = new Material[] { Material.PISTON, Material.STICKY_PISTON, Material.REPEATER, Material.COMPARATOR,
-                Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_BLOCK, Material.REDSTONE_TORCH,
-                Material.DROPPER, Material.LEVER, Material.DISPENSER };
+                Material.REDSTONE, Material.REDSTONE_LAMP, Material.REDSTONE_TORCH, Material.DROPPER, Material.LEVER,
+                Material.DISPENSER };
         redstone = createEnum(temporary);
         temporary = new Material[] { Material.WHITE_BED, Material.YELLOW_BED, Material.RED_BED, Material.PURPLE_BED,
                 Material.PINK_BED, Material.ORANGE_BED, Material.MAGENTA_BED, Material.LIME_BED,
@@ -283,15 +283,16 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
+            System.out.println("UNALLOWED: " + event.getRecipe().getResult().getType());
             if (farmingBlocks.contains(event.getRecipe().getResult().getType())) {
                 event.getInventory().clear();
                 ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
-                resus.setAmount(realAmount * new Random().nextInt(10 - 1 + 1) + 1);
+                resus.setAmount(new Random().nextInt(realAmount - 1 + 1) + 1);
                 event.getWhoClicked().getInventory().addItem(resus);
             } else if (event.getRecipe().getResult().getType().name().contains("PLANKS")) {
                 event.getInventory().clear();
                 ItemStack resus = new ItemStack(event.getRecipe().getResult().getType());
-                resus.setAmount(realAmount * new Random().nextInt(10 - 1 + 1) + 1);
+                resus.setAmount(new Random().nextInt(realAmount - 1 + 1) + 1);
                 event.getWhoClicked().getInventory().addItem(resus);
             } else if (redstone.contains(event.getRecipe().getResult().getType())) {
                 String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
@@ -434,7 +435,7 @@ abstract class Job {
         if (hobbyInfo[0].equals("fisher")) {
             return true;
         }
-        return onFishing(event);
+        return false;
     }
 
     public final boolean onPlayerShearEntityEvent(PlayerShearEntityEvent event) {
@@ -443,7 +444,7 @@ abstract class Job {
         if (hobbyInfo[0].equals("shepard")) {
             return true;
         }
-        return onShear(event);
+        return false;
     }
 
     public final boolean onEnchantItemEvent(EnchantItemEvent event) {
@@ -453,7 +454,7 @@ abstract class Job {
             event.setExpLevelCost(event.getExpLevelCost() / 2);
             return true;
         }
-        return onEnchanting(event);
+        return false;
     }
 
     public final boolean onPrepareSmithingEvent(PrepareSmithingEvent event) {
@@ -468,7 +469,6 @@ abstract class Job {
         if (doubleDropBlocks != null && doubleDropBlocks.contains(brokenBlock)) {
             for (ItemStack item : event.getHarvestedBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
-                event.getPlayer().sendMessage("Doubling: " + item);
             }
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
@@ -483,14 +483,10 @@ abstract class Job {
     public final boolean onBlockBreakEvent(BlockBreakEvent event) {
         String[] hobbyInfo = new Sql("hobby").readfromTable(event.getPlayer().getName());
         Material brokenBlock = event.getBlock().getType();
-        // check if player placed block, so he won't just double his existing stuff
-        // source:
-        // https://www.spigotmc.org/threads/check-if-block-is-placed-by-a-player.133061/
         if (!event.getBlock().hasMetadata("playermade") && doubleDropBlocks != null
                 && doubleDropBlocks.contains(brokenBlock)) {
             for (ItemStack item : event.getBlock().getDrops()) {
                 event.getPlayer().getInventory().addItem(item);
-                event.getPlayer().sendMessage("Doubling: " + item);
             }
         }
         if (noDropBlocks != null && noDropBlocks.contains(brokenBlock)) {
@@ -537,30 +533,6 @@ abstract class Job {
         onXpMobKills(event);
     }
 
-    /*
-     * If you want to use it again, just uncomment (also in JobListeners.java)
-     * public final boolean onEntityDamageEvent(EntityDamageByEntityEvent event) {
-     * Player player = (Player) event.getDamager(); String[] jobInfo = new
-     * Sql("job").readfromTable(player.getName()); String[] hobbyInfo = new
-     * Sql("hobby").readfromTable(player.getName()); // TODO: live with a lot of
-     * NullPointerExeptions switch
-     * (player.getInventory().getItemInMainHand().getType()) { case STONE_SWORD: if
-     * (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") ||
-     * hobbyInfo[0].equals("knight") || jobInfo[0].equals("knight") ||
-     * jobInfo[0].equals("hunter")) { return true; } return false; case IRON_SWORD:
-     * if (hobbyInfo[0].equals("assassin") || jobInfo[0].equals("assassin") ||
-     * hobbyInfo[0].equals("knight") || jobInfo[0].equals("knight") ||
-     * jobInfo[0].equals("hunter")) { return true; } return false; case
-     * DIAMOND_SWORD: if (hobbyInfo[0].equals("assassin") ||
-     * jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight") ||
-     * jobInfo[0].equals("knight") || jobInfo[0].equals("hunter")) { return true; }
-     * return false; case NETHERITE_SWORD: if (hobbyInfo[0].equals("assassin") ||
-     * jobInfo[0].equals("assassin") || hobbyInfo[0].equals("knight") ||
-     * jobInfo[0].equals("knight")) { return true; } return false; case BOW: if
-     * (jobInfo[0].equals("hunter") || jobInfo[0].equals("hunter")) { return true; }
-     * return false; default: return true; } }
-     */
-
     public final void onPlayerDeathEvent(PlayerDeathEvent event) {
         onXpPlayerKill(event);
     }
@@ -584,12 +556,6 @@ abstract class Job {
     protected abstract boolean onBreaking(PlayerInteractEvent event);
 
     protected abstract boolean onInteracting(PlayerInteractEvent event);
-
-    protected abstract boolean onShear(PlayerShearEntityEvent event);
-
-    protected abstract boolean onFishing(PlayerFishEvent event);
-
-    protected abstract boolean onEnchanting(EnchantItemEvent event);
 
     protected abstract boolean onSmithing(PrepareSmithingEvent event);
 

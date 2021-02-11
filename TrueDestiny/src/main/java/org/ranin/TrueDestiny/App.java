@@ -9,8 +9,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.ranin.TrueDestiny.finance.McXpCommand;
@@ -77,7 +83,21 @@ public class App extends JavaPlugin {
         // Initiating Commands
         this.startScheduler();
         this.getLogger().info("Hello, SpigotMC!");
+        // Custom Recipes
+        this.addCustomSaddleRecipe();
+    }
 
+    // create the saddle
+    public void addCustomSaddleRecipe() {
+        ItemStack item = new ItemStack(Material.SADDLE);
+        NamespacedKey item_key = new NamespacedKey((Plugin) this, "saddle_key");
+        ShapedRecipe itemRecipe = new ShapedRecipe(item_key, item);
+        String[] shape = { "dll", " i " };
+        itemRecipe.shape(shape);
+        itemRecipe.setIngredient('d', Material.DIAMOND);
+        itemRecipe.setIngredient('l', Material.LEATHER);
+        itemRecipe.setIngredient('i', Material.IRON_INGOT);
+        Bukkit.getServer().addRecipe((Recipe) itemRecipe);
     }
 
     public void startScheduler() {

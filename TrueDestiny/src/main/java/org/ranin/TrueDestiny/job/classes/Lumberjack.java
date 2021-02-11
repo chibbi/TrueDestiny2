@@ -58,23 +58,6 @@ public class Lumberjack extends Job {
     }
 
     @Override
-    protected boolean onShear(PlayerShearEntityEvent event) {
-        return false;
-    }
-
-    @Override
-    protected boolean onFishing(PlayerFishEvent event) {
-        // fishing by default false => Fisher
-        return false;
-    }
-
-    @Override
-    protected boolean onEnchanting(EnchantItemEvent event) {
-        // enchanting by default false => Mage
-        return false;
-    }
-
-    @Override
     protected boolean onSmithing(PrepareSmithingEvent event) {
         // smithing by default false => Blacksmith
         return false;
@@ -147,6 +130,8 @@ public class Lumberjack extends Job {
 
     @Override
     public void effects(String playerName, int xp) {
+        // TODO: ADD BOOSTS (add more disadvantages maybe ?? or add disadvantages while
+        // inexperienced (so death is more bad))
     }
 
 }
