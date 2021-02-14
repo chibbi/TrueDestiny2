@@ -79,6 +79,8 @@ public class JobTasks {
             if (info[0] != null && info[0].equals("knight")) {
                 if (singplayer.getInventory().getItemInOffHand().getType().equals(Material.SWEET_BERRIES)) {
                     double maxDist = 10L; // TODO make configurable
+                    singplayer.addPotionEffect(new PotionEffect(PotionEffectType.getByName("REGENERATION"), 65,
+                            Integer.parseInt(info[1])));
                     for (Player other : allplayers) {
                         if (other != singplayer && other.getLocation().distance(singplayer.getLocation()) <= maxDist) {
                             String[] inf = new Sql("job").readfromTable(other.getName());
