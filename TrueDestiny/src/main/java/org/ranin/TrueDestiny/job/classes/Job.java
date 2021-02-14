@@ -388,10 +388,7 @@ abstract class Job {
                         return true;
                     }
                 } else if (hobbyInfo[0] != null && hobbyInfo[0].equals("builder")) {
-                    if (event.getMaterial().name().contains("SHOVEL")
-                            && !event.getMaterial().equals(Material.NETHERITE_SHOVEL)
-                            && !event.getMaterial().equals(Material.DIAMOND_SHOVEL)) {
-                        event.getPlayer().sendMessage("HOBBY MINERRR");
+                    if (event.getMaterial().name().contains("SHOVEL")) {
                         onXpBreaking(event);
                         return true;
                     }

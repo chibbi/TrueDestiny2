@@ -120,8 +120,7 @@ public class JobCommand implements CommandExecutor {
             }
             player.sendMessage("§e ---------- §fTip: job §e---------- \n"
                     + "§6You have to first specify, if you want to declare youre main job, or your second job"
-                    + "\nLike that: §7/job set JOB" + "\n§6You can get a list of all jobs with: §7/job list"
-                    + "\n§6You can get stats of  your job with: §7/job mine"
+                    + "\nLike that: §7/job set JOB" + "\n§6You can get stats of  your job with: §7/job mine"
                     + "\n§6You can get a list of all available commands with: §7/job help");
         }
 
