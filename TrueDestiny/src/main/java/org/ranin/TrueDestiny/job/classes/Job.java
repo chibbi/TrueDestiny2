@@ -228,7 +228,6 @@ abstract class Job {
         common.removeAll(farmingBlocks);
         common.removeAll(woodBlocks);
         common.removeAll(allBeds);
-        common.removeAll(redstone);
     }
 
     protected final <T> T[] concatenate(T[] a, T[] b) {
@@ -283,12 +282,6 @@ abstract class Job {
             onXpCraft(event);
             return true;
         } else {
-            if (redstone.contains(event.getRecipe().getResult().getType())) {
-                String[] hobbyInfo = new Sql("hobby").readfromTable(event.getWhoClicked().getName());
-                if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
-                    return true;
-                }
-            }
         }
         // gives you a percentage chance to get the desired item (for EVERYTHING)
         event.getInventory().clear();
@@ -348,24 +341,7 @@ abstract class Job {
                     return false;
                 }
             }
-            /*
-             * EnumSet<Material> temp = farmingBlocks; temp.remove(Material.PUMPKIN);
-             * temp.remove(Material.MELON); if (temp.contains(event.getMaterial())) { if
-             * (jobInfo[0].equals("farmer")) { return true; } else if (hobbyInfo[0] != null
-             * && hobbyInfo[0].equals("farmer")) { return true; } else {
-             * event.getPlayer().sendMessage("Can't do that, find a farmer"); return false;
-             * } }
-             */
-            if (redstone.contains(event.getMaterial())) {
-                if (hobbyInfo[0] != null && hobbyInfo[0].equals("redstone")) {
-                    return true;
-                } else {
-                    event.getPlayer().sendMessage("Can't do that, find a redstone dude");
-                    return false;
-                }
-            }
             return true;
-            // return onInteracting(event);
         } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (event.getMaterial() == Material.AIR) {
                 onXpBreaking(event);

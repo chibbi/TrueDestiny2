@@ -18,7 +18,7 @@ import org.ranin.TrueDestiny.App;
 
 public class HobbyCommand implements CommandExecutor {
 
-    final String[] allhobbies = { "farmer", "miner", "mage", "builder", "redstone", "hunter" };
+    final String[] allhobbies = { "farmer", "miner", "mage", "builder", "hunter" };
     // TODO: Make Configurable
 
     public HobbyCommand() {

@@ -335,27 +335,6 @@ public class JobListeners implements Listener {
                     event.setDamage(event.getDamage() / 2.5D);
                     break;
             }
-            /*
-             * If you want to use it again, just uncomment (also in Job.java) switch
-             * (jobInfo[0]) { case "miner": if (!new
-             * Miner().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
-             * break; case "farmer": if (!new Farmer().onEntityDamageByEntityEvent(event)) {
-             * event.setCancelled(true); } break; case "mage": if (!new
-             * Mage().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
-             * break; case "knight": if (!new Knight().onEntityDamageByEntityEvent(event)) {
-             * event.setCancelled(true); } break; case "hunter": if (!new
-             * Hunter().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
-             * break; case "lumberjack": if (!new
-             * Lumberjack().onEntityDamageByEntityEvent(event)) { event.setCancelled(true);
-             * } break; case "fisher": if (!new Fisher().onEntityDamageByEntityEvent(event))
-             * { event.setCancelled(true); } break; case "blacksmith": if (!new
-             * Blacksmith().onEntityDamageByEntityEvent(event)) { event.setCancelled(true);
-             * } break; case "assassin": if (!new
-             * Assassin().onEntityDamageByEntityEvent(event)) { event.setCancelled(true); }
-             * break;
-             * 
-             * }
-             */
         }
     }
 
