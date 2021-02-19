@@ -118,7 +118,7 @@ abstract class Job {
                 Material.QUARTZ, Material.REDSTONE, Material.DIAMOND, Material.EMERALD, Material.NETHERITE_SCRAP };
         ingots = createEnum(temporary);
         temporary = new Material[] { Material.WOODEN_SHOVEL, Material.WOODEN_AXE, Material.WOODEN_PICKAXE,
-                Material.WOODEN_SWORD, Material.WOODEN_HOE };
+                Material.WOODEN_SWORD, Material.WOODEN_HOE, Material.SHEARS, Material.BUCKET };
         woodTools = createEnum(temporary);
         temporary = new Material[] { Material.STONE_SHOVEL, Material.STONE_AXE, Material.STONE_PICKAXE,
                 Material.STONE_SWORD, Material.STONE_HOE };
