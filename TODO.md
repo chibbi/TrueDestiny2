@@ -19,4 +19,5 @@
   - immidiate Plans:
     - Add Commands for hobbies
     - Check if assassin or knight wants to have hobby the other one => not allowed
-    - 
+    - Add option to disallow changing of hobby || make it so changing of hobby actually only works once a day
+    - add log files (one for races, one for jobs, one for hobbys)
