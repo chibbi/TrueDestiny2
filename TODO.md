@@ -18,7 +18,7 @@
     - When "finished", clean up code
   - immidiate Plans:
     - also check if commandsender is console
-    - stop hunter from beeing able to kill squids (check that first)
+    - stop hunter from beeing able to kill squids
     - Add option to disallow changing of hobby || make it so changing of hobby actually only works once a day
     - add log files (one for races, one for jobs, one for hobbys)
     - Check if assassin or knight wants to have hobby the other one => not allowed
