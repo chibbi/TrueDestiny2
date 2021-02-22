@@ -27,38 +27,47 @@ public class JobTasks {
         switch (info[0]) {
             case "miner":
                 new Miner().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&7" + player.getName());
                 player.setPlayerListName("[miner]" + player.getName());
                 break;
             case "farmer":
                 new Farmer().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&a" + player.getName());
                 player.setPlayerListName("[farmer]" + player.getName());
                 break;
             case "mage":
                 new Mage().effects(player.getName(), Integer.valueOf(info[1]));
+                // TODO: player.setCustomName("&7" + player.getName());
                 player.setPlayerListName("[mage]" + player.getName());
                 break;
             case "knight":
                 new Knight().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&4" + player.getName());
                 player.setPlayerListName("[knight]" + player.getName());
                 break;
             case "hunter":
                 new Hunter().effects(player.getName(), Integer.valueOf(info[1]));
+                // TODO: player.setCustomName("&7" + player.getName());
                 player.setPlayerListName("[hunter]" + player.getName());
                 break;
             case "lumberjack":
                 new Lumberjack().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&2" + player.getName());
                 player.setPlayerListName("[lumberjack]" + player.getName());
                 break;
             case "fisher":
                 new Fisher().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&b" + player.getName());
                 player.setPlayerListName("[fisher]" + player.getName());
                 break;
             case "blacksmith":
                 new Blacksmith().effects(player.getName(), Integer.valueOf(info[1]));
+                player.setCustomName("&0" + player.getName());
                 player.setPlayerListName("[blacksmith]" + player.getName());
                 break;
             case "assassin":
                 new Assassin().effects(player.getName(), Integer.valueOf(info[1]));
+                // TODO: player.setCustomName("&7" + player.getName());
                 player.setPlayerListName("[assassin]" + player.getName());
                 break;
         }
