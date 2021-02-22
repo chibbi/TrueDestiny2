@@ -18,7 +18,6 @@
     - Check if assassin or knight wants to have hobby the other one => not allowed
     - Check if assassin has some item in off hand, and vanish his name then (like the regging of the knight)
   - immidiate Plans:
-    - color the names of people according to their job
     - Add Fire, puppys shit like that for everyone no matter what thing he has in his hand
     - add bamboo sword everyone, kelp is also everyone (but already works)
     - also check if commandsender is console
