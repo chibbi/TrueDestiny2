@@ -15,7 +15,7 @@
 - Code:
   - Future Plans:
     - When "finished", clean up code
-  - immidiate Plans:
     - Check if assassin or knight wants to have hobby the other one => not allowed
+  - immidiate Plans:
     - Add Fire, puppys shit like that for everyone no matter what thing he has in his hand
     - add bamboo sword everyone, kelp is also everyone (but already works)

@@ -292,6 +292,8 @@ abstract class Job {
         Player player = (Player) event.getPlayer();
         String[] jobInfo = new Sql("job").readfromTable(player.getName());
         String[] hobbyInfo = new Sql("hobby").readfromTable(player.getName());
+        // TODO: Add Fire, puppys shit like that for everyone no matter what thing he
+        // has in his hand
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             switch (event.getMaterial().name()) {
                 case "TRIDENT":
