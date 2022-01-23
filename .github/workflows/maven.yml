@@ -11,6 +11,7 @@ on:
       - 'Documentation/**'
       - 'LICENSE.txt'
       - 'README.md'
+      - 'TODO.md'
 
 jobs:
   build:
