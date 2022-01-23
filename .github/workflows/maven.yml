@@ -6,6 +6,11 @@ name: Maven Build
 on:
   push:
     branches: [ main ]
+# ignoring any documentation, so the game is not rebuilt when i change my README
+    paths-ignore:
+      - 'Documentation/**'
+      - 'LICENSE.txt'
+      - 'README.md'
 
 jobs:
   build:
